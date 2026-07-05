@@ -1,3 +1,7 @@
-# https://www.robotstxt.org/robotstxt.html
 User-agent: *
-Disallow:
+Allow: /
+
+# Machine-readable resume for LLMs and agents:
+#   llms.txt:    /llms.txt
+#   JSON Resume: /resume.json
+#   MCP server:  /api/mcp

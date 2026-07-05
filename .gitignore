@@ -4,6 +4,10 @@
 # production
 /build
 
+# generated at build time (prebuild)
+/public/llms.txt
+/public/resume.json
+
 # local env
 .env
 .env*.local
