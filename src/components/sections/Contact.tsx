@@ -1,34 +1,51 @@
 import { motion } from 'framer-motion';
+import { FiMail, FiLinkedin, FiGithub, FiCopy, FiCheck, FiDownload } from 'react-icons/fi';
+import { Section, revealItem } from '../common/Section';
+import { profile } from '../../data/profile';
 
-const Contact = () => {
-  return (
-    <div className="contact">
-      <motion.div
-        className="contact__card"
-        initial={{ opacity: 0, y: 10 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.35 }}
-        viewport={{ once: true }}
-      >
-        <p className="pill">Let’s build</p>
-        <h3>Looking for a modern, maintainable web app?</h3>
-        <p>
-          I love pairing smart architecture with playful motion. Drop a note and I’ll get back quickly.
-        </p>
-        <div className="contact__actions">
-          <a className="btn btn--primary" href="mailto:gititregev1@gmail.com">
-            Email Me
-          </a>
-          <a className="btn btn--ghost" href="https://www.linkedin.com/in/gitit-regev-aa6a4961/" target="_blank" rel="noreferrer">
-            LinkedIn
-          </a>
-        </div>
-        <div className="contact__hint">
-          AI site search coming soon — the layout already has a hook for it.
-        </div>
-      </motion.div>
-    </div>
-  );
+type ContactProps = {
+  onCopyResume: () => void;
+  copied: boolean;
 };
 
-export default Contact;
+export function Contact({ onCopyResume, copied }: ContactProps) {
+  return (
+    <Section id="contact" eyebrow="Contact" title="Let's build something with AI.">
+      <motion.div className="contact-card" variants={revealItem}>
+        <p className="contact-card__lead">
+          Looking for someone who can shape an AI product and ship it? I'd love to hear what you're
+          working on.
+        </p>
+
+        <div className="contact-card__actions">
+          <a className="btn btn--primary" href={profile.links.email.href}>
+            <FiMail aria-hidden="true" /> {profile.links.email.handle}
+          </a>
+          <a className="btn" href={profile.links.linkedin.href} target="_blank" rel="noreferrer">
+            <FiLinkedin aria-hidden="true" /> LinkedIn
+          </a>
+          <a className="btn" href={profile.links.github.href} target="_blank" rel="noreferrer">
+            <FiGithub aria-hidden="true" /> GitHub
+          </a>
+        </div>
+
+        <div className="contact-card__secondary">
+          <button className="text-link" onClick={onCopyResume}>
+            {copied ? <FiCheck aria-hidden="true" /> : <FiCopy aria-hidden="true" />}
+            {copied ? ' Copied resume for your LLM' : ' Copy my resume for your LLM'}
+          </button>
+          <a className="text-link" href={profile.site.resumeDoc} download>
+            <FiDownload aria-hidden="true" /> Download CV (.docx)
+          </a>
+        </div>
+      </motion.div>
+
+      <footer className="site-footer">
+        <span>
+          © {profile.name} — built with React, Vite & Claude Code. Try the{' '}
+          <kbd>Ctrl/⌘</kbd> + <kbd>K</kbd> palette.
+        </span>
+      </footer>
+    </Section>
+  );
+}

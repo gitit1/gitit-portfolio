@@ -1,5 +1,11 @@
+export type ProjectCategory = 'ai' | 'web' | 'homebase';
+
 export type Project = {
   name: string;
+  category: ProjectCategory;
+  summary: string;
+  year?: string;
+  builtWith?: 'claude-code';
   useLogoAsName?: boolean;
   link: string;
   gitLink?: string;
@@ -13,9 +19,18 @@ export type Project = {
   other?: [string, string][];
 };
 
+export const categoryMeta: Record<ProjectCategory, { label: string }> = {
+  ai: { label: 'AI' },
+  homebase: { label: 'Homebase suite' },
+  web: { label: 'Web' },
+};
+
 export const projects: Project[] = [
   {
     name: 'MFL',
+    category: 'web',
+    summary: 'A fanfic aggregator that scrapes and unifies AO3, FanFiction and Wattpad into one library.',
+    year: '2020',
     useLogoAsName: false,
     link: 'http://www.myfanficslibrary.com',
     gitLink: 'https://github.com/gitit1/my-fanfic-library',
@@ -47,6 +62,9 @@ export const projects: Project[] = [
   },
   {
     name: 'TriPick',
+    category: 'web',
+    summary: 'Award-winning degree final project — matches travelers with partners for shared trips.',
+    year: '2019',
     useLogoAsName: true,
     link: 'http://tripick.gititregev.info',
     images: 8,
@@ -76,6 +94,9 @@ export const projects: Project[] = [
   },
   {
     name: 'Chat Room',
+    category: 'web',
+    summary: 'A real-time React + WebSocket chat app with registration and authentication.',
+    year: '2020',
     useLogoAsName: false,
     link: 'http://git_chat_room.gititregev.info/',
     gitLink: 'https://github.com/gitit1/gits_chat_room',

@@ -1,71 +1,100 @@
-import { useState } from 'react';
-import { FaLinkedin, FaGithub, FaEnvelope } from 'react-icons/fa';
-import { FiMoon, FiSun } from 'react-icons/fi';
+import { useEffect, useState } from 'react';
 import clsx from 'clsx';
-
-export type NavSection = {
-  id: string;
-  label: string;
-};
+import { FiGithub, FiLinkedin, FiMail, FiMoon, FiSun, FiMenu, FiX } from 'react-icons/fi';
+import { SECTIONS, type SectionId } from '../../config/sections';
+import { profile } from '../../data/profile';
+import type { Theme } from '../../hooks/useTheme';
 
 type HeaderProps = {
-  sections: NavSection[];
-  activeId: string;
-  onNavigate: (id: string) => void;
-  theme: 'dark' | 'light';
+  active: SectionId;
+  theme: Theme;
   onToggleTheme: () => void;
+  onNavigate: (id: SectionId) => void;
+  onAskAi: () => void;
 };
 
-const Header = ({ sections, activeId, onNavigate, theme, onToggleTheme }: HeaderProps) => {
-  const [open, setOpen] = useState(false);
+export function Header({ active, theme, onToggleTheme, onNavigate, onAskAi }: HeaderProps) {
+  const [scrolled, setScrolled] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 12);
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
+
+  const go = (id: SectionId) => {
+    onNavigate(id);
+    setMenuOpen(false);
+  };
 
   return (
-    <header className="site-header">
-      <div className="brand" onClick={() => onNavigate('home')}>
-        <span className="brand__title">Gitit Regev</span>
-        <span className="brand__subtitle">Full Stack Developer</span>
-      </div>
-
-      <nav className={clsx('nav', { 'nav--open': open })}>
-        {sections.map((section) => (
-          <button
-            key={section.id}
-            className={clsx('nav__item', { 'is-active': activeId === section.id })}
-            onClick={() => {
-              onNavigate(section.id);
-              setOpen(false);
-            }}
-          >
-            {section.label}
-          </button>
-        ))}
-      </nav>
-
-      <div className="social">
-        <a href="mailto:gititregev1@gmail.com" aria-label="Email">
-          <FaEnvelope />
-        </a>
-        <a href="https://www.linkedin.com/in/gitit-regev-aa6a4961/" target="_blank" rel="noreferrer" aria-label="LinkedIn">
-          <FaLinkedin />
-        </a>
-        <a href="https://github.com/gitit1?tab=repositories" target="_blank" rel="noreferrer" aria-label="GitHub">
-          <FaGithub />
-        </a>
-        <button className="theme-toggle" onClick={onToggleTheme} aria-label="Toggle theme">
-          {theme === 'light' ? <FiMoon /> : <FiSun />}
+    <header className={clsx('header', scrolled && 'header--scrolled')}>
+      <div className="container header__inner">
+        <button className="brand" onClick={() => go('home')} aria-label="Go to top">
+          <span className="brand__name">{profile.name}</span>
+          <span className="brand__role">{profile.title}</span>
         </button>
-      </div>
 
-      <button
-        className={clsx('burger', { 'is-open': open })}
-        onClick={() => setOpen((v) => !v)}
-        aria-label="Toggle navigation"
-      >
-        <span />
-        <span />
-      </button>
+        <nav className={clsx('nav', menuOpen && 'nav--open')} aria-label="Sections">
+          {SECTIONS.map((s) => (
+            <button
+              key={s.id}
+              className={clsx('nav__link', active === s.id && 'nav__link--active')}
+              onClick={() => go(s.id)}
+            >
+              {s.label}
+            </button>
+          ))}
+          <button className="nav__link nav__desktop-only" onClick={onAskAi}>
+            Ask my AI ↗
+          </button>
+        </nav>
+
+        <div className="header__actions">
+          <a
+            className="icon-btn nav__desktop-only"
+            href={profile.links.github.href}
+            target="_blank"
+            rel="noreferrer"
+            aria-label="GitHub"
+          >
+            <FiGithub />
+          </a>
+          <a
+            className="icon-btn nav__desktop-only"
+            href={profile.links.linkedin.href}
+            target="_blank"
+            rel="noreferrer"
+            aria-label="LinkedIn"
+          >
+            <FiLinkedin />
+          </a>
+          <a
+            className="icon-btn nav__desktop-only"
+            href={profile.links.email.href}
+            aria-label="Email"
+          >
+            <FiMail />
+          </a>
+          <button
+            className="icon-btn"
+            onClick={onToggleTheme}
+            aria-label={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`}
+          >
+            {theme === 'dark' ? <FiSun /> : <FiMoon />}
+          </button>
+          <button
+            className="icon-btn nav__toggle"
+            onClick={() => setMenuOpen((v) => !v)}
+            aria-label="Menu"
+            aria-expanded={menuOpen}
+          >
+            {menuOpen ? <FiX /> : <FiMenu />}
+          </button>
+        </div>
+      </div>
     </header>
   );
-};
-
-export default Header;
+}

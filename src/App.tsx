@@ -1,108 +1,61 @@
-import { useRef, useState, useEffect } from 'react';
-import Header, { NavSection } from './components/layout/Header';
-import { Section } from './components/common/Section';
-import Hero from './components/sections/Hero';
-import Experience from './components/sections/Experience';
-import Projects from './components/sections/Projects';
-import Contact from './components/sections/Contact';
-import SectionDots from './components/layout/SectionDots';
-import { Swiper, SwiperSlide } from 'swiper/react';
-import { Mousewheel, EffectCreative } from 'swiper/modules';
-import type { Swiper as SwiperType } from 'swiper/types';
+import { useCallback, useState } from 'react';
+import type { SectionId } from './config/sections';
+import { useTheme } from './hooks/useTheme';
+import { useActiveSection } from './hooks/useActiveSection';
+import { useCopyResume } from './hooks/useCopyResume';
+import { useCommandPalette } from './hooks/useCommandPalette';
+import { Header } from './components/layout/Header';
+import { ScrollRail } from './components/layout/ScrollRail';
+import { Hero } from './components/sections/Hero';
+import { Capabilities } from './components/sections/Capabilities';
+import { Experience } from './components/sections/Experience';
+import { Projects } from './components/sections/Projects';
+import { AiNative } from './components/sections/AiNative';
+import { Contact } from './components/sections/Contact';
+import { AiChat } from './components/chat/AiChat';
+import { CommandPalette } from './components/common/CommandPalette';
 
-import 'swiper/css';
-import 'swiper/css/effect-creative';
+export default function App() {
+  const { theme, toggle } = useTheme();
+  const active = useActiveSection();
+  const { copied, copy } = useCopyResume();
+  const [chatOpen, setChatOpen] = useState(false);
 
-type SectionRefMap = Record<string, HTMLElement | null>;
+  const scrollTo = useCallback((id: SectionId) => {
+    document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }, []);
 
-const sections: NavSection[] = [
-  { id: 'home', label: 'Home' },
-  { id: 'resume', label: 'Experience' },
-  { id: 'projects', label: 'Projects' },
-  { id: 'contact', label: 'Contact' },
-];
+  const openChat = useCallback(() => setChatOpen(true), []);
 
-function App() {
-  const [activeId, setActiveId] = useState('home');
-  const [theme, setTheme] = useState<'dark' | 'light'>(() => {
-    const stored = localStorage.getItem('gr-theme');
-    if (stored === 'light' || stored === 'dark') return stored;
-    return window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+  const palette = useCommandPalette({
+    onNavigate: scrollTo,
+    onToggleTheme: toggle,
+    onAskAi: openChat,
+    onCopyResume: copy,
   });
-  const swiperRef = useRef<SwiperType | null>(null);
-
-  useEffect(() => {
-    document.body.dataset.theme = theme;
-    localStorage.setItem('gr-theme', theme);
-  }, [theme]);
-
-  const handleNavigate = (id: string) => {
-    const index = sections.findIndex((s) => s.id === id);
-    if (index >= 0) swiperRef.current?.slideTo(index);
-  };
 
   return (
-    <div className="app-shell">
+    <>
       <Header
-        sections={sections}
-        activeId={activeId}
-        onNavigate={handleNavigate}
+        active={active}
         theme={theme}
-        onToggleTheme={() => setTheme((t) => (t === 'dark' ? 'light' : 'dark'))}
+        onToggleTheme={toggle}
+        onNavigate={scrollTo}
+        onAskAi={openChat}
       />
-      <SectionDots sections={sections} activeId={activeId} onNavigate={handleNavigate} />
-      <main className="snap-container">
-        <Swiper
-          direction="vertical"
-          mousewheel
-          effect="creative"
-          creativeEffect={{
-            prev: {
-              translate: [0, -80, -200],
-              opacity: 0.55,
-              rotate: [8, 0, 0],
-              scale: 0.92,
-            },
-            next: {
-              translate: [0, 80, -200],
-              opacity: 0.55,
-              rotate: [-8, 0, 0],
-              scale: 0.92,
-            },
-          }}
-          modules={[Mousewheel, EffectCreative]}
-          className="main-swiper"
-          speed={850}
-          onSlideChange={(slide) => setActiveId(sections[slide.activeIndex].id)}
-          onSwiper={(instance) => (swiperRef.current = instance)}
-        >
-          <SwiperSlide>
-            <Section id="home" title="Gitit Regev" kicker="Home" hideTitle activeId={activeId}>
-              <Hero />
-            </Section>
-          </SwiperSlide>
-          <SwiperSlide>
-            <Section id="resume" title="Experience" kicker="Recent roles" activeId={activeId}>
-              <Experience />
-            </Section>
-          </SwiperSlide>
-          <SwiperSlide>
-            <Section id="projects" title="Projects" kicker="Selected work" activeId={activeId}>
-              <Projects />
-            </Section>
-          </SwiperSlide>
-          <SwiperSlide>
-            <Section id="contact" title="Let’s Talk" kicker="Contact" activeId={activeId}>
-              <Contact />
-            </Section>
-          </SwiperSlide>
-        </Swiper>
+      <ScrollRail active={active} onNavigate={scrollTo} />
+
+      <main>
+        <Hero onAskAi={openChat} onCopyResume={copy} copied={copied} />
+        <Capabilities />
+        <Experience />
+        <Projects />
+        <AiNative onCopyResume={copy} copied={copied} onAskAi={openChat} />
+        <Contact onCopyResume={copy} copied={copied} />
       </main>
-      <div className="floating-pill">
-        <span>AI search hook is ready — plug your bot here.</span>
-      </div>
-    </div>
+
+      <AiChat open={chatOpen} onClose={() => setChatOpen(false)} onOpen={openChat} />
+      <CommandPalette {...palette} />
+    </>
   );
 }
-
-export default App;

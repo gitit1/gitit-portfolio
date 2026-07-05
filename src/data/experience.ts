@@ -1,14 +1,27 @@
 export type Experience = {
   company: string;
-  logo: string;
+  logo?: string;
   role: string;
   period: string;
   bullets: string[];
-  link: string;
-  theme: 'browzwear' | 'apester' | 'webcollage';
+  link?: string;
+  theme: 'independent' | 'browzwear' | 'apester' | 'webcollage';
+  current?: boolean;
 };
 
 export const experiences: Experience[] = [
+  {
+    company: 'Independent',
+    role: 'AI Product Builder',
+    period: '2024 - Present',
+    bullets: [
+      'Design and ship LLM products end to end — agentic workflows, MCP servers, prompt systems and evals.',
+      'Built a suite of personal apps (finance, family debt tracker, media library, a games hub) with Claude Code, owning product and engineering.',
+      'This very site is AI-native: a live grounded chat, a resume-as-MCP-server, llms.txt and a machine-readable resume.',
+    ],
+    theme: 'independent',
+    current: true,
+  },
   {
     company: 'Browzwear',
     logo: 'browzwear.png',
@@ -16,11 +29,12 @@ export const experiences: Experience[] = [
     period: '2021 - Present',
     bullets: [
       'Design and develop features for websites using React + MobX and TypeScript.',
-      'Implement UI for 3D software using JavaScript + React.',
+      'Implement UI for 3D fashion-design software using JavaScript + React.',
       'Partner closely with Product to iterate quickly on new ideas.',
     ],
     link: 'https://browzwear.com/',
     theme: 'browzwear',
+    current: true,
   },
   {
     company: 'Apester',

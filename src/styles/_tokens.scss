@@ -1,0 +1,77 @@
+// Design tokens — "terminal signal", dark-first with a warm light mode.
+// Theme is switched via [data-theme] on <html>; both are defined here so the
+// CSS custom properties are the single source of styling truth.
+
+:root {
+  // Type
+  --font-display: 'Space Grotesk', system-ui, sans-serif;
+  --font-body: 'Instrument Sans', system-ui, sans-serif;
+  --font-mono: 'IBM Plex Mono', ui-monospace, 'SF Mono', Menlo, monospace;
+
+  // Spacing / layout
+  --maxw: 1120px;
+  --gutter: clamp(1.25rem, 4vw, 3rem);
+  --radius: 14px;
+  --radius-sm: 9px;
+  --header-h: 68px;
+
+  // Motion
+  --ease: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+// ---- Dark (default) ----
+:root,
+:root[data-theme='dark'] {
+  color-scheme: dark;
+
+  --bg: #0b0f14;
+  --bg-2: #0e141b;
+  --surface: #121821;
+  --surface-2: #182029;
+  --border: #22303c;
+  --border-soft: #1a232d;
+
+  --text: #e8eef4;
+  --text-muted: #8b98a5;
+  --text-faint: #5d6b78;
+
+  --accent: #4ade80; // signal green
+  --accent-strong: #86efac;
+  --accent-ink: #052e14; // text on accent fills
+  --accent-glow: rgba(74, 222, 128, 0.25);
+  --accent-wash: rgba(74, 222, 128, 0.08);
+
+  --amber: #f5b14c;
+  --amber-wash: rgba(245, 177, 76, 0.12);
+
+  --shadow: 0 18px 50px -24px rgba(0, 0, 0, 0.8);
+  --grid-line: rgba(255, 255, 255, 0.03);
+}
+
+// ---- Light (warm) ----
+:root[data-theme='light'] {
+  color-scheme: light;
+
+  --bg: #f7f5f0;
+  --bg-2: #f2efe8;
+  --surface: #ffffff;
+  --surface-2: #faf8f3;
+  --border: #e4ddd0;
+  --border-soft: #ece6da;
+
+  --text: #141a20;
+  --text-muted: #5c6670;
+  --text-faint: #94a0ab;
+
+  --accent: #15803d;
+  --accent-strong: #166534;
+  --accent-ink: #f0fdf4;
+  --accent-glow: rgba(21, 128, 61, 0.18);
+  --accent-wash: rgba(21, 128, 61, 0.07);
+
+  --amber: #b45309;
+  --amber-wash: rgba(180, 83, 9, 0.1);
+
+  --shadow: 0 18px 45px -26px rgba(20, 26, 32, 0.35);
+  --grid-line: rgba(20, 26, 32, 0.04);
+}
