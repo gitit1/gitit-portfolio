@@ -27,16 +27,35 @@ function rateLimited(ip: string): boolean {
 }
 
 function originAllowed(req: Request): boolean {
-  const allowed = process.env.ALLOWED_ORIGIN;
   const origin = req.headers.get('origin') || req.headers.get('referer') || '';
   if (!origin) return false;
+
+  let host: string;
   try {
-    const host = new URL(origin).host;
-    if (host.startsWith('localhost') || host.startsWith('127.0.0.1')) return true;
-    if (allowed && host === new URL(allowed).host) return true;
+    host = new URL(origin).host;
   } catch {
     return false;
   }
+
+  // Local development.
+  if (host.startsWith('localhost') || host.startsWith('127.0.0.1')) return true;
+
+  // Same-origin: the request came from the site that serves this function.
+  // Works out of the box on *.netlify.app, a custom domain, or any host —
+  // no env var required.
+  const self = req.headers.get('host');
+  if (self && host === self) return true;
+
+  // Optional explicit allowlist (e.g. to permit an additional origin).
+  const allowed = process.env.ALLOWED_ORIGIN;
+  if (allowed) {
+    try {
+      if (host === new URL(allowed).host) return true;
+    } catch {
+      /* ignore malformed ALLOWED_ORIGIN */
+    }
+  }
+
   return false;
 }
 
