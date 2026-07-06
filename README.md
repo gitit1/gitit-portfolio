@@ -43,16 +43,31 @@ Connect the MCP server to Claude Code:
 claude mcp add --transport http gitit-resume https://gititregev.info/api/mcp
 ```
 
-## Deploy (Vercel)
+## Deploy
 
-1. Push to GitHub and import the repo in Vercel (framework preset: **Vite**).
-   `vercel.json` sets the output directory to `build`.
-2. Set environment variables:
+The app is host-portable: a static Vite build (`build/`) plus web-standard
+serverless functions. It ships with config for both Netlify and Vercel, so it
+can move between them (or to Cloudflare / a Node server) with little change.
+
+### Netlify (primary)
+
+1. In Netlify: **Add new project → Import an existing project → GitHub**, pick
+   this repo. Netlify reads [`netlify.toml`](netlify.toml) (build `npm run build`,
+   publish `build`, functions in `netlify/functions/`).
+2. Set environment variables (Site configuration → Environment variables):
    - `ANTHROPIC_API_KEY` — Anthropic API key (server-side only)
-   - `ALLOWED_ORIGIN` — `https://gititregev.info`
-3. Add the custom domain `gititregev.info` (+ `www` redirect) and point DNS at
-   Vercel.
+   - `ALLOWED_ORIGIN` — the site's URL, e.g. `https://gititregev.info` (or the
+     `*.netlify.app` URL until the custom domain is attached)
+3. Deploy. The functions are routed to `/api/chat` and `/api/mcp` via each
+   function's `config.path`.
 
-The chat function streams from a Node serverless function
-([`api/chat.ts`](api/chat.ts)) with per-IP rate limiting and an origin
-allowlist; the MCP server is [`api/mcp.ts`](api/mcp.ts).
+### Vercel (alternative)
+
+Import the repo (framework preset **Vite**); [`vercel.json`](vercel.json) sets
+the output directory to `build`. Same two env vars. Functions live in `api/`.
+
+The Netlify functions ([`netlify/functions/`](netlify/functions/)) are thin
+wrappers that reuse the same handlers in [`api/`](api/) — one implementation,
+two hosts. The chat handler streams from Anthropic with per-IP rate limiting and
+an origin allowlist ([`api/chat.ts`](api/chat.ts)); the MCP server is
+[`api/mcp.ts`](api/mcp.ts).
