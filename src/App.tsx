@@ -10,6 +10,7 @@ import { Hero } from './components/sections/Hero';
 import { Capabilities } from './components/sections/Capabilities';
 import { Experience } from './components/sections/Experience';
 import { Projects } from './components/sections/Projects';
+import { HowIBuild } from './components/sections/HowIBuild';
 import { AiNative } from './components/sections/AiNative';
 import { Contact } from './components/sections/Contact';
 import { AiChat } from './components/chat/AiChat';
@@ -50,6 +51,7 @@ export default function App() {
         <Capabilities />
         <Experience />
         <Projects />
+        <HowIBuild />
         <AiNative onCopyResume={copy} copied={copied} onAskAi={openChat} />
         <Contact onCopyResume={copy} copied={copied} />
       </main>

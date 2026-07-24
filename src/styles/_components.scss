@@ -361,6 +361,325 @@
 }
 
 /* =========================================================================
+   How I Build
+   ========================================================================= */
+.hib-ribbon {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.06em;
+  color: var(--amber);
+  background: var(--amber-wash);
+  border: 1px solid var(--amber);
+  border-radius: 999px;
+  padding: 0.3rem 0.8rem;
+  margin-bottom: 1.4rem;
+}
+.hib-toolbar {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 1.6rem;
+}
+.hib-lang-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  padding: 0.25rem;
+}
+.hib-lang-toggle__icon {
+  color: var(--text-faint);
+  margin-left: 0.4rem;
+}
+.hib-lang-btn {
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  background: none;
+  border: none;
+  border-radius: 999px;
+  padding: 0.35rem 0.85rem;
+  cursor: pointer;
+  transition: background 0.16s var(--ease), color 0.16s var(--ease);
+}
+.hib-lang-btn:hover {
+  color: var(--text);
+}
+.hib-lang-btn--active {
+  background: var(--accent);
+  color: var(--accent-ink);
+}
+
+.hib-i18n--he,
+.hib-bubble__text--he {
+  font-family: var(--font-he);
+}
+.hib-pending {
+  font-size: 0.78em;
+  font-style: italic;
+  color: var(--text-faint);
+  font-family: var(--font-body);
+}
+
+/* Era timeline */
+.hib-eras {
+  display: flex;
+  align-items: stretch;
+  gap: 0.6rem;
+  margin-bottom: 2.4rem;
+}
+.hib-era-slot {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  flex: 1;
+}
+.hib-era {
+  flex: 1;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.3rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+.hib-era:last-child {
+  border-color: var(--accent);
+  background: linear-gradient(180deg, var(--accent-wash), transparent);
+}
+.hib-era__years {
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  color: var(--text-faint);
+}
+.hib-era__label {
+  font-family: var(--font-display);
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+.hib-era__label.hib-i18n--he {
+  font-family: var(--font-he);
+}
+.hib-era__stats {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  color: var(--accent);
+}
+.hib-era__stats--none {
+  color: var(--text-faint);
+  font-style: italic;
+}
+.hib-era-arrow {
+  flex-shrink: 0;
+  color: var(--text-faint);
+  font-size: 1.2rem;
+}
+
+/* Stat row */
+.hib-stats-row {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.1rem;
+  margin-bottom: 2.6rem;
+}
+.hib-stat {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+.hib-stat__value {
+  font-family: var(--font-display);
+  font-size: 1.9rem;
+  font-weight: 700;
+  color: var(--text);
+}
+.hib-stat__label {
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  color: var(--text-muted);
+}
+.hib-stat--range {
+  justify-content: center;
+}
+.hib-stat__range {
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+
+/* Showcase story cards */
+.hib-stories {
+  display: grid;
+  gap: 1.1rem;
+  margin-bottom: 2.6rem;
+}
+.hib-story {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+}
+.hib-story__meta {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.hib-story__type {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--accent);
+  background: var(--accent-wash);
+  padding: 0.2rem 0.5rem;
+  border-radius: 5px;
+}
+.hib-story__draft {
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  color: var(--amber);
+  background: var(--amber-wash);
+  padding: 0.2rem 0.5rem;
+  border-radius: 5px;
+}
+.hib-story__title {
+  font-size: 1.3rem;
+}
+.hib-story__narrative {
+  color: var(--text-muted);
+  font-size: 0.95rem;
+  line-height: 1.6;
+}
+
+/* Two-voice dialogue */
+.hib-dialogue {
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+  margin-top: 0.4rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--border-soft);
+}
+.hib-bubble {
+  max-width: 82%;
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  padding: 0.7rem 0.9rem;
+  border-radius: var(--radius-sm);
+}
+.hib-bubble--user {
+  align-self: flex-end;
+  background: var(--accent-wash);
+  border: 1px solid var(--accent);
+  border-bottom-right-radius: 3px;
+}
+.hib-bubble--assistant {
+  align-self: flex-start;
+  background: var(--bg-2);
+  border: 1px solid var(--border-soft);
+  border-bottom-left-radius: 3px;
+}
+.hib-bubble__speaker {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--text-faint);
+}
+.hib-bubble--user .hib-bubble__speaker {
+  color: var(--accent);
+}
+.hib-bubble__text {
+  margin: 0;
+  font-size: 0.92rem;
+  line-height: 1.55;
+}
+.hib-bubble--assistant .hib-bubble__text {
+  font-family: var(--font-mono);
+  font-size: 0.86rem;
+}
+
+/* Journal stream */
+.hib-journal__heading {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 1.15rem;
+  margin-bottom: 1.1rem;
+}
+.hib-journal__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 1rem;
+}
+.hib-journal__item {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 1.1rem 1.3rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+.hib-journal__dates {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--text-faint);
+}
+.hib-journal__title {
+  font-size: 1.02rem;
+  font-weight: 600;
+}
+.hib-journal__body {
+  color: var(--text-muted);
+  font-size: 0.9rem;
+  line-height: 1.55;
+  margin: 0;
+}
+
+@media (max-width: 860px) {
+  .hib-eras {
+    flex-direction: column;
+  }
+  .hib-era-slot {
+    flex-direction: column;
+  }
+  .hib-era-arrow {
+    transform: rotate(90deg);
+  }
+  .hib-stats-row {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .hib-bubble {
+    max-width: 92%;
+  }
+}
+
+/* =========================================================================
    AI-native section
    ========================================================================= */
 .ai-native {

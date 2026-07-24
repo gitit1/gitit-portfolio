@@ -9,6 +9,11 @@ type SectionProps = {
   lead?: string;
   children: ReactNode;
   className?: string;
+  /** Fraction (or 'some'/'all') of the section that must be in the viewport
+   *  before it reveals. Defaults to 0.2 (current behavior). Very tall sections
+   *  should pass 'some' so they aren't stuck waiting for 20% of their height
+   *  to be visible at once. */
+  revealAmount?: number | 'some' | 'all';
 };
 
 const container = {
@@ -26,7 +31,15 @@ const item = {
 };
 
 /** A page section that fades + rises its children when scrolled into view. */
-export function Section({ id, eyebrow, title, lead, children, className }: SectionProps) {
+export function Section({
+  id,
+  eyebrow,
+  title,
+  lead,
+  children,
+  className,
+  revealAmount = 0.2,
+}: SectionProps) {
   return (
     <motion.section
       id={id}
@@ -34,7 +47,7 @@ export function Section({ id, eyebrow, title, lead, children, className }: Secti
       variants={container}
       initial="hidden"
       whileInView="show"
-      viewport={{ once: true, amount: 0.2 }}
+      viewport={{ once: true, amount: revealAmount }}
     >
       <div className="container">
         {(eyebrow || title) && (
