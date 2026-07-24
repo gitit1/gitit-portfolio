@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import { FiCopy, FiCheck, FiMessageSquare, FiExternalLink } from 'react-icons/fi';
 import { Section, revealItem } from '../common/Section';
 import { profile } from '../../data/profile';
+import { useLang } from '../../i18n/LanguageContext';
 
 type AiNativeProps = {
   onCopyResume: () => void;
@@ -35,6 +36,7 @@ function CodeBlock({ label, code }: { label: string; code: string }) {
 }
 
 export function AiNative({ onCopyResume, copied, onAskAi }: AiNativeProps) {
+  const { t } = useLang();
   return (
     <Section
       id="ai-native"
@@ -87,11 +89,11 @@ export function AiNative({ onCopyResume, copied, onAskAi }: AiNativeProps) {
             <button className="btn" onClick={onCopyResume}>
               {copied ? (
                 <>
-                  <FiCheck aria-hidden="true" /> Copied
+                  <FiCheck aria-hidden="true" /> {t('copyResume.copied')}
                 </>
               ) : (
                 <>
-                  <FiCopy aria-hidden="true" /> Copy resume markdown
+                  <FiCopy aria-hidden="true" /> {t('copyResume.idle')}
                 </>
               )}
             </button>

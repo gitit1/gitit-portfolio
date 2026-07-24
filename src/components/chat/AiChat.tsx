@@ -3,6 +3,7 @@ import { AnimatePresence, motion } from 'framer-motion';
 import { FiMessageSquare, FiX, FiSend } from 'react-icons/fi';
 import { profile } from '../../data/profile';
 import { useChatStream } from './useChatStream';
+import { useLang } from '../../i18n/LanguageContext';
 
 type AiChatProps = {
   open: boolean;
@@ -21,6 +22,7 @@ export function AiChat({ open, onOpen, onClose }: AiChatProps) {
   const { messages, streaming, error, send } = useChatStream();
   const [input, setInput] = useState('');
   const scrollRef = useRef<HTMLDivElement>(null);
+  const { t } = useLang();
 
   useEffect(() => {
     scrollRef.current?.scrollTo({ top: scrollRef.current.scrollHeight, behavior: 'smooth' });
@@ -41,10 +43,10 @@ export function AiChat({ open, onOpen, onClose }: AiChatProps) {
       <button
         className={`chat-fab${open ? ' chat-fab--hidden' : ''}`}
         onClick={onOpen}
-        aria-label="Ask my AI about me"
+        aria-label={t('chatFab.ariaLabel')}
       >
         <FiMessageSquare aria-hidden="true" />
-        <span>Ask my AI</span>
+        <span>{t('chatFab.label')}</span>
       </button>
 
       <AnimatePresence>

@@ -4,6 +4,7 @@ import { FiGithub, FiLinkedin, FiMail, FiMoon, FiSun, FiMenu, FiX } from 'react-
 import { SECTIONS, type SectionId } from '../../config/sections';
 import { profile } from '../../data/profile';
 import type { Theme } from '../../hooks/useTheme';
+import { useLang } from '../../i18n/LanguageContext';
 
 type HeaderProps = {
   active: SectionId;
@@ -16,6 +17,7 @@ type HeaderProps = {
 export function Header({ active, theme, onToggleTheme, onNavigate, onAskAi }: HeaderProps) {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
+  const { t, toggleLang } = useLang();
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 12);
@@ -32,7 +34,7 @@ export function Header({ active, theme, onToggleTheme, onNavigate, onAskAi }: He
   return (
     <header className={clsx('header', scrolled && 'header--scrolled')}>
       <div className="container header__inner">
-        <button className="brand" onClick={() => go('home')} aria-label="Go to top">
+        <button className="brand" onClick={() => go('home')} aria-label={t('goToTop')}>
           <span className="brand__name">{profile.name}</span>
           <span className="brand__role">{profile.title}</span>
         </button>
@@ -44,11 +46,11 @@ export function Header({ active, theme, onToggleTheme, onNavigate, onAskAi }: He
               className={clsx('nav__link', active === s.id && 'nav__link--active')}
               onClick={() => go(s.id)}
             >
-              {s.label}
+              {t(`nav.${s.id}`)}
             </button>
           ))}
           <button className="nav__link nav__desktop-only" onClick={onAskAi}>
-            Ask my AI ↗
+            {t('askAi')}
           </button>
         </nav>
 
@@ -58,7 +60,7 @@ export function Header({ active, theme, onToggleTheme, onNavigate, onAskAi }: He
             href={profile.links.github.href}
             target="_blank"
             rel="noreferrer"
-            aria-label="GitHub"
+            aria-label={t('socials.github')}
           >
             <FiGithub />
           </a>
@@ -67,28 +69,35 @@ export function Header({ active, theme, onToggleTheme, onNavigate, onAskAi }: He
             href={profile.links.linkedin.href}
             target="_blank"
             rel="noreferrer"
-            aria-label="LinkedIn"
+            aria-label={t('socials.linkedin')}
           >
             <FiLinkedin />
           </a>
           <a
             className="icon-btn nav__desktop-only"
             href={profile.links.email.href}
-            aria-label="Email"
+            aria-label={t('socials.email')}
           >
             <FiMail />
           </a>
           <button
             className="icon-btn"
             onClick={onToggleTheme}
-            aria-label={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`}
+            aria-label={theme === 'dark' ? t('themeToggle.toLight') : t('themeToggle.toDark')}
           >
             {theme === 'dark' ? <FiSun /> : <FiMoon />}
           </button>
           <button
+            className="icon-btn lang-toggle"
+            onClick={toggleLang}
+            aria-label={t('langToggle.ariaLabel')}
+          >
+            {t('langToggle.label')}
+          </button>
+          <button
             className="icon-btn nav__toggle"
             onClick={() => setMenuOpen((v) => !v)}
-            aria-label="Menu"
+            aria-label={t('menu')}
             aria-expanded={menuOpen}
           >
             {menuOpen ? <FiX /> : <FiMenu />}

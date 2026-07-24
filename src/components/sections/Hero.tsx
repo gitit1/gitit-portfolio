@@ -4,6 +4,7 @@ import heroImage from '../../styles/assets/home/gitit.jpg';
 import { profile } from '../../data/profile';
 import { useStreamingText } from '../../hooks/useStreamingText';
 import { NodeCanvas } from '../common/NodeCanvas';
+import { useLang } from '../../i18n/LanguageContext';
 
 type HeroProps = {
   onAskAi: () => void;
@@ -22,6 +23,7 @@ const fade = {
 
 export function Hero({ onAskAi, onCopyResume, copied }: HeroProps) {
   const streamed = useStreamingText(profile.heroPhrases);
+  const { t } = useLang();
 
   return (
     <section id="home" className="section hero">
@@ -89,11 +91,11 @@ export function Hero({ onAskAi, onCopyResume, copied }: HeroProps) {
             <button className="btn" onClick={onCopyResume}>
               {copied ? (
                 <>
-                  <FiCheck aria-hidden="true" /> Copied for your LLM
+                  <FiCheck aria-hidden="true" /> {t('copyResume.copied')}
                 </>
               ) : (
                 <>
-                  <FiCopy aria-hidden="true" /> Copy my resume for your LLM
+                  <FiCopy aria-hidden="true" /> {t('copyResume.idle')}
                 </>
               )}
             </button>

@@ -40,6 +40,16 @@ body {
   overflow-x: hidden;
 }
 
+// Hebrew / RTL — Instrument Sans has no Hebrew glyphs, so swap the body font
+// for Heebo (already used for --font-body's fallback stack) whenever the
+// document is flipped to Hebrew. Headings keep their Latin display font
+// (Space Grotesk lacks Hebrew glyphs too, so it silently falls back here).
+:root[lang='he'],
+:root[dir='rtl'] {
+  --font-body: 'Heebo', 'Instrument Sans', system-ui, sans-serif;
+  --font-display: 'Heebo', 'Space Grotesk', system-ui, sans-serif;
+}
+
 // Living background: fixed, viewport-wide, behind all page content.
 .site-bg {
   position: fixed;
@@ -206,8 +216,7 @@ img {
 .header {
   position: fixed;
   top: 0;
-  left: 0;
-  right: 0;
+  inset-inline: 0;
   height: var(--header-h);
   z-index: 50;
   display: flex;
@@ -235,7 +244,7 @@ img {
   background: none;
   border: none;
   cursor: pointer;
-  text-align: left;
+  text-align: start;
   color: inherit;
   padding: 0;
 }
@@ -299,6 +308,12 @@ img {
   color: var(--accent);
   transform: translateY(-2px);
 }
+.lang-toggle {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
 .nav__toggle {
   display: none;
 }
@@ -320,7 +335,7 @@ img {
     transform: translateY(0);
   }
   .nav__link {
-    text-align: left;
+    text-align: start;
     padding: 0.7rem 0.6rem;
   }
   .nav__toggle {

@@ -2,6 +2,7 @@ import { motion } from 'framer-motion';
 import { FiMail, FiLinkedin, FiGithub, FiCopy, FiCheck, FiDownload } from 'react-icons/fi';
 import { Section, revealItem } from '../common/Section';
 import { profile } from '../../data/profile';
+import { useLang } from '../../i18n/LanguageContext';
 
 type ContactProps = {
   onCopyResume: () => void;
@@ -9,6 +10,7 @@ type ContactProps = {
 };
 
 export function Contact({ onCopyResume, copied }: ContactProps) {
+  const { t } = useLang();
   return (
     <Section id="contact" eyebrow="Contact" title="Let's build something with AI.">
       <motion.div className="contact-card" variants={revealItem}>
@@ -32,7 +34,7 @@ export function Contact({ onCopyResume, copied }: ContactProps) {
         <div className="contact-card__secondary">
           <button className="text-link" onClick={onCopyResume}>
             {copied ? <FiCheck aria-hidden="true" /> : <FiCopy aria-hidden="true" />}
-            {copied ? ' Copied resume for your LLM' : ' Copy my resume for your LLM'}
+            {copied ? ` ${t('copyResume.copied')}` : ` ${t('copyResume.idle')}`}
           </button>
           <a className="text-link" href={profile.site.resumeDoc} download>
             <FiDownload aria-hidden="true" /> Download CV (.docx)
@@ -42,8 +44,8 @@ export function Contact({ onCopyResume, copied }: ContactProps) {
 
       <footer className="site-footer">
         <span>
-          © {profile.name} — built with React, Vite & Claude Code. Try the{' '}
-          <kbd>Ctrl/⌘</kbd> + <kbd>K</kbd> palette.
+          © {profile.name} — {t('footer.builtWith')} {t('footer.paletteHintPrefix')}{' '}
+          <kbd>Ctrl/⌘</kbd> + <kbd>K</kbd> {t('footer.paletteHintSuffix')}
         </span>
       </footer>
     </Section>
