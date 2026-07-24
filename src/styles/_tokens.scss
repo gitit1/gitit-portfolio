@@ -1,4 +1,4 @@
-// Design tokens — "terminal signal", dark-first with a warm light mode.
+// Design tokens — dark-first "gitit-os" system, single accent (electric indigo).
 // Theme is switched via [data-theme] on <html>; both are defined here so the
 // CSS custom properties are the single source of styling truth.
 
@@ -24,54 +24,66 @@
 :root[data-theme='dark'] {
   color-scheme: dark;
 
-  --bg: #0b0f14;
-  --bg-2: #0e141b;
-  --surface: #121821;
-  --surface-2: #182029;
-  --border: #22303c;
-  --border-soft: #1a232d;
+  --bg: #0c0e12;
+  --bg-2: #101318;
+  --surface: #161920;
+  --surface-2: #1c2028;
+  --border: rgba(255, 255, 255, 0.1);
+  --border-soft: rgba(255, 255, 255, 0.06);
 
-  --text: #e8eef4;
-  --text-muted: #8b98a5;
-  --text-faint: #5d6b78;
+  --text: #e8ebf1;
+  --text-muted: #98a0ab;
+  --text-faint: #6b727d;
 
-  --accent: #4ade80; // signal green
-  --accent-strong: #86efac;
-  --accent-ink: #052e14; // text on accent fills
-  --accent-glow: rgba(74, 222, 128, 0.25);
-  --accent-wash: rgba(74, 222, 128, 0.08);
+  --accent: #8c9bff; // electric indigo
+  --accent-strong: #aab5ff;
+  --accent-ink: #0c0e12; // text on accent fills
+  --accent-glow: rgba(140, 155, 255, 0.25);
+  --accent-wash: rgba(140, 155, 255, 0.08);
 
-  --amber: #f5b14c;
-  --amber-wash: rgba(245, 177, 76, 0.12);
+  // Restrained secondary — desaturated slate-indigo (system is single-accent now).
+  --amber: #8f96b3;
+  --amber-wash: rgba(143, 150, 179, 0.12);
 
   --shadow: 0 18px 50px -24px rgba(0, 0, 0, 0.8);
+  --shadow-1: 0 2px 6px -2px rgba(0, 0, 0, 0.5), 0 10px 30px -16px rgba(0, 0, 0, 0.65);
   --grid-line: rgba(255, 255, 255, 0.03);
+
+  // ElectronsField background: node = accent, line = accent at ~70%.
+  --electrons-node: #8c9bff;
+  --electrons-line: rgba(140, 155, 255, 0.7);
 }
 
-// ---- Light (warm) ----
+// ---- Light (refined graphite — NOT paper) ----
 :root[data-theme='light'] {
-  color-scheme: light;
+  color-scheme: dark;
 
-  --bg: #f7f5f0;
-  --bg-2: #f2efe8;
-  --surface: #ffffff;
-  --surface-2: #faf8f3;
-  --border: #e4ddd0;
-  --border-soft: #ece6da;
+  --bg: #1e222a;
+  --bg-2: #232830;
+  --surface: #2a303a;
+  --surface-2: #313845;
+  --border: rgba(255, 255, 255, 0.14);
+  --border-soft: rgba(255, 255, 255, 0.08);
 
-  --text: #141a20;
-  --text-muted: #5c6670;
-  --text-faint: #94a0ab;
+  --text: #eef0f4;
+  --text-muted: #a6adb8;
+  --text-faint: #7b828e;
 
-  --accent: #15803d;
-  --accent-strong: #166534;
-  --accent-ink: #f0fdf4;
-  --accent-glow: rgba(21, 128, 61, 0.18);
-  --accent-wash: rgba(21, 128, 61, 0.07);
+  --accent: #98a5ff; // brighter, tuned for contrast on the graphite ground (~6.9:1 on --bg)
+  --accent-strong: #b3bdff;
+  --accent-ink: #1e222a; // text on accent fills
+  --accent-glow: rgba(152, 165, 255, 0.28);
+  --accent-wash: rgba(152, 165, 255, 0.1);
 
-  --amber: #b45309;
-  --amber-wash: rgba(180, 83, 9, 0.1);
+  // Restrained secondary — desaturated slate-indigo (system is single-accent now).
+  --amber: #a5abc9;
+  --amber-wash: rgba(165, 171, 201, 0.14);
 
-  --shadow: 0 18px 45px -26px rgba(20, 26, 32, 0.35);
-  --grid-line: rgba(20, 26, 32, 0.04);
+  --shadow: 0 18px 45px -26px rgba(0, 0, 0, 0.5);
+  --shadow-1: 0 2px 6px -2px rgba(0, 0, 0, 0.4), 0 10px 28px -16px rgba(0, 0, 0, 0.55);
+  --grid-line: rgba(255, 255, 255, 0.04);
+
+  // ElectronsField background: node = accent, line = accent at ~70%.
+  --electrons-node: #98a5ff;
+  --electrons-line: rgba(152, 165, 255, 0.7);
 }

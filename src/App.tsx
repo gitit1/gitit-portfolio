@@ -14,6 +14,7 @@ import { AiNative } from './components/sections/AiNative';
 import { Contact } from './components/sections/Contact';
 import { AiChat } from './components/chat/AiChat';
 import { CommandPalette } from './components/common/CommandPalette';
+import { ElectronsField } from './components/common/ElectronsField';
 
 export default function App() {
   const { theme, toggle } = useTheme();
@@ -36,6 +37,8 @@ export default function App() {
 
   return (
     <>
+      <ElectronsField fixed density={0.7} className="site-bg" />
+
       <Header
         active={active}
         theme={theme}
