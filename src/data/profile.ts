@@ -12,13 +12,6 @@ export const profile = {
   name: 'Gitit Regev',
   title: 'AI Product Builder',
   tagline: 'From product strategy to shipped AI agents.',
-  // Rotating hero phrases — the streaming-text line cycles through these.
-  heroPhrases: [
-    'ships AI agents',
-    'builds MCP servers',
-    'turns specs into products',
-    'writes the code and the roadmap',
-  ],
   location: 'Israel',
   // Positioning paragraph — used in the hero intro, chat system prompt, and llms.txt summary.
   summary:

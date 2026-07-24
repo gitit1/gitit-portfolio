@@ -7,7 +7,7 @@ const prefersReducedMotion = () =>
 /**
  * Types out each phrase character-by-character like a streaming LLM response,
  * pauses, deletes, and moves to the next. Respects prefers-reduced-motion by
- * cycling whole phrases without the per-character effect.
+ * showing the first phrase statically, with no typing or cycling at all.
  */
 export function useStreamingText(
   phrases: readonly string[],
@@ -21,14 +21,10 @@ export function useStreamingText(
     if (phrases.length === 0) return;
     const current = phrases[phraseIndex % phrases.length];
 
-    // Reduced motion: swap whole phrases on a slow timer, no typing.
+    // Reduced motion: no typing, no cycling — just the first phrase, static.
     if (prefersReducedMotion()) {
-      setText(current);
-      const t = setTimeout(
-        () => setPhraseIndex((i) => (i + 1) % phrases.length),
-        holdMs + 1400
-      );
-      return () => clearTimeout(t);
+      if (text !== phrases[0]) setText(phrases[0]);
+      return;
     }
 
     if (!deleting && text === current) {

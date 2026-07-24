@@ -363,6 +363,12 @@
 /* =========================================================================
    AI-native section
    ========================================================================= */
+.ai-native__chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 1.75rem;
+}
 .ai-native {
   display: grid;
   grid-template-columns: repeat(3, 1fr);

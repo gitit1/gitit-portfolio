@@ -1,6 +1,25 @@
 import type { Dict } from './types';
 
 export const he: Dict = {
+  hero: {
+    eyebrow: 'פרופיל ציבורי · קורות חיים אינטראקטיביים',
+    name: 'גיתית רגב',
+    role: 'AI Product Builder · Senior Frontend — ‏12+ שנים בתחום',
+    terminalPrompt: 'gitit@ai:~$',
+    receipts: [
+      'explain(): 19,092 → 24 docs',
+      'bundle: 1,567KB → 10.8KB',
+      'React 16 → 19 · −28,465 lines',
+      'secret="secret" → httpOnly',
+    ],
+    receiptsSrLabel: 'קבלות בנייה אחרונות:',
+    chips: [
+      { value: '2013', label: 'בתחום מאז — 12+ שנים' },
+      { value: '4', label: 'פרויקטים ציבוריים' },
+      { value: '→', label: 'כל טענה נגמרת בקבלה' },
+    ],
+  },
+
   nav: {
     home: 'בית',
     capabilities: 'מה אני מביאה',

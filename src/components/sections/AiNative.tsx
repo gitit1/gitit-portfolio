@@ -44,6 +44,18 @@ export function AiNative({ onCopyResume, copied, onAskAi }: AiNativeProps) {
       title="My resume is machine-readable. Plug me into your agent."
       lead="Most portfolios are for humans. This one also talks to your LLM — connect the MCP server, fetch the JSON, or read the llms.txt."
     >
+      <motion.div className="ai-native__chips" variants={revealItem}>
+        <a className="chip" href={profile.site.mcpUrl}>
+          <span className="chip__dot chip__dot--live" /> MCP server live
+        </a>
+        <a className="chip" href={profile.site.llmsTxt}>
+          <span className="chip__dot" /> llms.txt
+        </a>
+        <a className="chip" href={profile.site.resumeJson}>
+          <span className="chip__dot" /> resume.json
+        </a>
+      </motion.div>
+
       <div className="ai-native">
         <motion.div className="ai-native__card" variants={revealItem}>
           <h3 className="ai-native__card-title">1. Connect the MCP server</h3>

@@ -1,13 +1,34 @@
 // Shell-level i18n types. Scope is deliberately narrow: chrome/UI strings
-// (header, nav, theme/language toggles, chat FAB, footer). Section BODIES
-// (headlines, paragraphs, card copy) stay English until those sections are
-// rebuilt — see en.ts / he.ts for the exact boundary.
+// (header, nav, theme/language toggles, chat FAB, footer), plus any section
+// BODY that has been rebuilt for the redesign (currently: hero). Other
+// section bodies (headlines, paragraphs, card copy) stay English until they
+// are rebuilt too — see en.ts / he.ts for the exact boundary.
 
 import type { SectionId } from '../config/sections';
 
 export type Lang = 'en' | 'he';
 
+/** A fact chip in the hero: a big mono value + a small muted label. */
+export interface HeroFactChip {
+  value: string;
+  label: string;
+}
+
 export interface Dict {
+  hero: {
+    eyebrow: string;
+    name: string;
+    role: string;
+    // Terminal prompt + rotating "receipts" — technical strings, identical
+    // in both languages by design (kept LTR wherever they're rendered).
+    terminalPrompt: string;
+    receipts: string[];
+    // Lead-in for the screen-reader-only text that lists every receipt
+    // (the rotating terminal display itself is aria-hidden).
+    receiptsSrLabel: string;
+    chips: [HeroFactChip, HeroFactChip, HeroFactChip];
+  };
+
   // Header nav — keyed by SectionId so it stays in sync with config/sections.ts.
   nav: Record<SectionId, string>;
   navShort: Record<SectionId, string>; // scroll-rail tooltip labels

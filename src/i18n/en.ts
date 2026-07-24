@@ -1,6 +1,25 @@
 import type { Dict } from './types';
 
 export const en: Dict = {
+  hero: {
+    eyebrow: 'Public profile · interactive résumé',
+    name: 'Gitit Regev',
+    role: 'AI Product Builder · Senior Frontend Developer — 12+ years in the field',
+    terminalPrompt: 'gitit@ai:~$',
+    receipts: [
+      'explain(): 19,092 → 24 docs',
+      'bundle: 1,567KB → 10.8KB',
+      'React 16 → 19 · −28,465 lines',
+      'secret="secret" → httpOnly',
+    ],
+    receiptsSrLabel: 'Recent build receipts:',
+    chips: [
+      { value: '2013', label: 'In the field since — 12+ years' },
+      { value: '4', label: 'Public projects' },
+      { value: '→', label: 'Every claim ends in a receipt' },
+    ],
+  },
+
   nav: {
     home: 'Home',
     capabilities: 'What I bring',
