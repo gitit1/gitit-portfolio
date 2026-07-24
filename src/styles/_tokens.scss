@@ -58,22 +58,22 @@
 :root[data-theme='light'] {
   color-scheme: dark;
 
-  --bg: #1e222a;
-  --bg-2: #232830;
-  --surface: #2a303a;
-  --surface-2: #313845;
-  --border: rgba(255, 255, 255, 0.14);
+  --bg: #262b34;
+  --bg-2: #2b313b;
+  --surface: #333a46;
+  --surface-2: #3c4453;
+  --border: rgba(255, 255, 255, 0.12);
   --border-soft: rgba(255, 255, 255, 0.08);
 
-  --text: #eef0f4;
-  --text-muted: #a6adb8;
-  --text-faint: #7b828e;
+  --text: #f0f2f6;
+  --text-muted: #aeb5c0;
+  --text-faint: #848b97;
 
-  --accent: #98a5ff; // brighter, tuned for contrast on the graphite ground (~6.9:1 on --bg)
-  --accent-strong: #b3bdff;
-  --accent-ink: #1e222a; // text on accent fills
-  --accent-glow: rgba(152, 165, 255, 0.28);
-  --accent-wash: rgba(152, 165, 255, 0.1);
+  --accent: #a3aeff; // brighter, tuned for contrast on the graphite ground (~6.9:1 on --bg)
+  --accent-strong: #b8c1ff;
+  --accent-ink: #262b34; // text on accent fills
+  --accent-glow: rgba(163, 174, 255, 0.28);
+  --accent-wash: rgba(163, 174, 255, 0.1);
 
   // Restrained secondary — desaturated slate-indigo (system is single-accent now).
   --amber: #a5abc9;
@@ -84,6 +84,6 @@
   --grid-line: rgba(255, 255, 255, 0.04);
 
   // ElectronsField background: node = accent, line = accent at ~70%.
-  --electrons-node: #98a5ff;
-  --electrons-line: rgba(152, 165, 255, 0.7);
+  --electrons-node: #a3aeff;
+  --electrons-line: rgba(163, 174, 255, 0.7);
 }
