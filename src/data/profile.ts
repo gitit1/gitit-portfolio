@@ -22,7 +22,7 @@ export const profile = {
   location: 'Israel',
   // Positioning paragraph — used in the hero intro, chat system prompt, and llms.txt summary.
   summary:
-    'I am a full-stack developer turned AI Product Builder. After a decade shipping React and Node products, I now design and build with LLMs end to end — agentic workflows, MCP servers, prompt systems and evals — and I still write the code myself. I think like a PM about what to build and why, and I execute like an engineer to make it real.',
+    'I am a full-stack developer turned AI Product Builder. After 12+ years shipping React and Node products, I now design and build with LLMs end to end — agentic workflows, MCP servers, prompt systems and evals — and I still write the code myself. I think like a PM about what to build and why, and I execute like an engineer to make it real.',
   // A tighter one-liner for meta descriptions and cards.
   blurb:
     'AI Product Builder — PM thinking, developer execution. I design and ship LLM products, agents and MCP servers.',

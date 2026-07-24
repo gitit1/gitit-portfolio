@@ -5,11 +5,21 @@ export type Experience = {
   period: string;
   bullets: string[];
   link?: string;
-  theme: 'independent' | 'browzwear' | 'apester' | 'webcollage';
+  theme: 'maccabi' | 'independent' | 'browzwear' | 'apester' | 'webcollage' | 'f5';
   current?: boolean;
 };
 
 export const experiences: Experience[] = [
+  {
+    company: 'Maccabi (via SQLink Group)',
+    role: 'Senior Frontend Developer',
+    period: 'Oct 2025 - Present',
+    bullets: [
+      'Senior frontend development at Maccabi, placed via SQLink Group.',
+    ],
+    theme: 'maccabi',
+    current: true,
+  },
   {
     company: 'Independent',
     role: 'AI Product Builder',
@@ -25,8 +35,8 @@ export const experiences: Experience[] = [
   {
     company: 'Browzwear',
     logo: 'browzwear.png',
-    role: 'Front End Developer',
-    period: '2021 - Present',
+    role: 'Frontend Developer',
+    period: 'Feb 2021 - Jan 2025',
     bullets: [
       'Design and develop features for websites using React + MobX and TypeScript.',
       'Implement UI for 3D fashion-design software using JavaScript + React.',
@@ -34,13 +44,12 @@ export const experiences: Experience[] = [
     ],
     link: 'https://browzwear.com/',
     theme: 'browzwear',
-    current: true,
   },
   {
     company: 'Apester',
     logo: 'apester.png',
     role: 'Full Stack Developer',
-    period: '2020',
+    period: 'Oct 2019 - Jun 2020',
     bullets: [
       'Built product components such as the Player and SDK.',
       'Delivered website projects end-to-end.',
@@ -53,7 +62,7 @@ export const experiences: Experience[] = [
     company: 'Webcollage / Syndigo',
     logo: 'webcollage.png',
     role: 'Web Developer',
-    period: '2015 - 2019',
+    period: 'Dec 2015 - Apr 2019',
     bullets: [
       'Created internal system to generate landing pages with React and NodeJS.',
       'Designed, coded, and modified websites for diverse clients.',
@@ -61,5 +70,14 @@ export const experiences: Experience[] = [
     ],
     link: 'https://syndigo.com/',
     theme: 'webcollage',
+  },
+  {
+    company: 'F5 Networks',
+    role: 'Information Security Analyst & Malware Researcher',
+    period: 'Nov 2013 - Jun 2015',
+    bullets: [
+      "Identified, monitored and removed phishing sites, drop zones and malicious scripts for the clients' protection.",
+    ],
+    theme: 'f5',
   },
 ];

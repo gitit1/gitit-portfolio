@@ -8,7 +8,7 @@ export function Experience() {
     <Section
       id="experience"
       eyebrow="Experience"
-      title="Ten years building products people use."
+      title="Twelve years building products people use."
     >
       <div className="timeline">
         {experiences.map((exp) => (
