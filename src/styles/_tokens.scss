@@ -9,7 +9,13 @@
   --font-mono: 'IBM Plex Mono', ui-monospace, 'SF Mono', Menlo, monospace;
 
   // Spacing / layout
-  --maxw: 1120px;
+  // Owner feedback (2026-07-25): 1120px read cramped on her actual screen.
+  // Grows to 75% of viewport width, never narrower than the old 1120px
+  // floor (so smaller/typical screens are unaffected), capped at 1600px so
+  // line length doesn't run away on very wide monitors. Prose elements
+  // carry their own ch-based caps (see .section__lead, .hero__role,
+  // .tl-item__bullets) so widening this token doesn't blow those up.
+  --maxw: clamp(1120px, 75vw, 1600px);
   --gutter: clamp(1.25rem, 4vw, 3rem);
   --radius: 14px;
   --radius-sm: 9px;

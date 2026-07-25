@@ -85,6 +85,11 @@
   list-style: none;
   display: grid;
   gap: 0.5rem;
+  // Only prose block in this section without its own natural width cap
+  // (the timeline is single-column, unlike the grid-bounded cards
+  // elsewhere) — needed once --maxw can grow past ~1120px, so lines don't
+  // run the full container width.
+  max-width: 68ch;
 }
 .tl-item__bullets li {
   position: relative;
