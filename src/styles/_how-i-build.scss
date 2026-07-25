@@ -35,7 +35,7 @@
 // wrap it doesn't need to.
 @media (min-width: 860px) {
   .hib-bridge__claim {
-    font-size: clamp(1.5rem, 2.6vw, 2.1rem);
+    font-size: clamp(1.4rem, 2.3vw, 1.9rem);
   }
 }
 .hib-bridge__kicker {
@@ -57,14 +57,23 @@
 // desktop widths — this section stacks bridge + two .hib-block runs, so
 // their margins are paid three times over. Mobile (<860px) unchanged.
 @media (min-width: 860px) {
+  // Round-4 (owner, 2026-07-25): the section head's own margin-bottom
+  // (.section__head, _components.scss) no longer collapses with this
+  // margin now that .section__body sits between them as a flex item (see
+  // .section--page > .container in global.scss) — flex items don't
+  // collapse margins with their own children, so this used to be a shared
+  // (collapsed, max-of-both) gap and is now a fully additive one. Cut hard
+  // to compensate: the head already supplies the visual separation, this
+  // only needs a small nudge on top of it.
   .hib-bridge {
-    margin-top: clamp(1rem, 2.2vh, 1.5rem);
+    margin-top: clamp(0.25rem, 0.7vh, 0.45rem);
   }
   .hib-bridge__kicker {
-    line-height: 1.45;
+    margin-top: 0.5rem;
+    line-height: 1.4;
   }
   .hib-block {
-    margin-top: clamp(1rem, 2.5vh, 1.6rem);
+    margin-top: clamp(0.6rem, 1.5vh, 1rem);
   }
 }
 .hib-block__label {
@@ -78,6 +87,13 @@
   text-transform: uppercase;
   color: var(--accent);
   margin: 0 0 1.1rem;
+}
+// Fit-one-screen round 4: this label repeats per block (currently two), so
+// its margin-bottom is paid twice over. Desktop-only, mobile keeps 1.1rem.
+@media (min-width: 860px) {
+  .hib-block__label {
+    margin-bottom: 0.5rem;
+  }
 }
 
 /* ---- Receipts row (capability groups) ---------------------------------- */
@@ -97,7 +113,7 @@
 }
 @media (min-width: 860px) {
   .hib-col {
-    padding: clamp(0.65rem, 1.6vh, 0.95rem) 1.1rem;
+    padding: clamp(0.4rem, 0.9vh, 0.55rem) 1.1rem;
   }
 }
 .hib-col:hover {
@@ -114,8 +130,8 @@
 }
 @media (min-width: 860px) {
   .hib-col__head {
-    padding-bottom: 0.5rem;
-    margin-bottom: 0.5rem;
+    padding-bottom: 0.35rem;
+    margin-bottom: 0.35rem;
   }
 }
 .hib-col__label {
@@ -139,7 +155,7 @@
 }
 @media (min-width: 860px) {
   .hib-col__list {
-    gap: clamp(0.45rem, 1.4vh, 0.7rem);
+    gap: clamp(0.3rem, 0.9vh, 0.5rem);
   }
 }
 .hib-item {
@@ -157,6 +173,14 @@
   // body text sitewide to that floor at the scale's original ceiling.
   font-size: max(13px, 0.9rem);
   line-height: 1.5;
+}
+// Fit-one-screen round 4: the AI column (5 items, the tallest of the three)
+// sets this row's height — a small per-line saving here compounds across
+// every wrapped blurb line in that column. Font-size (the floor) untouched.
+@media (min-width: 860px) {
+  .hib-item__blurb {
+    line-height: 1.4;
+  }
 }
 @media (max-width: 860px) {
   .hib-receipts {
@@ -187,7 +211,7 @@
 }
 @media (min-width: 860px) {
   .hib-rail__step {
-    padding-block: clamp(0.7rem, 1.8vh, 1.1rem);
+    padding-block: clamp(0.4rem, 0.9vh, 0.6rem);
   }
 }
 .hib-rail__step:last-child {

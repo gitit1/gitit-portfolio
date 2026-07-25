@@ -198,6 +198,27 @@ img {
   border: 1px solid var(--border);
   border-radius: var(--radius);
   box-shadow: var(--shadow-1);
+  // Round-4 vertical centering (owner, 2026-07-25): flex column so
+  // `.section__body`'s auto block margins (below) can center the body in
+  // whatever leftover space this slab has once its min-height floor exceeds
+  // the body's own content height (e.g. AI-native, Contact) — the header
+  // stays pinned to the top, the body settles in the remaining slab space.
+  // When content is TALL ENOUGH to fill or exceed the min-height, the auto
+  // margins collapse to ~0 and this has no visible effect (how-i-build,
+  // experience, projects keep their current top-to-bottom flow).
+  display: flex;
+  flex-direction: column;
+}
+// The single wrapper `<div className="section__body">` (see
+// components/common/Section.tsx) around everything after `.section__head`.
+// `margin-block: auto` on a flex child centers it in the leftover
+// cross-axis space of its `display:flex; flex-direction:column` parent —
+// exactly the CSS trick for "center this if there's room, else behave
+// normally" without any JS height measurement. Kept on its own class
+// (rather than styling children directly) so it can't collide with any
+// section's own internal spacing/gap rules on its children.
+.section__body {
+  margin-block: auto;
 }
 // Fit-one-screen (WP-G6-F, 2026-07-25): the slab's own inner padding — the
 // single biggest fixed cost every section pays twice (top AND bottom) —

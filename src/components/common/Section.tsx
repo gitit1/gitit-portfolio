@@ -72,7 +72,7 @@ export function Section({ id, eyebrow, title, lead, children, className }: Secti
               )}
             </header>
           )}
-          {children}
+          <div className="section__body">{children}</div>
         </div>
       </motion.section>
     </MotionConfig>

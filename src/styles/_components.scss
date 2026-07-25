@@ -25,7 +25,7 @@
 }
 @media (min-width: 860px) {
   .timeline {
-    gap: 0.2rem;
+    gap: 0.1rem;
   }
 }
 .tl-item {
@@ -75,7 +75,7 @@
 // further. Mobile (<860px) keeps the original fixed 2rem.
 @media (min-width: 860px) {
   .tl-item__body {
-    padding-bottom: clamp(0.75rem, 2.6vh, 1.5rem);
+    padding-bottom: clamp(0.4rem, 1.2vh, 0.7rem);
   }
 }
 .tl-item__top {
@@ -94,7 +94,7 @@
 // sub-heading than the body copy beneath it.
 @media (min-width: 860px) {
   .tl-item__role {
-    font-size: 1.1rem;
+    font-size: 1.02rem;
   }
 }
 .tl-item__period {
@@ -128,8 +128,8 @@
 }
 @media (min-width: 860px) {
   .tl-item__bullets {
-    margin-top: 0.55rem;
-    gap: 0.3rem;
+    margin-top: 0.35rem;
+    gap: 0.22rem;
   }
 }
 .tl-item__bullets li {
@@ -139,6 +139,15 @@
   // max(): guards the 13px body-text legibility floor independent of the
   // fluid root scale (global.scss).
   font-size: max(13px, 0.96rem);
+}
+// Fit-one-screen round 4: a touch tighter than the shared body line-height
+// (1.5, see global.scss) — this repeats across up to 7 timeline items, so a
+// small per-line saving compounds. Font-size (the legibility floor) is
+// untouched, only line spacing.
+@media (min-width: 860px) {
+  .tl-item__bullets li {
+    line-height: 1.35;
+  }
 }
 .tl-item__bullets li::before {
   content: '\25B9';

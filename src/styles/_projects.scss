@@ -41,7 +41,7 @@
 @media (min-width: 860px) {
   .projects-grid {
     grid-template-columns: repeat(auto-fit, minmax(min(270px, 100%), 1fr));
-    gap: 0.85rem;
+    gap: 0.65rem;
   }
 }
 // At the widest desktop viewports the index column is wide enough (~930px
@@ -145,7 +145,15 @@
 // (>1100px tall) keeps the fuller 16/10 frame.
 @media (min-width: 860px) and (max-height: 1100px) {
   .project-card__art {
-    aspect-ratio: 16 / 9;
+    // Round-4 (owner, 2026-07-25): shorter still than 16/9 — the art frame
+    // is the single tallest element per card, and this section's fill is
+    // the furthest over its ceiling of the three (~20% over @1920x945), so
+    // it takes the biggest single cut here rather than spreading thinner
+    // reductions everywhere else past the point of "without hurting
+    // quality." object-fit: cover (below) still crops sensibly at this
+    // ratio — every registry image is a real product screenshot, not
+    // artwork that depends on a taller frame to read.
+    aspect-ratio: 2.75 / 1;
   }
 }
 .project-card__art img {
@@ -197,9 +205,9 @@
 }
 @media (min-width: 860px) {
   .project-card__body {
-    padding: clamp(0.65rem, 1.4vh, 0.8rem);
-    padding-block-end: clamp(0.75rem, 1.6vh, 0.9rem);
-    gap: 0.3rem;
+    padding: clamp(0.35rem, 0.7vh, 0.5rem);
+    padding-block-end: clamp(0.4rem, 0.8vh, 0.55rem);
+    gap: 0.2rem;
   }
 }
 .project-card__name {
@@ -210,7 +218,7 @@
 // section heading's scale.
 @media (min-width: 860px) {
   .project-card__name {
-    font-size: clamp(1.05rem, 1.6vw, 1.2rem);
+    font-size: clamp(0.98rem, 1.4vw, 1.1rem);
   }
 }
 .project-card__tagline {
@@ -231,7 +239,7 @@
 }
 @media (min-width: 860px) {
   .project-card__tags {
-    gap: 0.3rem;
+    gap: 0.22rem;
   }
 }
 .project-card__tag {
@@ -261,7 +269,7 @@
 }
 @media (min-width: 860px) {
   .project-card__meta {
-    margin-top: 0.3rem;
+    margin-top: 0.2rem;
   }
 }
 .project-card__year {
