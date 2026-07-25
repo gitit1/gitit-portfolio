@@ -53,7 +53,9 @@
 /* ---- Receipts row (capability groups) ---------------------------------- */
 .hib-receipts {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  // minmax(0, 1fr): same fluid-track pattern as .ai-native — a bare 1fr
+  // lets an item's content-based minimum width win and blow out the grid.
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 1.1rem;
 }
 .hib-col {
