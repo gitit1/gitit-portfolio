@@ -116,8 +116,33 @@ img {
 
 .section {
   position: relative;
-  padding-block: clamp(4.5rem, 10vh, 7.5rem);
   scroll-margin-top: var(--header-h);
+}
+
+// Page-like slab treatment applied by every <Section> (see
+// components/common/Section.tsx). Hero intentionally opts out — it renders
+// its own raw `<section className="section hero">` so it can stay a
+// full-bleed viewport over the living background rather than a boxed card.
+//
+// The visible "page" is `.section--page > .container`: a real elevation
+// step (--surface, a clearly lighter step than --bg in both themes — see
+// the dark-mode contrast rule in _tokens.scss) plus a perceptible border and
+// soft shadow, so each section reads as its own slab instead of bleeding
+// into its neighbours. `.section--page` itself only adds the vertical
+// breathing room *around* that card, via padding rather than margin, so
+// there's no risk of margin-collapsing closing the gap between two adjacent
+// slabs. The card uses `min-height` (never `height`), so content taller
+// than one viewport simply grows the card — nothing is ever clipped.
+.section--page {
+  padding-block: clamp(1.5rem, 4vh, 2.5rem);
+}
+.section--page > .container {
+  min-height: 100svh;
+  padding-block: clamp(2.75rem, 7vh, 4.5rem);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-1);
 }
 
 .section__eyebrow {
