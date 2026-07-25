@@ -374,8 +374,13 @@
   height: min(560px, calc(100vh - 2.5rem));
   display: flex;
   flex-direction: column;
-  background: var(--surface);
-  border: 1px solid var(--border);
+  // Featured surface (owner instruction, 2026-07-25): the "Gitit's AI" chat
+  // panel is part of the featured family — popup, capability graph, AI chat —
+  // and must not sit on the same surface as the generic boxes. Inner tiles
+  // (starters, assistant bubbles, input) all use --bg-2, which stays clearly
+  // darker than this indigo surface in both themes.
+  background: var(--surface-feature);
+  border: 1px solid var(--border-feature);
   border-radius: var(--radius);
   box-shadow: var(--shadow);
   overflow: hidden;
