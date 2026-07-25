@@ -51,6 +51,13 @@
   }
   .projects-graph-panel {
     display: flex;
+    // Sticky, not static: the index column is much taller than the panel
+    // (4 art-led cards), so a static panel leaves a dead hole under itself
+    // for most of the section's scroll. Sticky keeps the second door — and
+    // its hover-sync with the cards — on screen alongside whichever card
+    // the visitor is actually reading. Offset clears the fixed header.
+    position: sticky;
+    inset-block-start: 96px;
   }
 }
 
