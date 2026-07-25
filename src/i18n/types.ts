@@ -45,6 +45,12 @@ export interface Dict {
     eyebrow: string;
     title: string;
     lead: string;
+    // The "Why AI fits me" argument — the section's opening claim, rendered
+    // above the receipts row. Owner-approved copy, verbatim (see en.ts/he.ts).
+    bridge: {
+      claim: string;
+      kicker: string;
+    };
     receiptsLabel: string; // small heading above the capability groups
     methodLabel: string; // small heading above the step rail
     steps: [string, string, string, string, string, string]; // intent → interrogation → decisions → plan → direction → result

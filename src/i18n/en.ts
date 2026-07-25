@@ -44,6 +44,11 @@ export const en: Dict = {
     eyebrow: 'How I build',
     title: 'AI fluency, backed by a decade of shipping.',
     lead: 'Dev skills are the superpower behind the PM thinking — I decide what to build, then build it.',
+    bridge: {
+      claim: 'I see the whole picture and the smallest detail at the same time.',
+      kicker:
+        "For a decade that was called professionalism. In the age of agents, it's called knowing how to direct them.",
+    },
     receiptsLabel: 'What I bring',
     methodLabel: 'The method',
     steps: ['Intent', 'Interrogation', 'Decisions', 'Plan', 'Direction', 'Result'],

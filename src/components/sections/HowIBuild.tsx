@@ -7,7 +7,8 @@ const GROUP_ORDER: CapabilityGroup[] = ['ai', 'engineering', 'product'];
 
 // Merged section (WP-G3): "What I bring" + "Why AI fits me" + "How I build"
 // are one section now. Three stacked blocks:
-//   1. the bridge claim   — Section's own eyebrow/title/lead (below)
+//   1. the bridge claim   — the "Why AI fits me" argument, owner-approved
+//                           copy (howIBuild.bridge), the strongest text here
 //   2. the receipts row   — the capability groups from data/skills.ts
 //   3. the method rail    — the 6-step build method, step names only
 //                           (per-step prose is pending owner-approved copy)
@@ -15,6 +16,11 @@ export function HowIBuild() {
   const { t, dict } = useLang();
   return (
     <Section id="how-i-build" eyebrow={t('howIBuild.eyebrow')} title={t('howIBuild.title')} lead={t('howIBuild.lead')}>
+      <motion.div className="hib-bridge" variants={revealItem}>
+        <p className="hib-bridge__claim">{t('howIBuild.bridge.claim')}</p>
+        <p className="hib-bridge__kicker">{t('howIBuild.bridge.kicker')}</p>
+      </motion.div>
+
       <div className="hib-block">
         <h3 className="hib-block__label">{t('howIBuild.receiptsLabel')}</h3>
         <div className="hib-receipts">

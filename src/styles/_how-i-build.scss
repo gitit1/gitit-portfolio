@@ -5,10 +5,34 @@
    the section-separation work owned elsewhere.
 
    Three stacked blocks:
-     1. the bridge claim  — rendered via Section's own eyebrow/title/lead
+     1. the bridge claim  — .hib-bridge (the "Why AI fits me" argument)
      2. the receipts row  — .hib-receipts (capability groups)
      3. the method rail   — .hib-rail (6-step build method, names only)
    ========================================================================= */
+
+/* ---- Bridge claim (the section's argument, strongest text here) -------- */
+.hib-bridge {
+  max-width: 62ch;
+  margin-top: clamp(1.5rem, 4vw, 2.25rem);
+  padding-inline-start: 1.15rem;
+  border-inline-start: 3px solid var(--accent);
+}
+.hib-bridge__claim {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(1.7rem, 3.8vw, 2.6rem);
+  line-height: 1.16;
+  letter-spacing: -0.01em;
+  color: var(--text);
+}
+.hib-bridge__kicker {
+  margin: 0.9rem 0 0;
+  font-family: var(--font-mono);
+  font-size: 0.92rem;
+  line-height: 1.6;
+  color: var(--text-muted);
+}
 
 .hib-block {
   margin-top: clamp(2.75rem, 6vw, 3.75rem);
