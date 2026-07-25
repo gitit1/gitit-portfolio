@@ -16,7 +16,13 @@
 
 html {
   scroll-behavior: smooth;
-  scroll-padding-top: var(--header-h);
+  // Anchor-landing offset. This is the ONLY scroll offset mechanism — the
+  // .section scroll-margin-top that used to coexist here SUMMED with it
+  // (spec behavior), landing nav clicks ~2x the header height down the page
+  // (the owner's "lands slightly above the page" defect, 2026-07-25).
+  // Subtracting --section-pad makes the visible SLAB edge — not the
+  // section's invisible outer padding — land flush under the fixed header.
+  scroll-padding-top: calc(var(--header-h) - var(--section-pad));
   -webkit-text-size-adjust: 100%;
 }
 
@@ -119,7 +125,8 @@ img {
 
 .section {
   position: relative;
-  scroll-margin-top: var(--header-h);
+  // No scroll-margin here — html's scroll-padding-top is the single anchor
+  // offset (they SUM per spec; having both caused the double-offset defect).
 }
 
 // Page-like slab treatment applied by every <Section> (see
@@ -137,10 +144,16 @@ img {
 // slabs. The card uses `min-height` (never `height`), so content taller
 // than one viewport simply grows the card — nothing is ever clipped.
 .section--page {
-  padding-block: clamp(1.5rem, 4vh, 2.5rem);
+  padding-block: var(--section-pad);
 }
 .section--page > .container {
-  min-height: 100svh;
+  // Fits-one-screen floor: header + pad + slab + pad = exactly 100svh, so a
+  // section whose CONTENT fits really does fill one screen and no more. The
+  // old bare `100svh` here forced every slab to be TALLER than the visible
+  // area under the fixed header — every section read as "cut" by design
+  // (owner defect report, 2026-07-25). Still min-height, never height:
+  // content-heavy sections grow and nothing clips.
+  min-height: calc(100svh - var(--header-h) - 2 * var(--section-pad));
   padding-block: clamp(2.75rem, 7vh, 4.5rem);
   background: var(--surface);
   border: 1px solid var(--border);

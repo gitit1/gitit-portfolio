@@ -25,6 +25,11 @@
   --radius: 14px;
   --radius-sm: 9px;
   --header-h: 68px;
+  // Breathing room AROUND each section slab (outside .container, inside
+  // .section--page). Shared by the slab padding, the anchor-landing offset
+  // and the fits-one-screen slab height — keep all three in sync via this
+  // token or nav clicks land off the slab again (the 2026-07-25 defect).
+  --section-pad: clamp(1.5rem, 4vh, 2.5rem);
 
   // Motion
   --ease: cubic-bezier(0.22, 1, 0.36, 1);
