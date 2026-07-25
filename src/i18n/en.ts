@@ -51,7 +51,6 @@ export const en: Dict = {
 
   spotlight: {
     eyebrow: 'Project spotlight',
-    tabsLabel: 'Select a featured project',
     ctaCase: 'View the case',
     ctaLive: 'Visit the live site',
     docsOnly: 'Case in documentation',
@@ -60,6 +59,10 @@ export const en: Dict = {
       'in-development': 'In development',
       local: 'Local',
     },
+    prevLabel: 'Previous project',
+    nextLabel: 'Next project',
+    positionLabel: 'Project {n} of {total}',
+    allProjects: 'All projects',
   },
 
   socials: {

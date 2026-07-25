@@ -1,6 +1,7 @@
-import { useCallback, useEffect, useRef, useState, type KeyboardEvent } from 'react';
+import { useCallback, useEffect, useState, type KeyboardEvent } from 'react';
 import { AnimatePresence, motion, MotionConfig } from 'framer-motion';
 import clsx from 'clsx';
+import { FiChevronLeft, FiChevronRight } from 'react-icons/fi';
 import { portfolio, type PortfolioProject } from '../../data/portfolio';
 import { useLang } from '../../i18n/LanguageContext';
 import { ProjectSpotlightArt } from './ProjectSpotlightArt';
@@ -10,10 +11,15 @@ import { ProjectSpotlightArt } from './ProjectSpotlightArt';
 // spotlight share the same first screen, not identity-then-scroll. Only
 // one project is on screen at a time (showing all four at once crowds the
 // page), auto-changing to spark interest — click through to that project.
-// To keep all four reachable despite the single-project view (field data
-// shows auto-rotating carousels bury slides 2..n), the four project names
-// are ALWAYS visible as named tabs below the art — a second,
-// always-available door to every project, not mute dots.
+//
+// No named tabs (reverted per owner feedback: a tab row of project names
+// does not scale — with 20 projects it would be endless, and dots have the
+// same problem). Instead: prev/next arrow controls that wrap at both ends,
+// a "NN / total" position counter (stays one small element at any project
+// count), and one clearly-visible "All projects" link to the full Projects
+// section — with names and tabs gone, that link is the only thing keeping
+// projects 2..n reachable for a visitor who never touches an arrow, so it
+// must read as a real affordance, not a whisper (styled as a .btn).
 //
 // Renders a labelled region, not a <section> — it's a component nested
 // inside the hero's own `<section id="home">`, not a landmark of its own.
@@ -23,7 +29,12 @@ import { ProjectSpotlightArt } from './ProjectSpotlightArt';
 // the spotlight's own content so Hero.tsx can lay it out as one grid column
 // alongside the identity column.
 
-const ROTATE_MS = 6000;
+// Owner-tuned cadence (live feedback, 2026-07-25): the first pass rotated
+// too fast. Dwell lengthened and the crossfade itself slowed slightly so a
+// change reads as a calm dissolve — still comfortably under a second so it
+// never feels sluggish. Tune here; nothing else needs to change.
+const ROTATE_MS = 8000;
+const TRANSITION_S = 0.55;
 
 function usePrefersReducedMotion(): boolean {
   const [reduced, setReduced] = useState(
@@ -54,56 +65,72 @@ function resolveTarget(project: PortfolioProject): SpotlightTarget {
   return { kind: 'none' };
 }
 
+const pad2 = (n: number) => String(n).padStart(2, '0');
+
 export function ProjectSpotlight() {
   const { t, lang } = useLang();
   const reducedMotion = usePrefersReducedMotion();
   const [index, setIndex] = useState(0);
   const [paused, setPaused] = useState(false);
   const [autoAdvance, setAutoAdvance] = useState(true);
-  const tabRefs = useRef<Array<HTMLButtonElement | null>>([]);
+  const total = portfolio.length;
+  const isRtl = lang === 'he';
 
   // Auto-advance: off entirely under reduced motion, and paused (not
   // stopped) on hover/focus-within. `index` is intentionally not a
   // dependency — the updater below reads it functionally so the interval
   // isn't torn down and rebuilt every tick.
   useEffect(() => {
-    if (reducedMotion || !autoAdvance || paused || portfolio.length <= 1) return;
+    if (reducedMotion || !autoAdvance || paused || total <= 1) return;
     const id = window.setInterval(() => {
-      setIndex((i) => (i + 1) % portfolio.length);
+      setIndex((i) => (i + 1) % total);
     }, ROTATE_MS);
     return () => window.clearInterval(id);
-  }, [reducedMotion, autoAdvance, paused]);
+  }, [reducedMotion, autoAdvance, paused, total]);
 
-  // Respect a deliberate choice: once the user picks a tab, auto-advance
-  // stops for good — never yank the view away from what they selected.
-  const selectTab = useCallback((next: number) => {
+  // Respect a deliberate choice: once the user operates a control (arrow
+  // click or key), auto-advance stops for good — never yank the view away
+  // from what they chose to look at.
+  const goTo = useCallback((next: number) => {
     setIndex(next);
     setAutoAdvance(false);
   }, []);
 
-  const onTabKeyDown = useCallback(
-    (event: KeyboardEvent<HTMLButtonElement>, i: number) => {
-      let next = -1;
-      if (event.key === 'ArrowRight' || event.key === 'ArrowDown') {
-        next = (i + 1) % portfolio.length;
-      } else if (event.key === 'ArrowLeft' || event.key === 'ArrowUp') {
-        next = (i - 1 + portfolio.length) % portfolio.length;
-      } else if (event.key === 'Home') {
-        next = 0;
-      } else if (event.key === 'End') {
-        next = portfolio.length - 1;
-      }
-      if (next >= 0) {
+  const goPrev = useCallback(() => {
+    goTo((index - 1 + total) % total);
+  }, [goTo, index, total]);
+
+  const goNext = useCallback(() => {
+    goTo((index + 1) % total);
+  }, [goTo, index, total]);
+
+  // Keyboard support on the nav controls themselves (attaching this to the
+  // outer non-interactive region would trip jsx-a11y — and it's also just
+  // more precise: arrow keys act when a spotlight control has focus).
+  // Physical arrow keys map to visual/reading direction, not semantic
+  // prev/next — the same mirroring the buttons themselves get (see the RTL
+  // icon flip in _project-spotlight.scss). In RTL, "next" reads leftward.
+  const onNavKeyDown = useCallback(
+    (event: KeyboardEvent<HTMLButtonElement>) => {
+      if (event.key === 'ArrowRight') {
         event.preventDefault();
-        selectTab(next);
-        tabRefs.current[next]?.focus();
+        if (isRtl) goPrev();
+        else goNext();
+      } else if (event.key === 'ArrowLeft') {
+        event.preventDefault();
+        if (isRtl) goNext();
+        else goPrev();
       }
     },
-    [selectTab]
+    [isRtl, goPrev, goNext]
   );
 
   const active = portfolio[index];
   const arrow = lang === 'he' ? '←' : '→';
+  const positionText = `${pad2(index + 1)} / ${pad2(total)}`;
+  const positionAriaLabel = t('spotlight.positionLabel')
+    .replace('{n}', String(index + 1))
+    .replace('{total}', String(total));
 
   return (
     <div
@@ -124,20 +151,20 @@ export function ProjectSpotlight() {
           cut chrome, not content, if the combined composition gets dense). */}
 
       {/* No aria-live here by design — auto-rotation must not spam a
-          screen reader on a timer. The tablist below carries the real,
-          user-driven a11y story (aria-selected + roving tabindex). */}
+          screen reader on a timer. The active project's own heading (in
+          SpotlightPanel) is enough for a screen-reader user to identify
+          what's showing when they choose to look. */}
       <MotionConfig reducedMotion="user">
         <div className="spotlight__stage">
           <AnimatePresence mode="wait" initial={false}>
             <motion.div
               key={active.slug}
-              id="spotlight-panel"
-              role="tabpanel"
-              aria-labelledby={`spotlight-tab-${active.slug}`}
+              role="group"
+              aria-label={active.name}
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -10 }}
-              transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
+              transition={{ duration: TRANSITION_S, ease: [0.22, 1, 0.36, 1] }}
             >
               <SpotlightPanel project={active} t={t} arrow={arrow} />
             </motion.div>
@@ -145,26 +172,31 @@ export function ProjectSpotlight() {
         </div>
       </MotionConfig>
 
-      <div className="spotlight__tabs" role="tablist" aria-label={t('spotlight.tabsLabel')}>
-        {portfolio.map((project, i) => (
-          <button
-            key={project.slug}
-            ref={(el) => {
-              tabRefs.current[i] = el;
-            }}
-            id={`spotlight-tab-${project.slug}`}
-            role="tab"
-            type="button"
-            aria-selected={i === index}
-            aria-controls="spotlight-panel"
-            tabIndex={i === index ? 0 : -1}
-            className={clsx('spotlight__tab', i === index && 'spotlight__tab--active')}
-            onClick={() => selectTab(i)}
-            onKeyDown={(event) => onTabKeyDown(event, i)}
-          >
-            {project.name}
-          </button>
-        ))}
+      <div className="spotlight__controls">
+        <button
+          type="button"
+          className="icon-btn spotlight__nav-btn"
+          aria-label={t('spotlight.prevLabel')}
+          onClick={goPrev}
+          onKeyDown={onNavKeyDown}
+        >
+          <FiChevronLeft className="spotlight__nav-icon" aria-hidden="true" />
+        </button>
+        <span className="spotlight__counter" dir="ltr" aria-label={positionAriaLabel}>
+          {positionText}
+        </span>
+        <button
+          type="button"
+          className="icon-btn spotlight__nav-btn"
+          aria-label={t('spotlight.nextLabel')}
+          onClick={goNext}
+          onKeyDown={onNavKeyDown}
+        >
+          <FiChevronRight className="spotlight__nav-icon" aria-hidden="true" />
+        </button>
+        <a href="#projects" className="btn btn--ghost spotlight__all-link">
+          {t('spotlight.allProjects')}
+        </a>
       </div>
     </div>
   );

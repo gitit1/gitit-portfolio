@@ -493,27 +493,33 @@ img {
   color: var(--text-muted);
   margin-bottom: 1.1rem;
 }
-// Avatar sits beside the name — always DOM-first, so it leads the name in
-// both reading directions (start side in both LTR and RTL) without any
-// direction-specific overrides.
+// Avatar sits beside the name on the SAME line — always DOM-first, so it
+// leads the name in both reading directions (start side in both LTR and
+// RTL) without any direction-specific overrides. `nowrap` is deliberate:
+// the name's own size (below) is tuned to always fit next to the avatar
+// down to ~320px, so the two never stack.
 .hero__name-row {
   display: flex;
   align-items: center;
-  gap: clamp(0.85rem, 2vw, 1.4rem);
-  flex-wrap: wrap;
+  gap: clamp(0.7rem, 2vw, 1.1rem);
+  flex-wrap: nowrap;
 }
 .hero__avatar {
   flex-shrink: 0;
-  width: clamp(56px, 7vw, 84px);
-  height: clamp(56px, 7vw, 84px);
+  width: clamp(44px, 6vw, 72px);
+  height: clamp(44px, 6vw, 72px);
   border-radius: 50%;
   object-fit: cover;
   border: 1px solid var(--border);
   box-shadow: var(--shadow-1);
 }
+// Sized to sit in proportion to the avatar (roughly its cap-height) now
+// that name+photo share one line in a hero that's itself one column of a
+// two-up layout — the old single-column, avatar-less hero could afford a
+// much bigger number here; this can't without wrapping or overflowing.
 .hero__name {
-  font-size: clamp(2.8rem, 7.5vw, 5rem);
-  letter-spacing: -0.03em;
+  font-size: clamp(1.8rem, 4vw, 3rem);
+  letter-spacing: -0.02em;
 }
 .hero__role {
   font-family: var(--font-mono);

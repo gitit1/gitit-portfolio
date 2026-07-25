@@ -50,16 +50,23 @@ export interface Dict {
     steps: [string, string, string, string, string, string]; // intent → interrogation → decisions → plan → direction → result
   };
 
-  // Rotating project spotlight — home page, directly after the hero. Chrome
-  // strings only: per-project `name`/`tagline` stay in data/portfolio.ts
-  // (English-only, verbatim — see that file's header comment).
+  // Rotating project spotlight — embedded in the home hero. Chrome strings
+  // only: per-project `name`/`tagline` stay in data/portfolio.ts
+  // (English-only, verbatim — see that file's header comment). No tab-row
+  // labels — the spotlight uses prev/next controls + a position counter
+  // instead (doesn't scale to a name-per-tab if the registry grows).
   spotlight: {
-    eyebrow: string; // small section label above the spotlight
-    tabsLabel: string; // aria-label for the project tab group
+    eyebrow: string; // the region's accessible name (not rendered visibly)
     ctaCase: string; // affordance text when the target is a case-study page
     ctaLive: string; // affordance text when the target is an external live site
     docsOnly: string; // honest, non-clickable state when neither exists (e.g. Homebase)
     state: Record<ProjectState, string>; // short chip word per project state
+    prevLabel: string; // aria-label for the previous-project control
+    nextLabel: string; // aria-label for the next-project control
+    // Position counter's accessible name, e.g. "Project {n} of {total}" —
+    // {n} and {total} are replaced at render time.
+    positionLabel: string;
+    allProjects: string; // link text to the full Projects section
   };
 
   socials: {

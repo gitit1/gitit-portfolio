@@ -51,7 +51,6 @@ export const he: Dict = {
 
   spotlight: {
     eyebrow: 'זרקור פרויקטים',
-    tabsLabel: 'בחירת פרויקט מומלץ',
     ctaCase: 'צפייה בקייס',
     ctaLive: 'ביקור באתר החי',
     docsOnly: 'הקייס נמצא בתיעוד',
@@ -60,6 +59,10 @@ export const he: Dict = {
       'in-development': 'בפיתוח',
       local: 'מקומי',
     },
+    prevLabel: 'הפרויקט הקודם',
+    nextLabel: 'הפרויקט הבא',
+    positionLabel: 'פרויקט {n} מתוך {total}',
+    allProjects: 'כל הפרויקטים',
   },
 
   socials: {
