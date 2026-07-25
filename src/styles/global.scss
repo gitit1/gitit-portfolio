@@ -27,6 +27,35 @@ html {
   -webkit-text-size-adjust: 100%;
 }
 
+// Fluid root scale — desktop only (WP-G6-F, fit-one-screen, 2026-07-25).
+// Every rem-based size (type AND most spacing tokens, which are rem/clamp
+// throughout this codebase) shrinks together as the viewport shrinks, so a
+// section that fits one screen on a big monitor keeps fitting on a smaller
+// one instead of relying on spacing cuts alone. min() of a width term and a
+// height term — the SMALLER wins — so both a short-but-wide window and a
+// narrow-but-tall one shrink correctly, not just the three aspect ratios
+// actually measured. At the measured viewports this lands at 16px (1920),
+// ~14.1px (1536) and 13px (1366) — unchanged at the biggest screen (that
+// viewport's cut comes from spacing instead, so the type stays fullest
+// where there's room), down to the hard 13px floor at the smallest.
+// Floor 13px is the body-text legibility floor itself: every rem-based
+// element that was close enough to the 13px/10px floors to actually hit
+// them at this scale (.ai-native__hint, .projects-graph-panel__hint,
+// .hib-item__blurb, .project-card__tagline, .ai-native__card-text,
+// .tl-item__bullets li, .project-card__tag, .chip) carries its own explicit
+// `max(FLOORpx, …rem)` guard at its own rule — decoupled from root scale
+// entirely, so they floor at exactly the legibility limit instead of
+// dropping under it, and can never regress regardless of how this formula
+// gets retuned later (see _components.scss / _how-i-build.scss /
+// _projects.scss).
+// Below 860px this whole block doesn't apply — mobile stays exactly as
+// today, a separate future stage.
+@media (min-width: 860px) {
+  html {
+    font-size: clamp(13px, min(7.84px + 0.4513vw, 6.65px + 0.8654vh), 16px);
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
@@ -49,6 +78,15 @@ body {
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
   overflow-x: hidden;
+}
+// Fit-one-screen (WP-G6-F): a touch tighter at desktop widths — every
+// wrapped paragraph/list/bullet in the page (timeline bullets, capability
+// blurbs, card taglines) is a few px shorter without a single word getting
+// smaller. Mobile keeps the original 1.6.
+@media (min-width: 860px) {
+  body {
+    line-height: 1.5;
+  }
 }
 
 // Hebrew / RTL — Instrument Sans has no Hebrew glyphs, so swap the body font
@@ -161,6 +199,17 @@ img {
   border-radius: var(--radius);
   box-shadow: var(--shadow-1);
 }
+// Fit-one-screen (WP-G6-F, 2026-07-25): the slab's own inner padding — the
+// single biggest fixed cost every section pays twice (top AND bottom) —
+// tightened and made more vh-responsive at desktop widths. Combines with
+// the root scale above (this token is rem-based) so it keeps shrinking as
+// the viewport gets shorter, not just plateauing at the vh ceiling the way
+// the old 7vh/4.5rem pairing did. Mobile (<860px) keeps the original value.
+@media (min-width: 860px) {
+  .section--page > .container {
+    padding-block: clamp(1.15rem, 5.5vh, 2.15rem);
+  }
+}
 
 .section__eyebrow {
   font-family: var(--font-mono);
@@ -236,7 +285,11 @@ img {
   align-items: center;
   gap: 0.45rem;
   font-family: var(--font-mono);
-  font-size: 0.76rem;
+  // max(): guards the 10px chrome legibility floor independent of the
+  // fluid root scale (see the html rule above) — this renders as a <span>
+  // at some call sites (Projects.tsx, ProjectSpotlight.tsx), which the
+  // measurement probe counts.
+  font-size: max(10px, 0.76rem);
   letter-spacing: 0.02em;
   padding: 0.32rem 0.65rem;
   border-radius: 999px;

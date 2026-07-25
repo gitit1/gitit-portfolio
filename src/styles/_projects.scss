@@ -30,6 +30,31 @@
   grid-template-columns: repeat(auto-fit, minmax(min(300px, 100%), 1fr));
   gap: 1.25rem;
 }
+// Fit-one-screen (WP-G6-F, 2026-07-25): at 1366px the container floor
+// (1120px) minus the graph panel's 380px column leaves the index only
+// ~610px — a hair under 2×300px+gap, so the 300px floor above was
+// collapsing this to ONE column there, stacking all four cards and blowing
+// the section past 3x its target height. 270px clears that same 610px
+// track with room to spare (two 295px tracks) while still comfortably
+// holding the card's art/tags/CTA. Desktop-only override; mobile
+// (<860px, where the graph panel is hidden anyway) keeps the 300px floor.
+@media (min-width: 860px) {
+  .projects-grid {
+    grid-template-columns: repeat(auto-fit, minmax(min(270px, 100%), 1fr));
+    gap: 0.85rem;
+  }
+}
+// At the widest desktop viewports the index column is wide enough (~930px
+// at 1920) that the 270px floor above lets a THIRD column sneak in —
+// narrower cards whose tagline/tags wrap more lines than the shorter art
+// saves, a net wash (measured: 1038px doors height at 3-up vs ~1045px at
+// the original 2-up). 340px pins it back to two comfortably-proportioned
+// columns from ~1700px up, where there's width to spare for them anyway.
+@media (min-width: 1700px) {
+  .projects-grid {
+    grid-template-columns: repeat(auto-fit, minmax(min(340px, 100%), 1fr));
+  }
+}
 
 // Positioning shell for the accessible link-overlay pattern (G6-L): the
 // visible card (`.project-card`) stays a non-interactive <article>; when a
@@ -110,6 +135,19 @@
   background: var(--bg-2);
   overflow: hidden;
 }
+// Fit-one-screen (WP-G6-F, 2026-07-25): a shorter frame on short screens —
+// card art is the single tallest element per card, and it's driven by
+// card WIDTH (aspect-ratio), so as the index grid gains a column (see
+// .projects-grid above) narrower cards would otherwise keep the same
+// height fraction. 1100px deliberately clears all three measured
+// viewports (768/864/1080) — even 1920×1080's own fill needed this cut, so
+// it isn't reserved for the shortest screens only. A true 4K/tall monitor
+// (>1100px tall) keeps the fuller 16/10 frame.
+@media (min-width: 860px) and (max-height: 1100px) {
+  .project-card__art {
+    aspect-ratio: 16 / 9;
+  }
+}
 .project-card__art img {
   width: 100%;
   height: 100%;
@@ -157,13 +195,30 @@
   gap: 0.5rem;
   flex: 1;
 }
+@media (min-width: 860px) {
+  .project-card__body {
+    padding: clamp(0.65rem, 1.4vh, 0.8rem);
+    padding-block-end: clamp(0.75rem, 1.6vh, 0.9rem);
+    gap: 0.3rem;
+  }
+}
 .project-card__name {
   font-size: clamp(1.15rem, 2.4vw, 1.4rem);
+}
+// Fit-one-screen (WP-G6-F): headings shrink more freely than body text per
+// the work package's own rule — this card title doesn't need to match a
+// section heading's scale.
+@media (min-width: 860px) {
+  .project-card__name {
+    font-size: clamp(1.05rem, 1.6vw, 1.2rem);
+  }
 }
 .project-card__tagline {
   margin: 0;
   color: var(--text-muted);
-  font-size: 0.95rem;
+  // max(): guards the 13px body-text legibility floor independent of the
+  // fluid root scale (global.scss).
+  font-size: max(13px, 0.95rem);
   flex: 1;
 }
 // Capabilities in context — quiet, static chips (same data the capability
@@ -174,14 +229,28 @@
   flex-wrap: wrap;
   gap: 0.4rem;
 }
+@media (min-width: 860px) {
+  .project-card__tags {
+    gap: 0.3rem;
+  }
+}
 .project-card__tag {
   font-family: var(--font-mono);
-  font-size: 0.72rem;
+  // max(): guards the 10px chrome legibility floor independent of the
+  // fluid root scale (global.scss) — these chips render many times per
+  // section, so give them their own margin rather than relying on the
+  // root clamp's floor.
+  font-size: max(10px, 0.72rem);
   line-height: 1.4;
   padding: 0.2rem 0.55rem;
   border-radius: 999px;
   border: 1px solid var(--border);
   color: var(--text-faint);
+}
+@media (min-width: 860px) {
+  .project-card__tag {
+    padding-block: 0.12rem;
+  }
 }
 .project-card__meta {
   display: flex;
@@ -189,6 +258,11 @@
   flex-wrap: wrap;
   gap: 0.7rem;
   margin-top: 0.4rem;
+}
+@media (min-width: 860px) {
+  .project-card__meta {
+    margin-top: 0.3rem;
+  }
 }
 .project-card__year {
   font-family: var(--font-mono);

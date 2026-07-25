@@ -5,6 +5,15 @@
 .section__head {
   margin-bottom: 2.6rem;
 }
+// Fit-one-screen (WP-G6-F, 2026-07-25): every section pays this once, so
+// it's one of the cheapest global cuts available. vh-aware so it keeps
+// shrinking as the screen gets shorter rather than plateauing. Mobile
+// (<860px) keeps the original fixed 2.6rem.
+@media (min-width: 860px) {
+  .section__head {
+    margin-bottom: clamp(0.8rem, 2.6vh, 1.2rem);
+  }
+}
 
 /* =========================================================================
    Experience timeline
@@ -13,6 +22,11 @@
   display: grid;
   gap: 0.4rem;
   position: relative;
+}
+@media (min-width: 860px) {
+  .timeline {
+    gap: 0.2rem;
+  }
 }
 .tl-item {
   display: grid;
@@ -55,6 +69,15 @@
 .tl-item__body {
   padding-bottom: 2rem;
 }
+// Fit-one-screen (WP-G6-F, 2026-07-25): the single biggest lever in this
+// section — every one of the (currently seven) history items pays this
+// once, so it compounds fast. vh-aware so short screens compress it
+// further. Mobile (<860px) keeps the original fixed 2rem.
+@media (min-width: 860px) {
+  .tl-item__body {
+    padding-bottom: clamp(0.75rem, 2.6vh, 1.5rem);
+  }
+}
 .tl-item__top {
   display: flex;
   align-items: baseline;
@@ -64,6 +87,15 @@
 }
 .tl-item__role {
   font-size: 1.25rem;
+}
+// Fit-one-screen (WP-G6-F): a role title repeats seven times down this
+// timeline — headings shrink more freely than body text per the work
+// package's own rule, and this one is currently sized more like a
+// sub-heading than the body copy beneath it.
+@media (min-width: 860px) {
+  .tl-item__role {
+    font-size: 1.1rem;
+  }
 }
 .tl-item__period {
   font-family: var(--font-mono);
@@ -94,11 +126,19 @@
   // run the full container width.
   max-width: 68ch;
 }
+@media (min-width: 860px) {
+  .tl-item__bullets {
+    margin-top: 0.55rem;
+    gap: 0.3rem;
+  }
+}
 .tl-item__bullets li {
   position: relative;
   padding-left: 1.2rem;
   color: var(--text-muted);
-  font-size: 0.96rem;
+  // max(): guards the 13px body-text legibility floor independent of the
+  // fluid root scale (global.scss).
+  font-size: max(13px, 0.96rem);
 }
 .tl-item__bullets li::before {
   content: '\25B9';
@@ -152,11 +192,19 @@
 }
 .ai-native__card-text {
   color: var(--text-muted);
-  font-size: 0.94rem;
+  // max(): guards the 13px body-text legibility floor independent of the
+  // fluid root scale (global.scss).
+  font-size: max(13px, 0.94rem);
   flex: 1;
 }
 .ai-native__hint {
-  font-size: 0.82rem;
+  // max(), not a bare rem: this <p> was already sitting flush on the 13px
+  // body-text legibility floor at the un-scaled 16px root (0.82rem =
+  // 13.12px) — the fluid root scale in global.scss would push it under 13px
+  // at desktop widths otherwise. Hard-floored so it can never regress
+  // regardless of how that root-scale formula gets retuned later; grows
+  // normally above the floor exactly as before.
+  font-size: max(13px, 0.82rem);
   color: var(--text-faint);
 }
 .ai-native__hint code {
