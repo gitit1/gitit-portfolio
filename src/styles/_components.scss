@@ -1,69 +1,9 @@
 /* =========================================================================
-   Capabilities
+   Shared section head spacing (used by every section via components/common/
+   Section.tsx — not specific to any one section, do not remove).
    ========================================================================= */
 .section__head {
   margin-bottom: 2.6rem;
-}
-.cap-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 1.1rem;
-}
-.cap-col {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  padding: 1.4rem;
-  transition: border-color 0.2s var(--ease), transform 0.2s var(--ease);
-}
-.cap-col:hover {
-  border-color: var(--accent);
-  transform: translateY(-3px);
-}
-.cap-col__head {
-  display: flex;
-  flex-direction: column;
-  gap: 0.2rem;
-  padding-bottom: 1rem;
-  margin-bottom: 1rem;
-  border-bottom: 1px solid var(--border-soft);
-}
-.cap-col__label {
-  font-family: var(--font-mono);
-  font-size: 0.8rem;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--accent);
-}
-.cap-col__tagline {
-  font-family: var(--font-display);
-  font-weight: 600;
-  font-size: 1.05rem;
-}
-.cap-col__list {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  display: grid;
-  gap: 1rem;
-}
-.cap-item {
-  display: grid;
-  gap: 0.15rem;
-}
-.cap-item__name {
-  font-weight: 600;
-  font-size: 0.98rem;
-}
-.cap-item__blurb {
-  color: var(--text-muted);
-  font-size: 0.9rem;
-  line-height: 1.5;
-}
-@media (max-width: 860px) {
-  .cap-grid {
-    grid-template-columns: 1fr;
-  }
 }
 
 /* =========================================================================

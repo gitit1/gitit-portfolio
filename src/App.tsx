@@ -7,7 +7,7 @@ import { useCommandPalette } from './hooks/useCommandPalette';
 import { Header } from './components/layout/Header';
 import { ScrollRail } from './components/layout/ScrollRail';
 import { Hero } from './components/sections/Hero';
-import { Capabilities } from './components/sections/Capabilities';
+import { HowIBuild } from './components/sections/HowIBuild';
 import { Experience } from './components/sections/Experience';
 import { Projects } from './components/sections/Projects';
 import { AiNative } from './components/sections/AiNative';
@@ -50,7 +50,7 @@ export default function App() {
 
       <main>
         <Hero onAskAi={openChat} onCopyResume={copy} copied={copied} />
-        <Capabilities />
+        <HowIBuild />
         <Experience />
         <Projects />
         <AiNative onCopyResume={copy} copied={copied} onAskAi={openChat} />

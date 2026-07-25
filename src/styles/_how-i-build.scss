@@ -1,0 +1,146 @@
+/* =========================================================================
+   How I build — merged "What I bring" + "Why AI fits me" + "How I build"
+   (WP-G3). This section's own styles only; shared section head/eyebrow/
+   title/lead rules live in global.scss / _components.scss and belong to
+   the section-separation work owned elsewhere.
+
+   Three stacked blocks:
+     1. the bridge claim  — rendered via Section's own eyebrow/title/lead
+     2. the receipts row  — .hib-receipts (capability groups)
+     3. the method rail   — .hib-rail (6-step build method, names only)
+   ========================================================================= */
+
+.hib-block {
+  margin-top: clamp(2.75rem, 6vw, 3.75rem);
+}
+.hib-block__label {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin: 0 0 1.1rem;
+}
+
+/* ---- Receipts row (capability groups) ---------------------------------- */
+.hib-receipts {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.1rem;
+}
+.hib-col {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.4rem;
+  transition: border-color 0.2s var(--ease), transform 0.2s var(--ease);
+}
+.hib-col:hover {
+  border-color: var(--accent);
+  transform: translateY(-3px);
+}
+.hib-col__head {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  padding-bottom: 1rem;
+  margin-bottom: 1rem;
+  border-bottom: 1px solid var(--border-soft);
+}
+.hib-col__label {
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+.hib-col__tagline {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 1.05rem;
+}
+.hib-col__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 1rem;
+}
+.hib-item {
+  display: grid;
+  gap: 0.15rem;
+}
+.hib-item__name {
+  font-weight: 600;
+  font-size: 0.98rem;
+}
+.hib-item__blurb {
+  color: var(--text-muted);
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+@media (max-width: 860px) {
+  .hib-receipts {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ---- Method rail (6-step build method, step names only) ---------------- */
+.hib-rail {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  margin: 0;
+  padding: 0;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--surface);
+  overflow: hidden;
+}
+.hib-rail__step {
+  flex: 1 1 0;
+  min-width: 140px;
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  padding: 1.1rem 1.2rem;
+  border-inline-end: 1px solid var(--border-soft);
+}
+.hib-rail__step:last-child {
+  border-inline-end: none;
+}
+.hib-rail__index {
+  flex-shrink: 0;
+  display: inline-grid;
+  place-items: center;
+  width: 26px;
+  height: 26px;
+  border-radius: 999px;
+  border: 1px solid var(--accent);
+  color: var(--accent);
+  font-family: var(--font-mono);
+  font-size: 0.76rem;
+  font-weight: 700;
+}
+.hib-rail__name {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 0.98rem;
+  color: var(--text);
+}
+@media (max-width: 860px) {
+  .hib-rail {
+    flex-direction: column;
+  }
+  .hib-rail__step {
+    border-inline-end: none;
+    border-bottom: 1px solid var(--border-soft);
+  }
+  .hib-rail__step:last-child {
+    border-bottom: none;
+  }
+}

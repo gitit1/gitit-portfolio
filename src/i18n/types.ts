@@ -36,6 +36,19 @@ export interface Dict {
   goToTop: string; // brand button aria-label
   goTo: string; // prefix for "Go to <section>" aria-labels (scroll rail)
 
+  // "How I build" section — the bridge claim, the capability receipts row
+  // (data itself stays in data/skills.ts, English-only) and the 6-step
+  // method rail. Step copy is names-only for now; per-step prose is pending
+  // owner approval.
+  howIBuild: {
+    eyebrow: string;
+    title: string;
+    lead: string;
+    receiptsLabel: string; // small heading above the capability groups
+    methodLabel: string; // small heading above the step rail
+    steps: [string, string, string, string, string, string]; // intent → interrogation → decisions → plan → direction → result
+  };
+
   socials: {
     github: string;
     linkedin: string;

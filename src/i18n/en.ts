@@ -22,7 +22,7 @@ export const en: Dict = {
 
   nav: {
     home: 'Home',
-    capabilities: 'What I bring',
+    'how-i-build': 'How I build',
     experience: 'Experience',
     projects: 'Projects',
     'ai-native': 'AI-native',
@@ -30,7 +30,7 @@ export const en: Dict = {
   },
   navShort: {
     home: 'Home',
-    capabilities: 'Capabilities',
+    'how-i-build': 'How I build',
     experience: 'Experience',
     projects: 'Projects',
     'ai-native': 'AI-native',
@@ -39,6 +39,15 @@ export const en: Dict = {
   askAi: 'Ask my AI ↗',
   goToTop: 'Go to top',
   goTo: 'Go to',
+
+  howIBuild: {
+    eyebrow: 'How I build',
+    title: 'AI fluency, backed by a decade of shipping.',
+    lead: 'Dev skills are the superpower behind the PM thinking — I decide what to build, then build it.',
+    receiptsLabel: 'What I bring',
+    methodLabel: 'The method',
+    steps: ['Intent', 'Interrogation', 'Decisions', 'Plan', 'Direction', 'Result'],
+  },
 
   socials: {
     github: 'GitHub',

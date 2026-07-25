@@ -22,7 +22,7 @@ export const he: Dict = {
 
   nav: {
     home: 'בית',
-    capabilities: 'מה אני מביאה',
+    'how-i-build': 'איך אני בונה',
     experience: 'ניסיון',
     projects: 'פרויקטים',
     'ai-native': 'AI-נייטיב',
@@ -30,7 +30,7 @@ export const he: Dict = {
   },
   navShort: {
     home: 'בית',
-    capabilities: 'יכולות',
+    'how-i-build': 'איך אני בונה',
     experience: 'ניסיון',
     projects: 'פרויקטים',
     'ai-native': 'AI-נייטיב',
@@ -39,6 +39,15 @@ export const he: Dict = {
   askAi: 'שיחה עם ה-AI שלי ↗',
   goToTop: 'חזרה לראש הדף',
   goTo: 'עבור אל',
+
+  howIBuild: {
+    eyebrow: 'איך אני בונה',
+    title: 'שליטה ב-AI, מגובה בעשור של שילוח מוצרים.',
+    lead: 'כישורי הפיתוח הם כוח העל שמאחורי החשיבה המוצרית — אני מחליטה מה לבנות, ואז בונה את זה.',
+    receiptsLabel: 'מה אני מביאה',
+    methodLabel: 'השיטה',
+    steps: ['כוונה', 'תשאול', 'החלטות', 'תוכנית', 'הנחיה', 'תוצאה'],
+  },
 
   socials: {
     github: 'GitHub',

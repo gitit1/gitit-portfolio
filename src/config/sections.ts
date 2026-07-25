@@ -3,7 +3,7 @@
 
 export type SectionId =
   | 'home'
-  | 'capabilities'
+  | 'how-i-build'
   | 'experience'
   | 'projects'
   | 'ai-native'
@@ -17,7 +17,7 @@ export type SectionDef = {
 
 export const SECTIONS: SectionDef[] = [
   { id: 'home', label: 'Home', short: 'Home' },
-  { id: 'capabilities', label: 'What I bring', short: 'Capabilities' },
+  { id: 'how-i-build', label: 'How I build', short: 'How I build' },
   { id: 'experience', label: 'Experience', short: 'Experience' },
   { id: 'projects', label: 'Projects', short: 'Projects' },
   { id: 'ai-native', label: 'AI-native', short: 'AI-native' },
