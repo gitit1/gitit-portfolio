@@ -1,0 +1,136 @@
+/* =========================================================================
+   Projects index — second door. `.projects__doors` wraps the index grid
+   (.projects-grid, see _projects.scss) and this graph panel side by side at
+   wide viewports; below 1200px the panel is hidden outright (`display:
+   none`) rather than reflowed — narrow/mobile is a deliberately separate
+   future stage, the index alone is the whole story there (see
+   ProjectsGraph.tsx's header comment: the index is the accessible door by
+   design, the graph is aria-hidden).
+
+   RTL note: `.projects__doors` uses a plain two-column CSS grid with the
+   index grid first in DOM order and no explicit `direction` override — under
+   `dir="rtl"` the browser mirrors the grid's inline axis on its own (index
+   still first in flow, panel still trails it, just on the other physical
+   side). Nothing here needs to hand-mirror that.
+   ========================================================================= */
+
+.projects__doors {
+  display: block;
+}
+
+// Same elevation step as the cards (owner standing rule, 2026-07-18): a real
+// step above --surface (the section slab), not just a border — --surface-2
+// + 1px --border + soft shadow, so the graph panel reads as a sibling of the
+// index cards, not a lesser add-on.
+.projects-graph-panel {
+  display: none; // shown only at >=1200px, see media query below
+  flex-direction: column;
+  gap: 0.6rem;
+  min-width: 0;
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-1);
+  padding: clamp(1.15rem, 2.6vw, 1.5rem);
+}
+.projects-graph-panel__label {
+  font-size: 1rem;
+}
+.projects-graph-panel__hint {
+  margin: 0;
+  color: var(--text-muted);
+  font-size: 0.82rem;
+}
+
+@media (min-width: 1200px) {
+  .projects__doors {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 380px;
+    align-items: start;
+    gap: 2rem;
+  }
+  .projects-graph-panel {
+    display: flex;
+  }
+}
+
+/* -------------------------------------------------------------------------
+   The graph itself — an SVG constellation, aria-hidden (decorative; the
+   index grid is the accessible door). Colors come only from existing CSS
+   custom properties so both themes work; logical properties only, no
+   left/right, anywhere below.
+   ------------------------------------------------------------------------- */
+.projects-graph {
+  width: 100%;
+}
+.projects-graph svg {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.projects-graph__edge {
+  stroke: var(--border);
+  stroke-width: 1;
+  opacity: 0.4;
+  transition: opacity 0.15s var(--ease), stroke 0.15s var(--ease);
+}
+.projects-graph__edge.is-lit {
+  stroke: var(--accent);
+  opacity: 0.85;
+}
+.projects-graph__edge.is-dim {
+  opacity: 0.12;
+}
+
+.projects-graph__node circle,
+.projects-graph__node text {
+  transition: opacity 0.15s var(--ease), fill 0.15s var(--ease), stroke 0.15s var(--ease);
+}
+.projects-graph__node.is-dim {
+  opacity: 0.25;
+}
+.projects-graph__node.is-lit {
+  opacity: 1;
+}
+
+// Project nodes — larger, stronger label (the project's real name).
+.projects-graph__node--project circle {
+  fill: var(--surface);
+  stroke: var(--accent);
+  stroke-width: 1.5;
+}
+.projects-graph__node--project text {
+  fill: var(--text);
+  font-family: var(--font-mono);
+  font-weight: 600;
+  font-size: 12px;
+}
+.projects-graph__node--project.is-lit circle {
+  fill: var(--accent-wash);
+  stroke: var(--accent-strong);
+  stroke-width: 2;
+}
+// Only an actual link (a real destination exists — see resolveTarget) gets a
+// pointer cursor. Plain-group project nodes (Wildhearth, Homebase today)
+// keep the default cursor: no fake affordance, same rule as the cards.
+a.projects-graph__node--project {
+  cursor: pointer;
+}
+
+// Capability nodes — small, always-legible label (legibility beats mystery:
+// all 14 stay visible, never revealed only on hover).
+.projects-graph__node--cap circle {
+  fill: var(--text-faint);
+}
+.projects-graph__node--cap text {
+  fill: var(--text-muted);
+  font-family: var(--font-mono);
+  font-size: 10px;
+}
+.projects-graph__node--cap.is-lit circle {
+  fill: var(--accent);
+}
+.projects-graph__node--cap.is-lit text {
+  fill: var(--text);
+}

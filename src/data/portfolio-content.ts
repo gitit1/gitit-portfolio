@@ -32,6 +32,17 @@ export type PortfolioProjectContent = {
   externalLink?: string;
   /** Only set for projects that have a case-study page planned. */
   caseRoute?: string;
+  /**
+   * The real capabilities this project exercises — evidence-verified
+   * against the actual repos (see G4-B1 read-only sweep), not aspirational
+   * copy. Strings match character-for-character across projects on purpose:
+   * a shared string (e.g. "TypeScript") is what lets the capability graph
+   * (components/sections/ProjectsGraph.tsx) draw one shared node with edges
+   * to every project that uses it, instead of near-duplicate nodes. Not
+   * wired into resume.ts / api/mcp.ts yet — flagged separately as a
+   * follow-up, not part of this work package.
+   */
+  capabilities: string[];
 };
 
 export const portfolioContent: PortfolioProjectContent[] = [
@@ -43,6 +54,7 @@ export const portfolioContent: PortfolioProjectContent[] = [
     stateLabel: 'In development — playable build, local only',
     year: '2026',
     caseRoute: '#/case/wildhearth',
+    capabilities: ['TypeScript', 'AI-agent workflow', 'Browser automation', 'Canvas rendering', 'AI pixel art'],
   },
   {
     slug: 'mfl',
@@ -53,6 +65,15 @@ export const portfolioContent: PortfolioProjectContent[] = [
     year: '2019–2026',
     externalLink: 'http://www.myfanficslibrary.com',
     caseRoute: '#/case/mfl',
+    capabilities: [
+      'TypeScript',
+      'React',
+      'AI-agent workflow',
+      'MCP server',
+      'Browser automation',
+      'Node backend',
+      'MongoDB',
+    ],
   },
   {
     slug: 'assaf-friends-games',
@@ -62,6 +83,7 @@ export const portfolioContent: PortfolioProjectContent[] = [
     stateLabel: 'Live — mid-renovation',
     year: '2026',
     externalLink: 'https://assaf-friends-games.netlify.app',
+    capabilities: ['TypeScript', 'React', 'AI-agent workflow', 'PWA', 'Hebrew RTL', 'Three.js 3D'],
   },
   {
     slug: 'homebase',
@@ -70,5 +92,14 @@ export const portfolioContent: PortfolioProjectContent[] = [
     state: 'local',
     stateLabel: 'Local — internal app suite, no public deployment',
     year: '2026',
+    capabilities: [
+      'TypeScript',
+      'React',
+      'AI-agent workflow',
+      'MCP server',
+      'Node backend',
+      'Next.js',
+      'OIDC auth',
+    ],
   },
 ];

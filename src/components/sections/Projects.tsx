@@ -1,15 +1,23 @@
+import { useState } from 'react';
 import { motion } from 'framer-motion';
 import clsx from 'clsx';
 import { Section, revealItem } from '../common/Section';
 import { portfolio, resolveTarget, type PortfolioProject } from '../../data/portfolio';
 import { useLang } from '../../i18n/LanguageContext';
+import { ProjectsGraph } from './ProjectsGraph';
 
 // The full Projects index — an honest listing of the portfolio registry
 // (data/portfolio.ts), one card per entry, in registry order. Replaces the
 // old 2019/2020 project write-ups (card grid + modal + slider gallery, and
 // the slider-library dependency that came with it): this section is
-// deliberately just an index, nothing more. A capability graph is landing
-// beside it in a follow-up work package — not built here.
+// deliberately just an index, nothing more.
+//
+// Second door (G4-B1): a capability graph (ProjectsGraph.tsx) sits beside
+// the index inside `.projects__doors`, hover-synced with the cards via the
+// `hoverSlug` state below. The index stays the accessible door by design —
+// the graph is aria-hidden and hidden entirely below 1200px (see
+// _projects-graph.scss); it never carries information the index doesn't
+// already carry some other way.
 //
 // Card click-target resolution (case-study page vs. external link vs. no
 // link at all) is shared with the hero spotlight — see resolveTarget in
@@ -19,6 +27,7 @@ import { useLang } from '../../i18n/LanguageContext';
 export function Projects() {
   const { t, lang } = useLang();
   const arrow = lang === 'he' ? '←' : '→';
+  const [hoverSlug, setHoverSlug] = useState<string | null>(null);
 
   return (
     <Section
@@ -27,10 +36,24 @@ export function Projects() {
       title={t('projects.title')}
       lead={t('projects.lead')}
     >
-      <div className="projects-grid">
-        {portfolio.map((project) => (
-          <ProjectCard key={project.slug} project={project} t={t} arrow={arrow} />
-        ))}
+      <div className="projects__doors">
+        <div className="projects-grid">
+          {portfolio.map((project) => (
+            <ProjectCard
+              key={project.slug}
+              project={project}
+              t={t}
+              arrow={arrow}
+              traced={project.slug === hoverSlug}
+              onHover={setHoverSlug}
+            />
+          ))}
+        </div>
+        <aside className="projects-graph-panel">
+          <h3 className="projects-graph-panel__label">{t('projects.graphLabel')}</h3>
+          <p className="projects-graph-panel__hint">{t('projects.graphHint')}</p>
+          <ProjectsGraph hoverSlug={hoverSlug} onHoverSlug={setHoverSlug} />
+        </aside>
       </div>
     </Section>
   );
@@ -40,11 +63,24 @@ type ProjectCardProps = {
   project: PortfolioProject;
   t: (key: string) => string;
   arrow: string;
+  /** True when this card's slug is the graph's currently hovered project. */
+  traced: boolean;
+  onHover: (slug: string | null) => void;
 };
 
-function ProjectCard({ project, t, arrow }: ProjectCardProps) {
+function ProjectCard({ project, t, arrow, traced, onHover }: ProjectCardProps) {
   const target = resolveTarget(project);
   const stateWord = t(`projectMeta.state.${project.state}`);
+
+  // Same handlers regardless of link/plain-article rendering below, so
+  // hovering OR focusing a card (keyboard users included) traces it on the
+  // graph exactly like hovering its node there does the reverse.
+  const hoverHandlers = {
+    onMouseEnter: () => onHover(project.slug),
+    onMouseLeave: () => onHover(null),
+    onFocus: () => onHover(project.slug),
+    onBlur: () => onHover(null),
+  };
 
   const content = (
     <>
@@ -56,6 +92,16 @@ function ProjectCard({ project, t, arrow }: ProjectCardProps) {
         {/* Tagline is data, not chrome — rendered from the registry AS-IS,
             never translated or edited (see data/portfolio.ts). */}
         <p className="project-card__tagline">{project.tagline}</p>
+        {/* Capabilities in context — plain static chips, no interaction of
+            their own (the graph beside the index is where they become
+            interactive). Same data the graph draws its nodes from. */}
+        <div className="project-card__tags">
+          {project.capabilities.map((capability) => (
+            <span key={capability} className="project-card__tag">
+              {capability}
+            </span>
+          ))}
+        </div>
         <div className="project-card__meta">
           {/* stateLabel (richer, English) is title-only — the visible chip
               word is the short, translated projectMeta.state.* string. */}
@@ -79,7 +125,11 @@ function ProjectCard({ project, t, arrow }: ProjectCardProps) {
 
   if (target.kind === 'none') {
     return (
-      <motion.article className="project-card" variants={revealItem}>
+      <motion.article
+        className={clsx('project-card', traced && 'project-card--traced')}
+        variants={revealItem}
+        {...hoverHandlers}
+      >
         {content}
       </motion.article>
     );
@@ -87,10 +137,11 @@ function ProjectCard({ project, t, arrow }: ProjectCardProps) {
 
   return (
     <motion.a
-      className="project-card project-card--link"
+      className={clsx('project-card project-card--link', traced && 'project-card--traced')}
       href={target.href}
       variants={revealItem}
       {...(target.kind === 'external' ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
+      {...hoverHandlers}
     >
       {content}
     </motion.a>

@@ -2,9 +2,13 @@
    Projects index — one card per portfolio registry entry (see
    data/portfolio.ts), in registry order. An honest index: every card
    states its own state/CTA, and only ever becomes a link (`.project-card--
-   link`) when a real destination exists — never a fake affordance. A
-   capability graph lands beside this grid in a follow-up work package; no
-   slot for it is reserved here.
+   link`) when a real destination exists — never a fake affordance.
+
+   Second door (G4-B1): `.projects__doors` wraps the index grid + the
+   capability graph panel (ProjectsGraph.tsx / _projects-graph.scss) side by
+   side at wide viewports. Layout rules for the doors themselves live in
+   _projects-graph.scss (it owns the panel, so it owns the wrapper grid
+   too) — this file keeps the index grid + card rules.
 
    Card elevation (owner standing rule, 2026-07-18): cards sit ON the
    section slab (`.section--page > .container`, which is --surface — see
@@ -15,17 +19,15 @@
 
 .projects-grid {
   display: grid;
-  grid-template-columns: 1fr;
+  // auto-fit rather than a fixed 860px 2-column breakpoint: once the graph
+  // panel claims a 380px column at >=1200px (see _projects-graph.scss), the
+  // grid's own track is narrower than the full section width, so a
+  // viewport-width breakpoint can't tell it when to add a second column —
+  // auto-fit reacts to the track's real available width instead.
+  // min(300px, 100%) is the floor: without the 100% guard, a track narrower
+  // than 300px (e.g. a small phone) would overflow instead of shrinking.
+  grid-template-columns: repeat(auto-fit, minmax(min(300px, 100%), 1fr));
   gap: 1.25rem;
-}
-@media (min-width: 860px) {
-  .projects-grid {
-    // minmax(0, 1fr), not a bare 1fr: without the 0 floor, unbreakable card
-    // content (e.g. the tagline/CTA text) can force a track past its fair
-    // share and blow out horizontal overflow — this repo already shipped
-    // that exact page-wide bug once from min-content track sizing.
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
 }
 
 .project-card {
@@ -49,6 +51,14 @@ a.project-card--link:focus-visible {
   border-color: var(--accent);
   transform: translateY(-3px);
   box-shadow: 0 20px 40px -28px var(--accent-glow);
+}
+// Traced from the GRAPH side (see Projects.tsx `hoverSlug` + ProjectsGraph):
+// a subtle accent border, no lift/shadow — that stays reserved for a real
+// hover/focus directly on the card, so the two hover sources read distinctly
+// while still both landing on "this is the one being traced."
+.project-card--traced {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 1px var(--accent-glow);
 }
 
 .project-card__art {
@@ -112,6 +122,23 @@ a.project-card--link:focus-visible {
   color: var(--text-muted);
   font-size: 0.95rem;
   flex: 1;
+}
+// Capabilities in context — quiet, static chips (same data the capability
+// graph draws its nodes from). No fill, no interaction: the graph beside the
+// index is where this data becomes interactive, not here.
+.project-card__tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+.project-card__tag {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  line-height: 1.4;
+  padding: 0.2rem 0.55rem;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  color: var(--text-faint);
 }
 .project-card__meta {
   display: flex;

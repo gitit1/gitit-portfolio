@@ -90,6 +90,12 @@ export interface Dict {
     eyebrow: string;
     title: string;
     lead: string;
+    // Capability graph panel (the index's second door) — see
+    // components/sections/ProjectsGraph.tsx. The graph's own labels (project
+    // names, capability names) are data, rendered as-is, no i18n; these two
+    // are the panel's chrome only.
+    graphLabel: string; // small heading above the graph
+    graphHint: string; // one-line muted usage hint below it
   };
 
   socials: {

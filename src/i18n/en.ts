@@ -77,6 +77,8 @@ export const en: Dict = {
     eyebrow: 'Projects',
     title: 'The public projects.',
     lead: 'Real work only — live, in development, or local. Each card says exactly where it stands.',
+    graphLabel: 'What they share',
+    graphHint: 'Hover a project or a capability to trace the connections.',
   },
 
   socials: {
