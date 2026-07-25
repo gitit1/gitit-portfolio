@@ -55,18 +55,27 @@ export const he: Dict = {
 
   spotlight: {
     eyebrow: 'זרקור פרויקטים',
-    ctaCase: 'צפייה בקייס',
-    ctaLive: 'ביקור באתר החי',
-    docsOnly: 'הקייס נמצא בתיעוד',
+    prevLabel: 'הפרויקט הקודם',
+    nextLabel: 'הפרויקט הבא',
+    positionLabel: 'פרויקט {n} מתוך {total}',
+    allProjects: 'כל הפרויקטים',
+  },
+
+  projectMeta: {
     state: {
       live: 'פעיל',
       'in-development': 'בפיתוח',
       local: 'מקומי',
     },
-    prevLabel: 'הפרויקט הקודם',
-    nextLabel: 'הפרויקט הבא',
-    positionLabel: 'פרויקט {n} מתוך {total}',
-    allProjects: 'כל הפרויקטים',
+    ctaCase: 'צפייה בקייס',
+    ctaLive: 'ביקור באתר החי',
+    docsOnly: 'הקייס נמצא בתיעוד',
+  },
+
+  projects: {
+    eyebrow: 'פרויקטים',
+    title: 'הפרויקטים הפומביים.',
+    lead: 'רק עבודה אמיתית — חי, בפיתוח, או מקומי. כל כרטיס אומר בדיוק איפה הוא עומד.',
   },
 
   socials: {

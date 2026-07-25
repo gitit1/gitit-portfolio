@@ -2,10 +2,12 @@
 // tools. Streamable HTTP transport, stateless (SSE disabled -> no Redis needed).
 // Served at /api/mcp.
 import { createMcpHandler } from 'mcp-handler';
-import { z } from 'zod';
 import { profile } from '../src/data/profile';
 import { experiences } from '../src/data/experience';
-import { projects, type ProjectCategory } from '../src/data/projects';
+// Node-safe content only (no asset imports) — this runs as a Vercel
+// serverless function, not through Vite's asset pipeline. See
+// portfolio-content.ts's header comment.
+import { portfolioContent as portfolio } from '../src/data/portfolio-content';
 import { capabilities, groupMeta } from '../src/data/skills';
 import { buildMarkdownResume } from '../src/data/resume';
 
@@ -64,28 +66,23 @@ const handler = createMcpHandler(
 
     server.tool(
       'get_projects',
-      "Get Gitit Regev's projects. Optionally filter by category: ai, web, or homebase.",
-      { category: z.enum(['ai', 'web', 'homebase']).optional() },
-      async ({ category }: { category?: ProjectCategory }) => {
-        const list = category ? projects.filter((p) => p.category === category) : projects;
-        return text(
+      "Get Gitit Regev's public projects — real, current work only (state: live, in development, or local; never a fabricated or retired one).",
+      {},
+      async () =>
+        text(
           JSON.stringify(
-            list.map((p) => ({
+            portfolio.map((p) => ({
               name: p.name,
-              category: p.category,
-              summary: p.summary,
+              tagline: p.tagline,
+              state: p.state,
+              stateLabel: p.stateLabel,
               year: p.year,
-              technologies: p.technologies,
-              features: p.features,
-              link: p.link,
-              source: p.gitLink,
-              builtWith: p.builtWith,
+              link: p.externalLink,
             })),
             null,
             2
           )
-        );
-      }
+        )
     );
 
     server.tool(

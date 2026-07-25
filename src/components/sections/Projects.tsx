@@ -1,198 +1,133 @@
-import { useState } from 'react';
-import { AnimatePresence, motion } from 'framer-motion';
-import { Swiper, SwiperSlide } from 'swiper/react';
-import { Pagination } from 'swiper/modules';
-import { FiGithub, FiExternalLink, FiX } from 'react-icons/fi';
+import { motion } from 'framer-motion';
+import clsx from 'clsx';
 import { Section, revealItem } from '../common/Section';
-import { projects, categoryMeta, type Project } from '../../data/projects';
+import { portfolio, resolveTarget, type PortfolioProject } from '../../data/portfolio';
+import { useLang } from '../../i18n/LanguageContext';
 
-import 'swiper/css';
-import 'swiper/css/pagination';
-
-function projectImages(project: Project): string[] {
-  return Array.from(
-    { length: project.images },
-    (_, idx) =>
-      new URL(
-        `../../styles/assets/projects/${project.imagesName}/${idx + 1}.${project.imagesType}`,
-        import.meta.url
-      ).href
-  );
-}
-
-function logoUrl(project: Project): string {
-  return new URL(
-    `../../styles/assets/projects/${project.imagesName}/logo.png`,
-    import.meta.url
-  ).href;
-}
-
+// The full Projects index — an honest listing of the portfolio registry
+// (data/portfolio.ts), one card per entry, in registry order. Replaces the
+// old 2019/2020 project write-ups (card grid + modal + slider gallery, and
+// the slider-library dependency that came with it): this section is
+// deliberately just an index, nothing more. A capability graph is landing
+// beside it in a follow-up work package — not built here.
+//
+// Card click-target resolution (case-study page vs. external link vs. no
+// link at all) is shared with the hero spotlight — see resolveTarget in
+// data/portfolio.ts. A card is only ever a real link when a real
+// destination exists; otherwise it renders as a plain, non-interactive
+// article (never a fake affordance).
 export function Projects() {
-  const [openProject, setOpenProject] = useState<Project | null>(null);
+  const { t, lang } = useLang();
+  const arrow = lang === 'he' ? '←' : '→';
 
   return (
     <Section
       id="projects"
-      eyebrow="Projects"
-      title="Selected work — with more AI builds landing soon."
-      lead="A snapshot of what I've shipped. My Homebase suite of AI-built apps is being added here next."
+      eyebrow={t('projects.eyebrow')}
+      title={t('projects.title')}
+      lead={t('projects.lead')}
     >
-      <div className="proj-grid">
-        {projects.map((project) => (
-          <motion.button
-            key={project.name}
-            className="proj-card"
-            variants={revealItem}
-            onClick={() => setOpenProject(project)}
-            aria-label={`Open ${project.name}`}
-          >
-            <div className="proj-card__head">
-              <span className="proj-card__cat">{categoryMeta[project.category].label}</span>
-              {project.builtWith === 'claude-code' && (
-                <span className="proj-card__badge">built with Claude Code</span>
-              )}
-              {project.year && <span className="proj-card__year">{project.year}</span>}
-            </div>
-            <h3 className="proj-card__name">{project.name}</h3>
-            <p className="proj-card__summary">{project.summary}</p>
-            <div className="proj-card__tech">
-              {project.technologies.slice(0, 4).map((t) => (
-                <span key={t} className="tech-chip">
-                  {t}
-                </span>
-              ))}
-            </div>
-            <span className="proj-card__more">View details →</span>
-          </motion.button>
+      <div className="projects-grid">
+        {portfolio.map((project) => (
+          <ProjectCard key={project.slug} project={project} t={t} arrow={arrow} />
         ))}
       </div>
-
-      <AnimatePresence>
-        {openProject && (
-          <ProjectModal project={openProject} onClose={() => setOpenProject(null)} />
-        )}
-      </AnimatePresence>
     </Section>
   );
 }
 
-function ProjectModal({ project, onClose }: { project: Project; onClose: () => void }) {
-  const [zoom, setZoom] = useState<string | null>(null);
-  const images = projectImages(project);
+type ProjectCardProps = {
+  project: PortfolioProject;
+  t: (key: string) => string;
+  arrow: string;
+};
+
+function ProjectCard({ project, t, arrow }: ProjectCardProps) {
+  const target = resolveTarget(project);
+  const stateWord = t(`projectMeta.state.${project.state}`);
+
+  const content = (
+    <>
+      <ProjectCardArt project={project} />
+      <div className="project-card__body">
+        {/* The card's accessible name (when it's a link) comes from this
+            heading leading the content, same as the spotlight panel. */}
+        <h3 className="project-card__name">{project.name}</h3>
+        {/* Tagline is data, not chrome — rendered from the registry AS-IS,
+            never translated or edited (see data/portfolio.ts). */}
+        <p className="project-card__tagline">{project.tagline}</p>
+        <div className="project-card__meta">
+          {/* stateLabel (richer, English) is title-only — the visible chip
+              word is the short, translated projectMeta.state.* string. */}
+          <span className="chip" title={project.stateLabel}>
+            <span className={clsx('chip__dot', project.state === 'live' && 'chip__dot--live')} />
+            {stateWord}
+          </span>
+          <span className="project-card__year">{project.year}</span>
+          {target.kind === 'none' ? (
+            <span className="project-card__docs">{t('projectMeta.docsOnly')}</span>
+          ) : (
+            <span className="project-card__cta">
+              {target.kind === 'case' ? t('projectMeta.ctaCase') : t('projectMeta.ctaLive')}{' '}
+              {arrow}
+            </span>
+          )}
+        </div>
+      </div>
+    </>
+  );
+
+  if (target.kind === 'none') {
+    return (
+      <motion.article className="project-card" variants={revealItem}>
+        {content}
+      </motion.article>
+    );
+  }
 
   return (
-    <motion.div
-      className="modal-backdrop"
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
-      onClick={onClose}
+    <motion.a
+      className="project-card project-card--link"
+      href={target.href}
+      variants={revealItem}
+      {...(target.kind === 'external' ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
     >
-      <motion.div
-        className="modal"
-        role="dialog"
-        aria-modal="true"
-        aria-label={project.name}
-        initial={{ opacity: 0, y: 30, scale: 0.97 }}
-        animate={{ opacity: 1, y: 0, scale: 1 }}
-        exit={{ opacity: 0, y: 20, scale: 0.98 }}
-        transition={{ type: 'spring', stiffness: 140, damping: 20 }}
-        onClick={(e) => e.stopPropagation()}
-      >
-        <button className="modal__close icon-btn" onClick={onClose} aria-label="Close">
-          <FiX />
-        </button>
+      {content}
+    </motion.a>
+  );
+}
 
-        <div className="modal__head">
-          <div>
-            <span className="proj-card__cat">{categoryMeta[project.category].label}</span>
-            {project.useLogoAsName ? (
-              <img className="modal__logo" src={logoUrl(project)} alt={project.name} />
-            ) : (
-              <h3 className="modal__title">{project.name}</h3>
-            )}
-          </div>
-          <div className="modal__links">
-            <a className="btn btn--ghost" href={project.link} target="_blank" rel="noreferrer">
-              <FiExternalLink aria-hidden="true" /> Live
-            </a>
-            {project.gitLink && (
-              <a className="btn btn--ghost" href={project.gitLink} target="_blank" rel="noreferrer">
-                <FiGithub aria-hidden="true" /> Source
-              </a>
-            )}
-          </div>
-        </div>
+type ProjectCardArtProps = {
+  project: PortfolioProject;
+};
 
-        <div className="modal__body">
-          <div className="modal__desc">
-            {project.description.map((p) => (
-              <p key={p}>{p}</p>
-            ))}
-          </div>
-          <div className="modal__lists">
-            <div>
-              <h4>Features</h4>
-              <ul>
-                {project.features.map((f) => (
-                  <li key={f}>{f}</li>
-                ))}
-              </ul>
-            </div>
-            <div>
-              <h4>Built with</h4>
-              <ul>
-                {project.technologies.map((t) => (
-                  <li key={t}>{t}</li>
-                ))}
-              </ul>
-              {project.other && (
-                <div className="modal__other">
-                  {project.other.map(([href, label]) => (
-                    <a key={href} className="text-link" href={href} target="_blank" rel="noreferrer">
-                      {label}
-                    </a>
-                  ))}
-                </div>
-              )}
-            </div>
-          </div>
-        </div>
+/**
+ * The card's art frame. Renders the project's real art when the registry
+ * has it; otherwise falls back to a typographic tile (project name, on an
+ * accent-tinted surface) — never a broken image or invented artwork. Every
+ * current registry entry has real art, but the type is optional, so this
+ * stays defensive.
+ *
+ * The fallback repeats the project name already rendered as the card's own
+ * `<h3>`, so it's marked `aria-hidden` to avoid announcing it twice.
+ */
+function ProjectCardArt({ project }: ProjectCardArtProps) {
+  if (!project.art) {
+    return (
+      <div className="project-card__art project-card__art--type" aria-hidden="true">
+        <span className="project-card__art-name">{project.name}</span>
+      </div>
+    );
+  }
 
-        {images.length > 0 && (
-          <div className="modal__gallery">
-            <Swiper
-              modules={[Pagination]}
-              pagination={{ clickable: true }}
-              slidesPerView={1.15}
-              spaceBetween={14}
-              breakpoints={{ 640: { slidesPerView: 2.2 }, 960: { slidesPerView: 3.2 } }}
-            >
-              {images.map((src, idx) => (
-                <SwiperSlide key={src}>
-                  <button className="thumb" onClick={() => setZoom(src)}>
-                    <img src={src} alt={`${project.name} screen ${idx + 1}`} loading="lazy" />
-                  </button>
-                </SwiperSlide>
-              ))}
-            </Swiper>
-          </div>
-        )}
-
-        <AnimatePresence>
-          {zoom && (
-            <motion.div
-              className="lightbox"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              onClick={() => setZoom(null)}
-            >
-              <img src={zoom} alt="" />
-            </motion.div>
-          )}
-        </AnimatePresence>
-      </motion.div>
-    </motion.div>
+  return (
+    <div
+      className={clsx(
+        'project-card__art',
+        project.art.fit === 'contain' && 'project-card__art--contain'
+      )}
+    >
+      <img src={project.art.src} alt={project.art.alt} loading="lazy" />
+    </div>
   );
 }

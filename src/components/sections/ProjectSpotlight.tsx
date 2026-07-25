@@ -2,7 +2,7 @@ import { useCallback, useEffect, useState, type KeyboardEvent } from 'react';
 import { AnimatePresence, motion, MotionConfig } from 'framer-motion';
 import clsx from 'clsx';
 import { FiChevronLeft, FiChevronRight } from 'react-icons/fi';
-import { portfolio, type PortfolioProject } from '../../data/portfolio';
+import { portfolio, resolveTarget, type PortfolioProject } from '../../data/portfolio';
 import { useLang } from '../../i18n/LanguageContext';
 import { ProjectSpotlightArt } from './ProjectSpotlightArt';
 
@@ -51,19 +51,10 @@ function usePrefersReducedMotion(): boolean {
   return reduced;
 }
 
-type SpotlightTarget =
-  | { kind: 'case'; href: string }
-  | { kind: 'external'; href: string }
-  | { kind: 'none' };
-
-// Click target resolution, in order: the project's own case-study page,
-// else its real external link, else no link at all (e.g. Homebase) — never
-// an invented destination.
-function resolveTarget(project: PortfolioProject): SpotlightTarget {
-  if (project.caseRoute) return { kind: 'case', href: project.caseRoute };
-  if (project.externalLink) return { kind: 'external', href: project.externalLink };
-  return { kind: 'none' };
-}
+// SpotlightTarget + resolveTarget now live in data/portfolio.ts — shared
+// with the Projects index section, which needs the exact same click-target
+// resolution (case-study page once live, else the real external link, else
+// no link at all).
 
 const pad2 = (n: number) => String(n).padStart(2, '0');
 
@@ -210,7 +201,7 @@ type SpotlightPanelProps = {
 
 function SpotlightPanel({ project, t, arrow }: SpotlightPanelProps) {
   const target = resolveTarget(project);
-  const stateWord = t(`spotlight.state.${project.state}`);
+  const stateWord = t(`projectMeta.state.${project.state}`);
 
   const meta = (
     <div className="spotlight__meta">
@@ -218,16 +209,16 @@ function SpotlightPanel({ project, t, arrow }: SpotlightPanelProps) {
       <p className="spotlight__tagline">{project.tagline}</p>
       <div className="spotlight__row">
         {/* stateLabel (richer, English) is title-only per the brief — the
-            visible chip word is the short, translated spotlight.state.* string. */}
+            visible chip word is the short, translated projectMeta.state.* string. */}
         <span className="chip" title={project.stateLabel}>
           <span className={clsx('chip__dot', project.state === 'live' && 'chip__dot--live')} />
           {stateWord}
         </span>
         {target.kind === 'none' ? (
-          <span className="spotlight__docs">{t('spotlight.docsOnly')}</span>
+          <span className="spotlight__docs">{t('projectMeta.docsOnly')}</span>
         ) : (
           <span className="spotlight__cta">
-            {target.kind === 'case' ? t('spotlight.ctaCase') : t('spotlight.ctaLive')} {arrow}
+            {target.kind === 'case' ? t('projectMeta.ctaCase') : t('projectMeta.ctaLive')} {arrow}
           </span>
         )}
       </div>

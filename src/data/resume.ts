@@ -9,7 +9,9 @@
 import { profile } from './profile';
 import { capabilities, groupMeta, type CapabilityGroup } from './skills';
 import { experiences } from './experience';
-import { projects } from './projects';
+// Node-safe content only (no asset imports) — see portfolio-content.ts's
+// header comment for why this file can't import from portfolio.ts.
+import { portfolioContent as portfolio } from './portfolio-content';
 
 const groupOrder: CapabilityGroup[] = ['ai', 'engineering', 'product'];
 
@@ -49,13 +51,11 @@ export function buildMarkdownResume(): string {
   }
 
   lines.push('## Projects');
-  for (const p of projects) {
-    const year = p.year ? ` (${p.year})` : '';
-    lines.push(`### ${p.name}${year} — ${p.link}`);
-    lines.push(p.summary);
-    lines.push(`- Technologies: ${p.technologies.join(', ')}`);
-    if (p.features.length) lines.push(`- Highlights: ${p.features.join('; ')}`);
-    if (p.gitLink) lines.push(`- Source: ${p.gitLink}`);
+  for (const p of portfolio) {
+    const link = p.externalLink ? ` — ${p.externalLink}` : '';
+    lines.push(`### ${p.name} (${p.year})${link}`);
+    lines.push(p.tagline);
+    lines.push(`- Status: ${p.stateLabel}`);
     lines.push('');
   }
 
@@ -112,13 +112,12 @@ export function toJsonResume() {
       startDate: exp.period,
       highlights: exp.bullets,
     })),
-    projects: projects.map((p) => ({
+    projects: portfolio.map((p) => ({
       name: p.name,
-      description: p.summary,
-      highlights: p.features,
-      keywords: p.technologies,
-      url: p.link,
-      ...(p.gitLink ? { source: p.gitLink } : {}),
+      description: p.tagline,
+      highlights: [p.stateLabel],
+      startDate: p.year,
+      ...(p.externalLink ? { url: p.externalLink } : {}),
     })),
     skills: groupOrder.map((group) => ({
       name: groupMeta[group].label,
@@ -134,8 +133,12 @@ export function toJsonResume() {
 
 /** llms.txt (https://llmstxt.org) — a machine-readable site guide for LLMs. */
 export function toLlmsTxt(): string {
-  const projectLinks = projects
-    .map((p) => `- [${p.name}](${p.link}): ${p.summary}`)
+  const projectLinks = portfolio
+    .map((p) =>
+      p.externalLink
+        ? `- [${p.name}](${p.externalLink}): ${p.tagline} (${p.stateLabel})`
+        : `- ${p.name}: ${p.tagline} (${p.stateLabel})`
+    )
     .join('\n');
 
   return [

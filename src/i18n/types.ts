@@ -61,18 +61,35 @@ export interface Dict {
   // (English-only, verbatim — see that file's header comment). No tab-row
   // labels — the spotlight uses prev/next controls + a position counter
   // instead (doesn't scale to a name-per-tab if the registry grows).
+  // CTA/state/docs-only strings live in `projectMeta` below — shared with
+  // the Projects index section, which needs the exact same vocabulary.
   spotlight: {
     eyebrow: string; // the region's accessible name (not rendered visibly)
-    ctaCase: string; // affordance text when the target is a case-study page
-    ctaLive: string; // affordance text when the target is an external live site
-    docsOnly: string; // honest, non-clickable state when neither exists (e.g. Homebase)
-    state: Record<ProjectState, string>; // short chip word per project state
     prevLabel: string; // aria-label for the previous-project control
     nextLabel: string; // aria-label for the next-project control
     // Position counter's accessible name, e.g. "Project {n} of {total}" —
     // {n} and {total} are replaced at render time.
     positionLabel: string;
     allProjects: string; // link text to the full Projects section
+  };
+
+  // Shared project-card vocabulary — used by both the hero spotlight and the
+  // full Projects index section, so the two never drift into different
+  // wording for the same states/affordances.
+  projectMeta: {
+    state: Record<ProjectState, string>; // short chip word per project state
+    ctaCase: string; // affordance text when the target is a case-study page
+    ctaLive: string; // affordance text when the target is an external live site
+    docsOnly: string; // honest, non-clickable state when neither exists (e.g. Homebase)
+  };
+
+  // Projects index section — the full registry, one card per portfolio
+  // entry. Card-level copy (name/tagline/state/year) is per-project data
+  // from data/portfolio.ts; these are just the section chrome strings.
+  projects: {
+    eyebrow: string;
+    title: string;
+    lead: string;
   };
 
   socials: {

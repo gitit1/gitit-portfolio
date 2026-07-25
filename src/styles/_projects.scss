@@ -1,0 +1,140 @@
+/* =========================================================================
+   Projects index — one card per portfolio registry entry (see
+   data/portfolio.ts), in registry order. An honest index: every card
+   states its own state/CTA, and only ever becomes a link (`.project-card--
+   link`) when a real destination exists — never a fake affordance. A
+   capability graph lands beside this grid in a follow-up work package; no
+   slot for it is reserved here.
+
+   Card elevation (owner standing rule, 2026-07-18): cards sit ON the
+   section slab (`.section--page > .container`, which is --surface — see
+   global.scss), so they need a real elevation step ABOVE that, not just a
+   border. Uses --surface-2 (see _tokens.scss) plus a 1px border and a soft
+   shadow — an elevation step PLUS border/shadow, never instead of.
+   ========================================================================= */
+
+.projects-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.25rem;
+}
+@media (min-width: 860px) {
+  .projects-grid {
+    // minmax(0, 1fr), not a bare 1fr: without the 0 floor, unbreakable card
+    // content (e.g. the tagline/CTA text) can force a track past its fair
+    // share and blow out horizontal overflow — this repo already shipped
+    // that exact page-wide bug once from min-content track sizing.
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+.project-card {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  text-align: start;
+  color: inherit;
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-1);
+  overflow: hidden;
+  transition: border-color 0.2s var(--ease), transform 0.2s var(--ease),
+    box-shadow 0.2s var(--ease);
+}
+// Restrained hover lift on linked cards only — a plain (non-link)
+// `<article>` card never implies interactivity it doesn't have.
+a.project-card--link:hover,
+a.project-card--link:focus-visible {
+  border-color: var(--accent);
+  transform: translateY(-3px);
+  box-shadow: 0 20px 40px -28px var(--accent-glow);
+}
+
+.project-card__art {
+  aspect-ratio: 16 / 10;
+  width: 100%;
+  background: var(--bg-2);
+  overflow: hidden;
+}
+.project-card__art img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+// Square app icons (assaf-friends-games, homebase — see `fit: 'contain'` in
+// data/portfolio.ts): cropping edge-to-edge in a wide 16/10 frame is wrong.
+// Centered at reduced size on a tinted backdrop instead, so it reads as a
+// deliberate icon tile rather than a bad crop.
+.project-card__art--contain {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--accent-wash);
+  padding: 1.5rem;
+}
+.project-card__art--contain img {
+  width: auto;
+  height: auto;
+  max-width: 42%;
+  max-height: 42%;
+  object-fit: contain;
+  border-radius: var(--radius-sm);
+}
+.project-card__art--type {
+  display: grid;
+  place-items: center;
+  background: var(--accent-wash);
+  padding: 1.5rem;
+}
+.project-card__art-name {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(1.3rem, 3.4vw, 1.9rem);
+  line-height: 1.1;
+  color: var(--accent);
+  text-align: center;
+}
+
+.project-card__body {
+  padding: clamp(1.15rem, 2.6vw, 1.5rem);
+  padding-block-end: clamp(1.25rem, 2.8vw, 1.6rem);
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  flex: 1;
+}
+.project-card__name {
+  font-size: clamp(1.15rem, 2.4vw, 1.4rem);
+}
+.project-card__tagline {
+  margin: 0;
+  color: var(--text-muted);
+  font-size: 0.95rem;
+  flex: 1;
+}
+.project-card__meta {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.7rem;
+  margin-top: 0.4rem;
+}
+.project-card__year {
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  color: var(--text-faint);
+}
+.project-card__cta {
+  font-family: var(--font-mono);
+  font-size: 0.82rem;
+  font-weight: 500;
+  color: var(--accent);
+  margin-inline-start: auto;
+}
+.project-card__docs {
+  font-family: var(--font-mono);
+  font-size: 0.82rem;
+  color: var(--text-faint);
+  margin-inline-start: auto;
+}

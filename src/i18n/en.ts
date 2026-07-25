@@ -56,18 +56,27 @@ export const en: Dict = {
 
   spotlight: {
     eyebrow: 'Project spotlight',
-    ctaCase: 'View the case',
-    ctaLive: 'Visit the live site',
-    docsOnly: 'Case in documentation',
+    prevLabel: 'Previous project',
+    nextLabel: 'Next project',
+    positionLabel: 'Project {n} of {total}',
+    allProjects: 'All projects',
+  },
+
+  projectMeta: {
     state: {
       live: 'Live',
       'in-development': 'In development',
       local: 'Local',
     },
-    prevLabel: 'Previous project',
-    nextLabel: 'Next project',
-    positionLabel: 'Project {n} of {total}',
-    allProjects: 'All projects',
+    ctaCase: 'View the case',
+    ctaLive: 'Visit the live site',
+    docsOnly: 'Case in documentation',
+  },
+
+  projects: {
+    eyebrow: 'Projects',
+    title: 'The public projects.',
+    lead: 'Real work only — live, in development, or local. Each card says exactly where it stands.',
   },
 
   socials: {
