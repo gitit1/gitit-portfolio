@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useLayoutEffect, useState } from 'react';
 
 export type Theme = 'dark' | 'light';
 
@@ -15,7 +15,15 @@ function getInitialTheme(): Theme {
 export function useTheme() {
   const [theme, setTheme] = useState<Theme>(getInitialTheme);
 
-  useEffect(() => {
+  // useLayoutEffect (not useEffect): this app is CSR-only (no SSR, so no
+  // hydration-mismatch cost to worry about). A plain useEffect runs after
+  // the browser has already painted, so on first load — before this runs —
+  // <html> has no [data-theme] attribute and matches the bare `:root`
+  // selector, which is the DARK palette. Any visitor whose resolved theme
+  // is "light" would see a one-frame flash of dark before this corrects
+  // it. useLayoutEffect runs synchronously after DOM mutation but before
+  // the browser paints, so the attribute is set before anything is shown.
+  useLayoutEffect(() => {
     document.documentElement.setAttribute('data-theme', theme);
     window.localStorage.setItem(STORAGE_KEY, theme);
   }, [theme]);
