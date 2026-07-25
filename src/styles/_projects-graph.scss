@@ -18,23 +18,39 @@
   display: block;
 }
 
-// Same elevation step as the cards (owner standing rule, 2026-07-18): a real
-// step above --surface (the section slab), not just a border — --surface-2
-// + 1px --border + soft shadow, so the graph panel reads as a sibling of the
-// index cards, not a lesser add-on.
+// Featured surface (G6-L, owner instruction 2026-07-25): this panel is one
+// of three surfaces — with the Lightbox and the AI-native "Just ask" card —
+// meant to read as a family and draw focus, so it uses --surface-feature +
+// --border-feature rather than the generic --surface-2 the index cards sit
+// on. See _tokens.scss for the measured-contrast rationale.
 .projects-graph-panel {
   display: none; // shown only at >=1200px, see media query below
   flex-direction: column;
   gap: 0.6rem;
   min-width: 0;
-  background: var(--surface-2);
-  border: 1px solid var(--border);
+  background: var(--surface-feature);
+  border: 1px solid var(--border-feature);
   border-radius: var(--radius);
   box-shadow: var(--shadow-1);
   padding: clamp(1.15rem, 2.6vw, 1.5rem);
 }
+.projects-graph-panel__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
 .projects-graph-panel__label {
   font-size: 1rem;
+}
+// Click-to-enlarge (G6-L): opens a second, large `<ProjectsGraph>` in the
+// Lightbox. Smaller than the default .icon-btn since it sits inline with a
+// small heading rather than in the header's own icon rail.
+.projects-graph-panel__expand {
+  flex-shrink: 0;
+  width: 32px;
+  height: 32px;
+  font-size: 0.95rem;
 }
 .projects-graph-panel__hint {
   margin: 0;

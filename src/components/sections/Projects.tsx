@@ -1,10 +1,12 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
 import clsx from 'clsx';
+import { FiMaximize2, FiZoomIn } from 'react-icons/fi';
 import { Section, revealItem } from '../common/Section';
 import { portfolio, resolveTarget, type PortfolioProject } from '../../data/portfolio';
 import { useLang } from '../../i18n/LanguageContext';
 import { ProjectsGraph } from './ProjectsGraph';
+import { Lightbox } from '../common/Lightbox';
 
 // The full Projects index — an honest listing of the portfolio registry
 // (data/portfolio.ts), one card per entry, in registry order. Replaces the
@@ -24,10 +26,19 @@ import { ProjectsGraph } from './ProjectsGraph';
 // data/portfolio.ts. A card is only ever a real link when a real
 // destination exists; otherwise it renders as a plain, non-interactive
 // article (never a fake affordance).
+//
+// Click-to-enlarge popups (G6-L, 2026-07-25): every card gets a zoom button
+// that opens its art full-size in a Lightbox, and the graph panel gets an
+// expand button that opens a second, large copy of itself the same way. The
+// accessible link-overlay pattern below (ProjectCard) exists specifically so
+// the new zoom button never ends up nested inside — or wrapping — the
+// card's own `<a>`: an `<a>` legally can't contain a `<button>`.
 export function Projects() {
   const { t, lang } = useLang();
   const arrow = lang === 'he' ? '←' : '→';
   const [hoverSlug, setHoverSlug] = useState<string | null>(null);
+  const [zoomProject, setZoomProject] = useState<PortfolioProject | null>(null);
+  const [graphOpen, setGraphOpen] = useState(false);
 
   return (
     <Section
@@ -46,15 +57,45 @@ export function Projects() {
               arrow={arrow}
               traced={project.slug === hoverSlug}
               onHover={setHoverSlug}
+              onZoom={setZoomProject}
             />
           ))}
         </div>
         <aside className="projects-graph-panel">
-          <h3 className="projects-graph-panel__label">{t('projects.graphLabel')}</h3>
+          <div className="projects-graph-panel__head">
+            <h3 className="projects-graph-panel__label">{t('projects.graphLabel')}</h3>
+            <button
+              type="button"
+              className="icon-btn projects-graph-panel__expand"
+              onClick={() => setGraphOpen(true)}
+              aria-label={t('projects.graphExpand')}
+            >
+              <FiMaximize2 aria-hidden="true" />
+            </button>
+          </div>
           <p className="projects-graph-panel__hint">{t('projects.graphHint')}</p>
           <ProjectsGraph hoverSlug={hoverSlug} onHoverSlug={setHoverSlug} />
         </aside>
       </div>
+
+      <Lightbox
+        open={zoomProject !== null}
+        onClose={() => setZoomProject(null)}
+        label={zoomProject?.name ?? t('projects.zoomLabel')}
+      >
+        {zoomProject?.art && (
+          <figure className="lightbox__figure">
+            <img src={zoomProject.art.src} alt={zoomProject.art.alt} />
+            <figcaption>{zoomProject.name}</figcaption>
+          </figure>
+        )}
+      </Lightbox>
+
+      <Lightbox open={graphOpen} onClose={() => setGraphOpen(false)} label={t('projects.graphLabel')}>
+        <div className="lightbox__graph">
+          <ProjectsGraph hoverSlug={null} onHoverSlug={() => {}} />
+        </div>
+      </Lightbox>
     </Section>
   );
 }
@@ -66,15 +107,25 @@ type ProjectCardProps = {
   /** True when this card's slug is the graph's currently hovered project. */
   traced: boolean;
   onHover: (slug: string | null) => void;
+  /** Opens the card's art full-size in the shared Lightbox (see Projects()). */
+  onZoom: (project: PortfolioProject) => void;
 };
 
-function ProjectCard({ project, t, arrow, traced, onHover }: ProjectCardProps) {
+// Accessible link-overlay pattern (G6-L): `.project-card` itself is now a
+// non-interactive <article> — the real click target, when one exists, is a
+// same-size sibling `<a>` (`.project-card__overlay`) absolutely covering it,
+// and the zoom button is a further sibling above both. This keeps the two
+// interactive affordances (whole-card link, zoom button) as flat siblings
+// instead of nesting one inside the other, which HTML (and jsx-a11y) forbid
+// for <a>/<button>. See _projects.scss for the positioning shell.
+function ProjectCard({ project, t, arrow, traced, onHover, onZoom }: ProjectCardProps) {
   const target = resolveTarget(project);
   const stateWord = t(`projectMeta.state.${project.state}`);
 
-  // Same handlers regardless of link/plain-article rendering below, so
-  // hovering OR focusing a card (keyboard users included) traces it on the
-  // graph exactly like hovering its node there does the reverse.
+  // Same handlers regardless of whether this card ends up with a real link,
+  // attached to the wrapper (not the card) so hovering OR focusing anywhere
+  // in it — the overlay link, the zoom button — traces it on the graph
+  // exactly like hovering its node there does the reverse.
   const hoverHandlers = {
     onMouseEnter: () => onHover(project.slug),
     onMouseLeave: () => onHover(null),
@@ -123,28 +174,40 @@ function ProjectCard({ project, t, arrow, traced, onHover }: ProjectCardProps) {
     </>
   );
 
-  if (target.kind === 'none') {
-    return (
+  return (
+    <div
+      className={clsx('project-card-slot', target.kind !== 'none' && 'project-card-slot--link')}
+      {...hoverHandlers}
+    >
       <motion.article
         className={clsx('project-card', traced && 'project-card--traced')}
         variants={revealItem}
-        {...hoverHandlers}
       >
         {content}
       </motion.article>
-    );
-  }
 
-  return (
-    <motion.a
-      className={clsx('project-card project-card--link', traced && 'project-card--traced')}
-      href={target.href}
-      variants={revealItem}
-      {...(target.kind === 'external' ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
-      {...hoverHandlers}
-    >
-      {content}
-    </motion.a>
+      {target.kind !== 'none' && (
+        <a
+          className="project-card__overlay"
+          href={target.href}
+          aria-label={`${project.name} — ${
+            target.kind === 'case' ? t('projectMeta.ctaCase') : t('projectMeta.ctaLive')
+          }`}
+          {...(target.kind === 'external' ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
+        />
+      )}
+
+      {project.art && (
+        <button
+          type="button"
+          className="icon-btn project-card__zoom"
+          onClick={() => onZoom(project)}
+          aria-label={t('projects.zoomLabel')}
+        >
+          <FiZoomIn aria-hidden="true" />
+        </button>
+      )}
+    </div>
   );
 }
 

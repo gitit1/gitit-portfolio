@@ -1,8 +1,9 @@
 /* =========================================================================
    Projects index — one card per portfolio registry entry (see
    data/portfolio.ts), in registry order. An honest index: every card
-   states its own state/CTA, and only ever becomes a link (`.project-card--
-   link`) when a real destination exists — never a fake affordance.
+   states its own state/CTA, and only ever gets a real click target (the
+   `.project-card__overlay` sibling, see below) when a real destination
+   exists — never a fake affordance.
 
    Second door (G4-B1): `.projects__doors` wraps the index grid + the
    capability graph panel (ProjectsGraph.tsx / _projects-graph.scss) side by
@@ -30,6 +31,25 @@
   gap: 1.25rem;
 }
 
+// Positioning shell for the accessible link-overlay pattern (G6-L): the
+// visible card (`.project-card`) stays a non-interactive <article>; when a
+// real destination exists, a same-size sibling `<a>`
+// (`.project-card__overlay`) covers it as the actual click target, and the
+// zoom button sits above both. An `<a>` can never legally contain a
+// `<button>` (or vice versa) — three flat siblings inside this positioned
+// shell avoids that nesting entirely, rather than one interactive element
+// wrapping another. This wrapper is the real `.projects-grid` item now;
+// `.project-card` stretches to fill it.
+.project-card-slot {
+  position: relative;
+  display: flex;
+  min-width: 0;
+}
+.project-card-slot > .project-card {
+  flex: 1;
+  min-width: 0;
+}
+
 .project-card {
   display: flex;
   flex-direction: column;
@@ -44,10 +64,13 @@
   transition: border-color 0.2s var(--ease), transform 0.2s var(--ease),
     box-shadow 0.2s var(--ease);
 }
-// Restrained hover lift on linked cards only — a plain (non-link)
-// `<article>` card never implies interactivity it doesn't have.
-a.project-card--link:hover,
-a.project-card--link:focus-visible {
+// Restrained hover lift on linked cards only — a plain (non-link) card
+// never implies interactivity it doesn't have. Driven by the wrapper's
+// `:hover` / `:focus-within` rather than a pseudo-class on `.project-card`
+// itself, since the real link is now the sibling overlay above it, not the
+// card element.
+.project-card-slot--link:hover .project-card,
+.project-card-slot--link:focus-within .project-card {
   border-color: var(--accent);
   transform: translateY(-3px);
   box-shadow: 0 20px 40px -28px var(--accent-glow);
@@ -59,6 +82,26 @@ a.project-card--link:focus-visible {
 .project-card--traced {
   border-color: var(--accent);
   box-shadow: 0 0 0 1px var(--accent-glow);
+}
+
+// The real click target for a linked card — covers `.project-card-slot`
+// edge to edge, sits above the card's own content, below the zoom button.
+.project-card__overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  border-radius: var(--radius);
+}
+// Click-to-enlarge (G6-L): opens the full art image in the Lightbox. Present
+// on every card, linked or not — an image is worth enlarging either way, and
+// (unlike the overlay above) this affordance never depends on a real
+// destination existing. Sits above the overlay so it stays independently
+// clickable rather than triggering the card's own link.
+.project-card__zoom {
+  position: absolute;
+  inset-block-start: 0.6rem;
+  inset-inline-end: 0.6rem;
+  z-index: 2;
 }
 
 .project-card__art {

@@ -1,0 +1,85 @@
+/* =========================================================================
+   Lightbox — a generic modal dialog (see common/Lightbox.tsx). Used for the
+   project-card art zoom and the capability graph's large popup (G6-L).
+   Portalled to document.body, so nothing here needs to account for an
+   ancestor's transform/overflow trapping its `position: fixed` layers.
+
+   Featured surface (owner instruction, G6-L, 2026-07-25): `.lightbox` shares
+   --surface-feature / --border-feature with `.projects-graph-panel` and the
+   AI-native "Just ask" card — three surfaces meant to read as one family and
+   draw focus, distinct from the generic --surface-2 card plane. See
+   _tokens.scss for the measured-contrast rationale.
+
+   Logical properties only, no left/right/width/height physical inset props
+   — matches the RTL convention already established in _projects-graph.scss.
+   ========================================================================= */
+.lightbox-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+}
+
+.lightbox {
+  position: relative;
+  inline-size: min(920px, 92vw);
+  max-inline-size: 92vw;
+  max-block-size: 88vh;
+  overflow-y: auto;
+  background: var(--surface-feature);
+  border: 1px solid var(--border-feature);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: clamp(1.5rem, 4vw, 2.5rem);
+}
+
+.lightbox__close {
+  position: absolute;
+  inset-block-start: 0.9rem;
+  inset-inline-end: 0.9rem;
+  z-index: 1;
+}
+
+/* -------------------------------------------------------------------------
+   Card art popup content (Projects.tsx) — the full image, contained, plus a
+   one-line caption naming the project.
+   ------------------------------------------------------------------------- */
+.lightbox__figure {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+}
+.lightbox__figure img {
+  max-inline-size: 100%;
+  max-block-size: 70vh;
+  object-fit: contain;
+  border-radius: var(--radius-sm);
+}
+.lightbox__figure figcaption {
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+
+/* -------------------------------------------------------------------------
+   Capability graph popup content (Projects.tsx) — a second, large
+   <ProjectsGraph>. The svg keeps its own aspect ratio via viewBox (see
+   ProjectsGraph.tsx / _projects-graph.scss); sizing this box is all that's
+   needed here, nothing has to know the graph's actual proportions.
+   ------------------------------------------------------------------------- */
+.lightbox__graph {
+  inline-size: 100%;
+  block-size: min(88vh, 80vw);
+}
+.lightbox__graph .projects-graph,
+.lightbox__graph .projects-graph svg {
+  inline-size: 100%;
+  block-size: 100%;
+}

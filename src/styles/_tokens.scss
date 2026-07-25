@@ -58,6 +58,19 @@
   --bg-2: #101318;
   --surface: #232833;
   --surface-2: #2b323f;
+  // --surface-feature / --border-feature (G6-L, owner instruction
+  // 2026-07-25): a distinct, accent-tinted surface for the small set of
+  // "featured" chrome meant to read as a family and draw focus — the
+  // Lightbox dialog, the capability graph panel, and the AI-native "Just
+  // ask" card (see _lightbox.scss / _projects-graph.scss / _components.scss
+  // — applied nowhere else). An accent-tinted CAST, not just a lighter
+  // --surface-2: #2d3154 leans visibly indigo/blue next to --surface-2's
+  // neutral slate, while still landing a real step above --surface
+  // (1.180:1, clears the ≥1.1:1 elevation-step target) and keeping both
+  // text colors legible on it (--text ~10.474:1, --text-muted ~4.736:1,
+  // clears the ≥4.5:1 AA floor for muted card copy).
+  --surface-feature: #2d3154;
+  --border-feature: rgba(140, 155, 255, 0.35); // --accent at low alpha
   --border: rgba(255, 255, 255, 0.1);
   --border-soft: rgba(255, 255, 255, 0.06);
 
@@ -103,6 +116,16 @@
   --bg-2: #2b313b;
   --surface: #383f4d;
   --surface-2: #404757;
+  // --surface-feature / --border-feature (G6-L): same family-surface rule as
+  // dark (see comment above) — #2d4382 leans visibly indigo/blue next to
+  // --surface-2's neutral slate, lands a real step above --surface
+  // (1.126:1, clears ≥1.1:1) and keeps --text-muted legible on it (~4.547:1,
+  // clears the ≥4.5:1 floor — the tightest constraint in this theme, since
+  // --surface-2 itself already measures only ~4.51:1 against --text-muted
+  // here, leaving very little headroom for anything lighter). --text stays
+  // strong at ~8.377:1.
+  --surface-feature: #2d4382;
+  --border-feature: rgba(163, 174, 255, 0.4); // --accent at low alpha
   --border: rgba(255, 255, 255, 0.12);
   --border-soft: rgba(255, 255, 255, 0.08);
 

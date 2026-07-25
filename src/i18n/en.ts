@@ -79,6 +79,8 @@ export const en: Dict = {
     lead: 'Real work only — live, in development, or local. Each card says exactly where it stands.',
     graphLabel: 'What they share',
     graphHint: 'Hover a project or a capability to trace the connections.',
+    zoomLabel: 'Enlarge image',
+    graphExpand: 'Enlarge the graph',
   },
 
   socials: {
@@ -107,6 +109,10 @@ export const en: Dict = {
   copyResume: {
     idle: 'Copy my resume for your LLM',
     copied: 'Copied resume for your LLM',
+  },
+
+  lightbox: {
+    close: 'Close',
   },
 
   footer: {

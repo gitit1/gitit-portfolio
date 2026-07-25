@@ -96,6 +96,12 @@ export interface Dict {
     // are the panel's chrome only.
     graphLabel: string; // small heading above the graph
     graphHint: string; // one-line muted usage hint below it
+    // Click-to-enlarge popups (G6-L) — aria-labels for the card art zoom
+    // button and the graph panel's expand button. Both open a Lightbox (see
+    // components/common/Lightbox.tsx); the graph popup reuses graphLabel
+    // above as its dialog aria-label rather than adding a third string.
+    zoomLabel: string;
+    graphExpand: string;
   };
 
   socials: {
@@ -124,6 +130,11 @@ export interface Dict {
   copyResume: {
     idle: string;
     copied: string;
+  };
+
+  // Generic modal dialog (G6-L) — see components/common/Lightbox.tsx.
+  lightbox: {
+    close: string; // aria-label for the close button
   };
 
   footer: {

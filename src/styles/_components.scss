@@ -137,9 +137,15 @@
   flex-direction: column;
   gap: 0.8rem;
 }
+// Featured surface (G6-L, owner instruction 2026-07-25): one of three
+// surfaces — with the Lightbox and the graph panel — meant to read as a
+// family and draw focus, so it swaps its background to --surface-feature
+// and refines its existing accent border into --border-feature (the same
+// accent-tinted-border token the other two use). See _tokens.scss for the
+// measured-contrast rationale.
 .ai-native__card--cta {
-  border-color: var(--accent);
-  background: linear-gradient(180deg, var(--accent-wash), transparent);
+  border-color: var(--border-feature);
+  background: var(--surface-feature);
 }
 .ai-native__card-title {
   font-size: 1.15rem;

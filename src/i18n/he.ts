@@ -78,6 +78,8 @@ export const he: Dict = {
     lead: 'רק עבודה אמיתית — חי, בפיתוח, או מקומי. כל כרטיס אומר בדיוק איפה הוא עומד.',
     graphLabel: 'מה משותף',
     graphHint: 'מעבר עם העכבר על פרויקט או יכולת מסמן את הקשרים.',
+    zoomLabel: 'הגדלת תמונה',
+    graphExpand: 'הגדלת הגרף',
   },
 
   socials: {
@@ -106,6 +108,10 @@ export const he: Dict = {
   copyResume: {
     idle: 'העתקת קורות החיים עבור ה-LLM שלך',
     copied: 'קורות החיים הועתקו',
+  },
+
+  lightbox: {
+    close: 'סגירה',
   },
 
   footer: {
