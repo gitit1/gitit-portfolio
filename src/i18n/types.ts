@@ -5,6 +5,7 @@
 // are rebuilt too — see en.ts / he.ts for the exact boundary.
 
 import type { SectionId } from '../config/sections';
+import type { ProjectState } from '../data/portfolio';
 
 export type Lang = 'en' | 'he';
 
@@ -47,6 +48,18 @@ export interface Dict {
     receiptsLabel: string; // small heading above the capability groups
     methodLabel: string; // small heading above the step rail
     steps: [string, string, string, string, string, string]; // intent → interrogation → decisions → plan → direction → result
+  };
+
+  // Rotating project spotlight — home page, directly after the hero. Chrome
+  // strings only: per-project `name`/`tagline` stay in data/portfolio.ts
+  // (English-only, verbatim — see that file's header comment).
+  spotlight: {
+    eyebrow: string; // small section label above the spotlight
+    tabsLabel: string; // aria-label for the project tab group
+    ctaCase: string; // affordance text when the target is a case-study page
+    ctaLive: string; // affordance text when the target is an external live site
+    docsOnly: string; // honest, non-clickable state when neither exists (e.g. Homebase)
+    state: Record<ProjectState, string>; // short chip word per project state
   };
 
   socials: {

@@ -1,0 +1,164 @@
+/* =========================================================================
+   Project spotlight — embedded directly inside the hero (see Hero.tsx),
+   sharing the first screen with the identity column. One project on screen
+   at a time (owner's explicit choice: showing all four at once crowds the
+   page), auto-rotating to spark interest, click through to that project.
+   The always-visible named tabs below the art are the second door that
+   keeps all four projects reachable even though the big art only shows
+   one at a time.
+
+   Deliberately NOT the `.section--page` slab treatment (see global.scss) —
+   this stays a light, hero-native block, not a boxed page section. The
+   hero itself supplies `.container`/positioning; this is just the second
+   grid column's content (see `.hero__layout` / `.hero__spotlight-slot`).
+   ========================================================================= */
+
+.spotlight {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 1.1rem;
+  width: 100%;
+}
+.spotlight__eyebrow {
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--accent);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+}
+.spotlight__eyebrow::before {
+  content: '';
+  width: 22px;
+  height: 1px;
+  background: var(--accent);
+  opacity: 0.6;
+}
+
+.spotlight__stage {
+  position: relative;
+}
+
+/* Surface card: a real elevation step above --bg (matches the site-wide
+   dark-mode rule — never a near-black surface on the near-black page base),
+   plus a perceptible border and soft shadow. */
+.spotlight__panel {
+  display: block;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-1);
+  overflow: hidden;
+  color: inherit;
+  transition: border-color 0.2s var(--ease), transform 0.2s var(--ease),
+    box-shadow 0.2s var(--ease);
+}
+a.spotlight__panel--link:hover,
+a.spotlight__panel--link:focus-visible {
+  border-color: var(--accent);
+  transform: translateY(-3px);
+  box-shadow: 0 20px 40px -28px var(--accent-glow);
+}
+
+.spotlight__art {
+  aspect-ratio: 16 / 9;
+  width: 100%;
+  background: var(--bg-2);
+  overflow: hidden;
+}
+.spotlight__art img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.spotlight__art--type {
+  display: grid;
+  place-items: center;
+  background: var(--accent-wash);
+  padding: 1.5rem;
+}
+.spotlight__art-name {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(1.8rem, 6vw, 3.2rem);
+  line-height: 1.1;
+  color: var(--accent);
+  text-align: center;
+}
+
+.spotlight__meta {
+  padding: clamp(1.25rem, 3vw, 1.75rem);
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+.spotlight__name {
+  font-size: clamp(1.4rem, 3vw, 1.9rem);
+}
+.spotlight__tagline {
+  margin: 0;
+  color: var(--text-muted);
+  font-size: 1rem;
+  max-width: 60ch;
+}
+.spotlight__row {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-top: 0.4rem;
+}
+.spotlight__cta {
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--accent);
+}
+.spotlight__docs {
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  color: var(--text-faint);
+}
+
+/* ---- Tabs: always-visible project names, the second door to every
+   project while the big art stays single-project. ------------------------ */
+.spotlight__tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+.spotlight__tab {
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  font-weight: 500;
+  padding: 0.55rem 0.9rem;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: color 0.16s var(--ease), border-color 0.16s var(--ease),
+    background 0.16s var(--ease);
+}
+.spotlight__tab:hover {
+  color: var(--text);
+  border-color: var(--accent);
+}
+.spotlight__tab--active {
+  color: var(--accent);
+  background: var(--accent-wash);
+  border-color: var(--accent);
+}
+
+@media (max-width: 640px) {
+  .spotlight__tabs {
+    gap: 0.4rem;
+  }
+  .spotlight__tab {
+    flex: 1 1 calc(50% - 0.4rem);
+    text-align: center;
+  }
+}

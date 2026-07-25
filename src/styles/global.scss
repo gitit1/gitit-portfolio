@@ -1,6 +1,7 @@
 @use 'tokens';
 @use 'components';
 @use 'how-i-build';
+@use 'project-spotlight';
 
 /* =========================================================================
    Base
@@ -455,14 +456,34 @@ img {
   padding-block: calc(var(--header-h) + 2rem) 3rem;
   overflow: hidden;
 }
-.hero__inner {
+// Two-column composition: identity (left/start) + the rotating project
+// spotlight (right/end), sharing the hero's first screen. One column on
+// narrow widths — identity first, spotlight below (DOM order already puts
+// identity first, so stacking needs no reordering).
+.hero__layout {
   position: relative;
   z-index: 1;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  align-items: center;
+  gap: clamp(2rem, 5vw, 4rem);
+  width: 100%;
+}
+.hero__identity {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  max-width: 46rem;
   width: 100%;
+  min-width: 0;
+}
+.hero__spotlight-slot {
+  width: 100%;
+  min-width: 0;
+}
+@media (max-width: 860px) {
+  .hero__layout {
+    grid-template-columns: 1fr;
+  }
 }
 .hero__eyebrow {
   font-family: var(--font-mono);
@@ -471,6 +492,24 @@ img {
   text-transform: uppercase;
   color: var(--text-muted);
   margin-bottom: 1.1rem;
+}
+// Avatar sits beside the name — always DOM-first, so it leads the name in
+// both reading directions (start side in both LTR and RTL) without any
+// direction-specific overrides.
+.hero__name-row {
+  display: flex;
+  align-items: center;
+  gap: clamp(0.85rem, 2vw, 1.4rem);
+  flex-wrap: wrap;
+}
+.hero__avatar {
+  flex-shrink: 0;
+  width: clamp(56px, 7vw, 84px);
+  height: clamp(56px, 7vw, 84px);
+  border-radius: 50%;
+  object-fit: cover;
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-1);
 }
 .hero__name {
   font-size: clamp(2.8rem, 7.5vw, 5rem);

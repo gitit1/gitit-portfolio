@@ -5,6 +5,25 @@
  * `src/data/projects.ts`, which still powers the existing Projects section.
  */
 
+// Explicit per-file imports rather than the original `new URL(`...${a}/${b}`,
+// import.meta.url)` helper. That helper DID resolve correctly under
+// production build (verified: `vite build` emits all four files and the
+// generated lookup map keys them right) — the two-dynamic-segment template
+// was not actually the landmine it looked like. Switched anyway to the
+// more legible, unambiguous form, since it was already suspect enough to
+// need a full build+bundle audit once. One artifact from that audit worth
+// noting for whoever touches this next: mfl/hero.jpg is byte-identical
+// (same SHA256) to src/styles/assets/projects/mfl/1.JPG (the legacy
+// Projects section's first gallery shot), so Rollup's content hashing
+// legitimately collapses them into ONE physical output file — the built
+// asset for hero.jpg is served under a filename inherited from the other
+// reference (e.g. `1-<hash>.JPG`, not `hero-<hash>.jpg`). Same bytes, same
+// image, correct behavior — do not "fix" this if you see it again.
+import wildhearthArt from '../styles/assets/portfolio/wildhearth/title-vista.png';
+import mflArt from '../styles/assets/portfolio/mfl/hero.jpg';
+import assafFriendsGamesArt from '../styles/assets/portfolio/assaf-friends-games/icon-512.png';
+import homebaseArt from '../styles/assets/portfolio/homebase/icon.png';
+
 export type ProjectState = 'live' | 'in-development' | 'local';
 
 export type PortfolioProject = {
@@ -24,10 +43,6 @@ export type PortfolioProject = {
   art?: { src: string; alt: string };
 };
 
-function artUrl(slug: string, file: string): string {
-  return new URL(`../styles/assets/portfolio/${slug}/${file}`, import.meta.url).href;
-}
-
 export const portfolio: PortfolioProject[] = [
   {
     slug: 'wildhearth',
@@ -38,7 +53,7 @@ export const portfolio: PortfolioProject[] = [
     year: '2026',
     caseRoute: '#/case/wildhearth',
     art: {
-      src: artUrl('wildhearth', 'title-vista.png'),
+      src: wildhearthArt,
       alt: "Wildhearth's in-game title screen: a pixel-art farmhouse on a hillside at sunset.",
     },
   },
@@ -52,7 +67,7 @@ export const portfolio: PortfolioProject[] = [
     externalLink: 'http://www.myfanficslibrary.com',
     caseRoute: '#/case/mfl',
     art: {
-      src: artUrl('mfl', 'hero.jpg'),
+      src: mflArt,
       alt: "My Fanfic's Library homepage: fandoms overview and latest-updates dashboard.",
     },
   },
@@ -65,7 +80,7 @@ export const portfolio: PortfolioProject[] = [
     year: '2026',
     externalLink: 'https://assaf-friends-games.netlify.app',
     art: {
-      src: artUrl('assaf-friends-games', 'icon-512.png'),
+      src: assafFriendsGamesArt,
       alt: 'App icon for עולם החברים (Friends World): a smiling number-friend character.',
     },
   },
@@ -77,7 +92,7 @@ export const portfolio: PortfolioProject[] = [
     stateLabel: 'Local — internal app suite, no public deployment',
     year: '2026',
     art: {
-      src: artUrl('homebase', 'icon.png'),
+      src: homebaseArt,
       alt: 'Homebase Hub app icon: two interlocking rings.',
     },
   },

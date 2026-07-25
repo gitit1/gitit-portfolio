@@ -49,6 +49,19 @@ export const he: Dict = {
     steps: ['כוונה', 'תשאול', 'החלטות', 'תוכנית', 'הנחיה', 'תוצאה'],
   },
 
+  spotlight: {
+    eyebrow: 'זרקור פרויקטים',
+    tabsLabel: 'בחירת פרויקט מומלץ',
+    ctaCase: 'צפייה בקייס',
+    ctaLive: 'ביקור באתר החי',
+    docsOnly: 'הקייס נמצא בתיעוד',
+    state: {
+      live: 'פעיל',
+      'in-development': 'בפיתוח',
+      local: 'מקומי',
+    },
+  },
+
   socials: {
     github: 'GitHub',
     linkedin: 'LinkedIn',

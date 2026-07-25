@@ -49,6 +49,19 @@ export const en: Dict = {
     steps: ['Intent', 'Interrogation', 'Decisions', 'Plan', 'Direction', 'Result'],
   },
 
+  spotlight: {
+    eyebrow: 'Project spotlight',
+    tabsLabel: 'Select a featured project',
+    ctaCase: 'View the case',
+    ctaLive: 'Visit the live site',
+    docsOnly: 'Case in documentation',
+    state: {
+      live: 'Live',
+      'in-development': 'In development',
+      local: 'Local',
+    },
+  },
+
   socials: {
     github: 'GitHub',
     linkedin: 'LinkedIn',
