@@ -159,11 +159,19 @@
 /* =========================================================================
    AI-native section
    ========================================================================= */
+// R5-c (owner, 2026-07-26): chips + card grid must read as ONE tight group on
+// a shared centred axis — the way Contact's single centred card reads
+// centred — not a skinny hard-left strip orphaned above a full-width grid.
+// `justify-content: center` centres this row's own content over the grid's
+// width (this div is already full-width, a block child of `.section__body`);
+// the tightened margin below keeps the chips→cards gap unmistakably closer
+// than the head→chips gap so the two read as bound, not two separate objects.
 .ai-native__chips {
   display: flex;
   flex-wrap: wrap;
+  justify-content: center;
   gap: 0.5rem;
-  margin-bottom: 1.75rem;
+  margin-bottom: 1.1rem;
 }
 .ai-native {
   display: grid;
