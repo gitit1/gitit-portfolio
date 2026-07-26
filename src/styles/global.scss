@@ -198,27 +198,47 @@ img {
   border: 1px solid var(--border);
   border-radius: var(--radius);
   box-shadow: var(--shadow-1);
-  // Round-4 vertical centering (owner, 2026-07-25): flex column so
-  // `.section__body`'s auto block margins (below) can center the body in
-  // whatever leftover space this slab has once its min-height floor exceeds
-  // the body's own content height (e.g. AI-native, Contact) — the header
-  // stays pinned to the top, the body settles in the remaining slab space.
-  // When content is TALL ENOUGH to fill or exceed the min-height, the auto
-  // margins collapse to ~0 and this has no visible effect (how-i-build,
-  // experience, projects keep their current top-to-bottom flow).
+  // R5-d whole-composition centering (owner, 2026-07-26): flex column so
+  // the auto margins below can center the HEAD+BODY GROUP together in
+  // whatever leftover space this slab has, once its min-height floor
+  // exceeds the group's own content height (e.g. AI-native, Contact). This
+  // supersedes the round-4 "head pinned to top" model, which split all the
+  // leftover slack between the head and the body and opened a hole in the
+  // middle of short sections (owner defect report, 2026-07-26) — see the
+  // `.section__head` / `.section__body` rule below for how the group is
+  // kept intact. When content is TALL ENOUGH to fill or exceed the
+  // min-height, the auto margins collapse to ~0 and this has no visible
+  // effect (how-i-build, experience, projects keep their current
+  // top-to-bottom flow).
   display: flex;
   flex-direction: column;
 }
-// The single wrapper `<div className="section__body">` (see
-// components/common/Section.tsx) around everything after `.section__head`.
-// `margin-block: auto` on a flex child centers it in the leftover
-// cross-axis space of its `display:flex; flex-direction:column` parent —
-// exactly the CSS trick for "center this if there's room, else behave
-// normally" without any JS height measurement. Kept on its own class
-// (rather than styling children directly) so it can't collide with any
-// section's own internal spacing/gap rules on its children.
+// R5-d (2026-07-26, owner decision — supersedes the round-4 "head pinned to
+// top" model): `.section__head` and `.section__body` (see
+// components/common/Section.tsx) are centered TOGETHER as one group,
+// without a wrapper element. `.section__head`'s own fixed `margin-bottom`
+// (_components.scss) is the ONLY gap between them and is left untouched —
+// it is not an auto margin, so it never stretches. `margin-top: auto` on
+// the head and `margin-bottom: auto` on the body are the only two auto
+// margins on this flex column, so flexbox splits the slab's leftover space
+// evenly between them: above the head and below the body, never between
+// head and body.
+//
+// This is safe-by-construction for sections whose content OVERFLOWS the
+// slab (leftover space negative): per the flexbox auto-margin algorithm,
+// auto margins only ever consume POSITIVE free space — on zero or negative
+// free space they resolve to 0 rather than going negative, so the group
+// falls back to flush-top and nothing is ever clipped or scrolled out of
+// reach. (Deliberately not `justify-content: center` here: that alignment
+// path can clip content symmetrically off BOTH ends on overflow, pushing
+// the head's start edge into unreachable negative overflow with no
+// built-in "safe" fallback the way `justify-content: safe center` needs to
+// guard against — auto margins never have that failure mode.)
+.section__head {
+  margin-top: auto;
+}
 .section__body {
-  margin-block: auto;
+  margin-bottom: auto;
 }
 // Fit-one-screen (WP-G6-F, 2026-07-25): the slab's own inner padding — the
 // single biggest fixed cost every section pays twice (top AND bottom) —
