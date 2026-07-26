@@ -77,7 +77,22 @@
 
   --text: #e8ebf1;
   --text-muted: #98a0ab;
-  --text-faint: #6b727d;
+  // R5-a (2026-07-26, measured): the old #6b727d measured only 2.58-3.84:1
+  // against --bg-2/--surface/--surface-2/--surface-feature -- every one
+  // short of the 4.5:1 AA floor (WCAG 1.4.3), and every consumer of this
+  // token (.project-card__tag/__year/__docs, .spotlight__docs,
+  // .ai-native__hint, .codeblock__label, .chat__sub, the footer line, the
+  // graph's capability-node dot) sits on one of those five surfaces. Raised
+  // to converge on --text-muted's own value: the hardest of the five
+  // surfaces this token touches is --surface-2 (4.876:1 here) -- comfortable
+  // headroom, same value the light theme below needs down to the wire (see
+  // that theme's comment). The "faint" visual tier survives entirely on
+  // size/weight/letter-spacing/uppercase -- every consumer above already
+  // uses at least one -- never again on a colour gap that broke AA. Per
+  // architect direction this convergence is accepted and intended; the two
+  // tokens are kept structurally distinct (proposed, not executed, as a
+  // future simplification) even though they now render identically.
+  --text-faint: #98a0ab;
 
   --accent: #8c9bff; // electric indigo
   --accent-strong: #aab5ff;
@@ -132,7 +147,19 @@
 
   --text: #f0f2f6;
   --text-muted: #aeb5c0;
-  --text-faint: #848b97;
+  // R5-a (2026-07-26, measured): the old #848b97 measured only 2.71-3.81:1
+  // against --bg-2/--surface/--surface-2/--surface-feature -- short of the
+  // 4.5:1 AA floor everywhere, same defect and consumer list as the dark
+  // theme's comment above. Raised to converge on --text-muted's own value --
+  // in THIS theme that is not just close, it is the mathematical floor:
+  // --text-muted itself measures only 4.506:1 against --surface-2 (the
+  // hardest of the five surfaces, per the G4-A2 comment above), so any
+  // colour with even fractionally less contrast fails AA there. --text-faint
+  // therefore cannot land "a shade darker than muted" and still pass in this
+  // theme -- it must converge exactly. Accepted and intended per architect
+  // direction; kept as a structurally separate token (collapse proposed, not
+  // executed) though the two now render identically in both themes.
+  --text-faint: #aeb5c0;
 
   --accent: #a3aeff; // brighter, tuned for contrast on the graphite ground (~6.9:1 on --bg)
   --accent-strong: #b8c1ff;

@@ -113,11 +113,25 @@
 .projects-graph__node text {
   transition: opacity 0.15s var(--ease), fill 0.15s var(--ease), stroke 0.15s var(--ease);
 }
-.projects-graph__node.is-dim {
-  opacity: 0.25;
-}
-.projects-graph__node.is-lit {
+// R5-a (2026-07-26, measured): opacity 0.25 on this whole node group failed
+// WCAG both ways it touched --surface-feature -- text measured 1.51-2.02:1
+// (need 4.5:1), and even a maximally-contrasting mark (a pure white stroke)
+// composited at 0.25 opacity over --surface-feature tops out at ~2.18:1,
+// short of the 3:1 UI floor no matter the base colour -- opacity dimming
+// cannot pass here at any colour choice. De-emphasis is by COLOUR TIER now,
+// opacity stays 1 throughout: a dimmed label drops to --text-muted (a lit
+// one keeps whatever it already renders as -- --text for project nodes,
+// --text via the .is-lit rule below for capability nodes); both clear
+// 4.5:1 on every surface after the --text-faint fix in _tokens.scss. Dim
+// circles keep their normal, already-AA fill/stroke unchanged -- only the
+// .is-lit rules below alter them. Edges (`.projects-graph__edge`, lines not
+// text, not scanned by the audit -- pure decoration, svg is aria-hidden)
+// keep opacity dimming below; that channel was never the measured defect.
+.projects-graph__node {
   opacity: 1;
+}
+.projects-graph__node.is-dim text {
+  fill: var(--text-muted);
 }
 
 // Project nodes — larger, stronger label (the project's real name).

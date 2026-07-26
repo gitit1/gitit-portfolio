@@ -492,12 +492,26 @@
 .chat__input {
   flex: 1;
   background: var(--bg-2);
-  border: 1px solid var(--border);
+  // R5-a (2026-07-26, measured): var(--border) (a 10-12% white overlay)
+  // measured only 1.30:1 dark / 1.46:1 light against --bg-2 -- well short of
+  // the 3:1 UI-boundary floor (WCAG 1.4.11). 38% white measures 3.57:1 dark /
+  // 3.27:1 light on the same background -- comfortable margin both ways.
+  // Scoped to this input only; the generic --border token elsewhere was not
+  // flagged and is left untouched.
+  border: 1px solid rgba(255, 255, 255, 0.38);
   border-radius: var(--radius-sm);
   color: var(--text);
   font-family: var(--font-body);
   font-size: 0.9rem;
   padding: 0.6rem 0.75rem;
+}
+.chat__input::placeholder {
+  // R5-a (2026-07-26, measured): the browser default placeholder grey
+  // (rgb(117,117,117)) measured 4.04:1 dark / 2.84:1 light against --bg-2 --
+  // short of the 4.5:1 AA floor for text (placeholder text answers to
+  // 1.4.3, not the 3:1 UI rule). --text-muted measures 7.05:1 dark / 6.34:1
+  // light on --bg-2 -- comfortable margin both ways.
+  color: var(--text-muted);
 }
 .chat__input:focus {
   outline: none;

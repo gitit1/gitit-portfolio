@@ -281,7 +281,12 @@
   font-family: var(--font-mono);
   font-size: 0.82rem;
   font-weight: 500;
-  color: var(--accent);
+  // R5-a (2026-07-26, measured): plain --accent on this card's --surface-2
+  // measured 4.46:1 in the light theme -- just under the 4.5:1 AA floor
+  // (dark already cleared it at 5.06:1, unchanged). --accent-strong measures
+  // 5.37:1 light / 6.60:1 dark on --surface-2 -- an existing token already
+  // used for emphasis elsewhere (hover/lit states), not a new colour.
+  color: var(--accent-strong);
   margin-inline-start: auto;
 }
 .project-card__docs {
