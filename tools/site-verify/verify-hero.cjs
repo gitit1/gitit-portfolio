@@ -174,15 +174,17 @@ function contrastRatio(a, b) { const L1 = relLum(a) + 0.05, L2 = relLum(b) + 0.0
   ok('index = exactly the 4 registry projects, registry order',
     proj.cardCount === 4 && JSON.stringify(proj.names) === JSON.stringify(['Wildhearth', 'MFL', "Assaf's Friends World", 'Homebase']),
     `names=[${proj.names.join(' | ')}]`);
-  // honest affordances: mfl+assaf get a link overlay (external), wildhearth+
-  // homebase get none until their case pages ship (LIVE_CASE_ROUTES gate);
-  // every card element itself is a plain <article>, and no interactive
-  // element nests inside another (the G6-L overlay pattern).
-  ok('only real destinations get link overlays (order: none,ext,ext,none; no nesting)',
+  // honest affordances: only assaf gets a link overlay (external, the live
+  // https://assaf.gititregev.com); wildhearth + homebase get none until their
+  // case pages ship (LIVE_CASE_ROUTES gate), and since D1 (2026-08-21) mfl
+  // gets none either — its old site is gone and the rebuilt one is not ready
+  // (owner ruling). Every card element itself is a plain <article>, and no
+  // interactive element nests inside another (the G6-L overlay pattern).
+  ok('only real destinations get link overlays (order: none,none,ext,none; no nesting)',
     proj.cardTags.every(t2 => t2 === 'article') &&
     proj.overlayHrefs.length === 4 &&
-    proj.overlayHrefs[0] === null && proj.overlayHrefs[3] === null &&
-    /^https?:\/\//.test(proj.overlayHrefs[1] || '') && /^https?:\/\//.test(proj.overlayHrefs[2] || '') &&
+    proj.overlayHrefs[0] === null && proj.overlayHrefs[1] === null && proj.overlayHrefs[3] === null &&
+    /^https:\/\/assaf\.gititregev\.com/.test(proj.overlayHrefs[2] || '') &&
     proj.overlayNested === 0,
     `tags=[${proj.cardTags.join(',')}] overlays=[${proj.overlayHrefs.join(' | ')}] nested=${proj.overlayNested}`);
   ok('no dead #/case/ links anywhere (no router exists yet)', proj.deadCase === 0, `deadCaseAnchors=${proj.deadCase}`);

@@ -29,18 +29,50 @@ Owner-facing version (Hebrew RTL): `docs/PLAN-GOLIVE-2026-08-21.html`.
 | Career data | ✅ current (`experience.ts` has Maccabi via SQLink Oct 2025–Present, Browzwear ended Jan 2025, F5) |
 | Owner-content placeholders (memory 2026-07) | still to re-check: AI positioning paragraph + hero phrases (`profile.ts`), skill blurbs (`skills.ts`), Independent bullets, Homebase entries — WP-D3 lists them for her |
 
-### New division of roles (recorded here; thinking-trail docs need the mirror line)
+### Owner answers (2026-08-21, later the same day) — the ledger below is re-sequenced on them
+
+1. **Order: go live FIRST, R5-b after** ("ההמלצה שלך").
+2. **gititregev.info is no longer hers — not renewing.** Everything moves to
+   .com, and the LOCAL FOLDER renames `gititregev.info` → `gititregev.com`
+   (owner: "תשנה גם את שם התיקיה"). Rename attempt from this session failed
+   ("Device or resource busy" — folder open in VS Code/session). **Owner runs
+   after closing the window:**
+   `Rename-Item C:\Users\gitit\Git\Workplace\gititregev.info gititregev.com`
+   Already prepared for it: thinking-trail `config/roots.json` alias
+   `gititregev-info → gititregev-com` (history stays one row); dev-ports
+   registry entry updated. After the rename: copy the Claude memory dir
+   `~/.claude/projects/c--Users-gitit-Git-Workplace-gititregev-info/memory`
+   to the `...-gititregev-com` sibling (new sessions key on cwd).
+3. **MFL link: NONE for now.** "str קיבל שינוי צורה" — the rebuilt fanfic site
+   changed shape; the only project she considers ready to go up *as a
+   project* right now is **assaf-friends-games**. So D1: MFL card keeps its
+   verbatim tagline, loses the external link, state = in-development with an
+   honest label; Assaf → `https://assaf.gititregev.com`.
+4. **thinking-trail docs fixed** (her "תתקן"): commit `e8b904f` there
+   (STATUS goal, DECISIONS 2026-08-21 entry, HANDOFF note, roots alias).
+
+### CORRECTED division of roles (owner: "thinking-trail אמור לספר עליי ועל דרך החשיבה שלי ולהזריק זאת באתרי נחיתה לכל פרויקט")
+
+My first write-up ("finished picture of projects" = project cards) was too
+narrow. What was agreed, and stands:
 
 - **gititregev.com (this repo)** = the public face ONLY. No dashboard, no
   status board, no private route, ever. Shows projects only as approved
   portfolio entries (DECISIONS 2026-07-23 in thinking-trail: "all project
   status PRIVATE").
-- **thinking-trail** = private producer. Its ONLY output toward this site is a
-  *finished picture of projects*: an approved, build-time JSON snapshot
-  (per the 2026-07-20 decoupled-consumer decision — push, not live endpoint,
-  no auth needed on the site). Contract to be defined in WP-D6 (after
-  go-live); until then `portfolio-content.ts` stays the hand-maintained
-  source and is NOT blocked on it.
+- **thinking-trail** = private producer of HER STORY: approved, curated
+  content only (journal + showcase stories + the per-project method arc
+  "intent → interrogation → decisions → plan → direction → result", each
+  step anchored to a real artifact — DECISIONS 2026-07-20/22/23/24 in
+  thinking-trail). Delivered as a build-time JSON snapshot the site copies
+  in (`npm run export-feed` already exists; today it writes
+  `data/feed/how-i-build.json`, preview, 3 stories / 5 journal). The site
+  renders it in TWO places: (a) the How-I-Build section, (b) **every PROJECT
+  LANDING PAGE** ("what it is → how it was built → receipts", skinned in the
+  project's own world per the 2026-07-24 landing-page decision). No status,
+  no waiting-items, no dashboard. Contract + wiring = WP-D6 (after go-live);
+  first landing page = **Assaf's games** (2026-07-23 opener, reconfirmed
+  2026-08-21). Until then `portfolio-content.ts` stays hand-maintained.
 - **Homebase Hub** = where the dashboard/cockpit is viewed (Wave 6).
 
 ### GO-LIVE plan — dispatch ledger (architect plans/verifies; agents build)
@@ -60,9 +92,9 @@ local build · `verify-hero.cjs` 68/68 on the prod build.
 | D3 | read-only content pre-flight: list every placeholder/owner-pending copy with file:line + current text, for her to fill or approve as-is (never invent her words) | sonnet (explore) | pending |
 | D4 | deploy: **push needs her word** (branch `redesign/gitit-os` → decide: merge to `main` or deploy the branch); Coolify project `gititregev-site`, app from `gitit1/gitit-portfolio`, build_pack=dockerfile, `is_static=false`, domains `https://gititregev.com` + `https://www.gititregev.com`, env `ANTHROPIC_API_KEY` (**hers**), `ALLOWED_ORIGIN=https://gititregev.com`; deploy key registration = **her script run** (classifier blocks key files, see hub-server skill); trigger deploy via API | architect + owner | pending |
 | D5 | live gate (the bar above) + screenshots + Lighthouse; then flip `STATUS.md` to `server: live https://gititregev.com` | architect | pending |
-| D6 | AFTER live: thinking-trail → site **projects snapshot contract** (`projects-public.json`: slug/name/tagline/state/url/year/capabilities, approved+public only, generated by a new `export-projects` in thinking-trail from `project_status` + `projects.visibility`; copied in at build time; `portfolio-content.ts` derives from it). Then R5-b pick, Mobile WP, case pages (order unchanged) | later | not started |
+| D6 | AFTER live: thinking-trail → site **story feed wiring** — (a) extend/confirm the feed contract (`how-i-build.json`: eras/stories/journal + per-project slices with the method arc + receipts, approved-only, he+en); (b) site consumer: How-I-Build section reads the feed (replacing the hand-authored blocks where approved content exists), and the **Assaf's-games landing page** (first `LIVE_CASE_ROUTES` entry, hash route, skinned in the game's world) renders its project slice; (c) curation: owner approves the 8 pending drafts + Assaf's ChatGPT-era mapping (thinking-trail step ג). Then R5-b pick, Mobile WP, Wildhearth/MFL landing pages when she calls them ready | later | not started |
 
-### Owner decisions opened by this verification (plain-language versions in the HTML)
+### Owner decisions opened by this verification — ALL ANSWERED 2026-08-21 (see "Owner answers" above; kept for the record)
 
 1. **Order:** go live FIRST with the current build (R5-b polish after) — architect's recommendation; or finish R5-b first. Counter-case: she explicitly wanted to pick R5-b "ומשם נמשיך"; but today `gititregev.com` shows an error page, and R5-b changes nothing a visitor would call broken.
 2. **gititregev.info:** does she still own it? If yes → renew + 301 to .com (hub Traefik or registrar forward). If no → nothing; all references move to .com regardless (D1).
