@@ -4,6 +4,9 @@
 # production
 /build
 
+# self-hosted server bundle (npm run build:server)
+/dist-server
+
 # generated at build time (prebuild)
 /public/llms.txt
 /public/resume.json

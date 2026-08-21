@@ -1,0 +1,32 @@
+# Never ship or invalidate the build cache with these.
+node_modules
+build
+dist-server
+.git
+.gitignore
+.github
+.vercel
+.netlify
+
+# Local env / secrets
+.env
+.env.*
+
+# Docs and verification harness are not needed to build or run the site.
+docs
+tools/site-verify/shots
+tools/site-verify/node_modules
+*.md
+
+# Editor / OS noise
+.vscode
+.idea
+.DS_Store
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+Thumbs.db
+
+# The image is built from the Dockerfile itself; no need to copy it in.
+Dockerfile
+.dockerignore

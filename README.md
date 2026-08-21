@@ -61,6 +61,50 @@ can move between them (or to Cloudflare / a Node server) with little change.
 3. Deploy. The functions are routed to `/api/chat` and `/api/mcp` via each
    function's `config.path`.
 
+### Self-hosted (Docker / Coolify)
+
+The repo also ships a plain Node server ([`server/index.ts`](server/index.ts))
+that serves `build/` and routes `/api/chat` + `/api/mcp` to the *same* handlers
+in [`api/`](api/) through a Node -> web-standard adapter (streaming preserved).
+`npm run build:server` bundles it — every dependency inlined — into a single
+`dist-server/index.mjs`, and the [`Dockerfile`](Dockerfile) is a two-stage build
+whose runtime image contains only `build/` + `dist-server/` (no `node_modules`).
+
+In Coolify: **New resource -> Private Repository**, pick this repo, then
+
+| Setting | Value |
+| --- | --- |
+| Build pack | `Dockerfile` |
+| Dockerfile location | `/Dockerfile` |
+| Ports exposes | `3000` |
+| Health check path | `/healthz` |
+| Static site | off — this is a Node app, not a static bundle |
+
+Environment variables:
+
+- `ANTHROPIC_API_KEY` — **required** for `/api/chat`. Without it the chat
+  endpoint answers `500 {"error":"Server not configured"}` and everything else
+  on the site still works.
+- `ALLOWED_ORIGIN` — optional extra origin for the chat allowlist.
+  `gititregev.com`, `www.gititregev.com`, `localhost` and same-origin requests
+  are accepted without it.
+- `PORT` — optional, defaults to `3000`.
+
+Locally:
+
+```bash
+docker build -t gititregev-site .
+docker run --rm -p 3000:3000 -e ANTHROPIC_API_KEY=sk-... gititregev-site
+
+# or without Docker
+npm run build && npm run build:server && npm start
+```
+
+Run it behind a proxy that sets `X-Forwarded-Proto`, `X-Forwarded-Host` and
+`X-Forwarded-For` (Coolify's Traefik does): the server derives the public
+request URL from them, and the chat rate-limiter keys on `X-Forwarded-For`.
+That rate limit is per process, so it resets on every redeploy.
+
 ### Vercel (alternative)
 
 Import the repo (framework preset **Vite**); [`vercel.json`](vercel.json) sets
