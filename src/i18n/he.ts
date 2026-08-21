@@ -119,4 +119,45 @@ export const he: Dict = {
     paletteHintPrefix: 'נסו את לוח הפקודות',
     paletteHintSuffix: '.',
   },
+
+  experience: {
+    eyebrow: 'ניסיון',
+    title: 'שתים עשרה שנים של בניית מוצרים שאנשים משתמשים בהם.',
+  },
+
+  aiNative: {
+    eyebrow: 'האתר הזה הוא AI-נייטיב',
+    title: 'קורות החיים שלי ניתנים לקריאת מכונה. חברו אותי לסוכן ה-AI שלכם.',
+    lead: 'רוב תיקי העבודות מיועדים לבני אדם. האתר הזה גם מדבר עם ה-LLM שלך — התחברו לשרת ה-MCP, שלפו את ה-JSON, או קראו את llms.txt.',
+    chips: {
+      mcpLive: 'שרת MCP פעיל',
+      llmsTxt: 'llms.txt',
+      resumeJson: 'resume.json',
+    },
+    cards: {
+      mcp: {
+        title: '1. התחברות לשרת ה-MCP',
+        text: 'הוסיפו את קורות החיים שלי ככלי חי ב-Claude Code (או בכל לקוח MCP אחר). לאחר מכן שאלו אותו על הניסיון, הכישורים והפרויקטים שלי.',
+        codeLabel: 'Claude Code',
+        hint: 'באפליקציית Claude.ai: Settings → Connectors → Add custom connector →',
+      },
+      fetch: {
+        title: '2. שליפת קורות החיים המובנים',
+        text: 'נקודת קצה בפורמט JSON Resume — הזרימו אותה ישירות לכל כלי שצורך נתוני מועמדים מובנים.',
+        codeLabel: 'Terminal',
+        hintPrefix: 'מעדיפים מדריך ל-LLMs?',
+      },
+      ask: {
+        title: '3. פשוט שאלו',
+        text: 'עוזר AI מבוסס עובדות שעונה על שאלות עליי בזמן אמת — בסטרימינג, בדיוק כמו שהייתם מצפים.',
+      },
+    },
+  },
+
+  contact: {
+    eyebrow: 'יצירת קשר',
+    title: 'בואו נבנה משהו עם AI.',
+    lead: 'מחפשים מישהי שיודעת לעצב מוצר AI ולשלח אותו? אשמח לשמוע במה אתם עובדים.',
+    downloadCv: 'הורדת קורות חיים (.docx)',
+  },
 };

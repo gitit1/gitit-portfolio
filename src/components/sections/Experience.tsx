@@ -2,14 +2,12 @@ import { motion } from 'framer-motion';
 import { FiExternalLink } from 'react-icons/fi';
 import { Section, revealItem } from '../common/Section';
 import { experiences } from '../../data/experience';
+import { useLang } from '../../i18n/LanguageContext';
 
 export function Experience() {
+  const { t } = useLang();
   return (
-    <Section
-      id="experience"
-      eyebrow="Experience"
-      title="Twelve years building products people use."
-    >
+    <Section id="experience" eyebrow={t('experience.eyebrow')} title={t('experience.title')}>
       <div className="timeline">
         {experiences.map((exp) => (
           <motion.article key={exp.company} className="tl-item" variants={revealItem}>

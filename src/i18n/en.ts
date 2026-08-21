@@ -120,4 +120,45 @@ export const en: Dict = {
     paletteHintPrefix: 'Try the',
     paletteHintSuffix: 'palette.',
   },
+
+  experience: {
+    eyebrow: 'Experience',
+    title: 'Twelve years building products people use.',
+  },
+
+  aiNative: {
+    eyebrow: 'This site is AI-native',
+    title: 'My resume is machine-readable. Plug me into your agent.',
+    lead: 'Most portfolios are for humans. This one also talks to your LLM — connect the MCP server, fetch the JSON, or read the llms.txt.',
+    chips: {
+      mcpLive: 'MCP server live',
+      llmsTxt: 'llms.txt',
+      resumeJson: 'resume.json',
+    },
+    cards: {
+      mcp: {
+        title: '1. Connect the MCP server',
+        text: 'Add my resume as a live tool in Claude Code (or any MCP client). Then ask it about my experience, skills and projects.',
+        codeLabel: 'Claude Code',
+        hint: 'In the Claude.ai app: Settings → Connectors → Add custom connector →',
+      },
+      fetch: {
+        title: '2. Fetch the structured resume',
+        text: 'A JSON Resume endpoint — pipe it straight into any tool that consumes structured candidate data.',
+        codeLabel: 'Terminal',
+        hintPrefix: 'Prefer a guide for LLMs?',
+      },
+      ask: {
+        title: '3. Just ask',
+        text: "A grounded AI assistant that answers questions about me in real time — streamed, like you'd expect.",
+      },
+    },
+  },
+
+  contact: {
+    eyebrow: 'Contact',
+    title: "Let's build something with AI.",
+    lead: "Looking for someone who can shape an AI product and ship it? I'd love to hear what you're working on.",
+    downloadCv: 'Download CV (.docx)',
+  },
 };

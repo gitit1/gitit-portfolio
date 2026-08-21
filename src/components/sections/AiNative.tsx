@@ -40,48 +40,41 @@ export function AiNative({ onCopyResume, copied, onAskAi }: AiNativeProps) {
   return (
     <Section
       id="ai-native"
-      eyebrow="This site is AI-native"
-      title="My resume is machine-readable. Plug me into your agent."
-      lead="Most portfolios are for humans. This one also talks to your LLM — connect the MCP server, fetch the JSON, or read the llms.txt."
+      eyebrow={t('aiNative.eyebrow')}
+      title={t('aiNative.title')}
+      lead={t('aiNative.lead')}
     >
       <motion.div className="ai-native__chips" variants={revealItem}>
         <a className="chip" href={profile.site.mcpUrl}>
-          <span className="chip__dot chip__dot--live" /> MCP server live
+          <span className="chip__dot chip__dot--live" /> {t('aiNative.chips.mcpLive')}
         </a>
         <a className="chip" href={profile.site.llmsTxt}>
-          <span className="chip__dot" /> llms.txt
+          <span className="chip__dot" /> {t('aiNative.chips.llmsTxt')}
         </a>
         <a className="chip" href={profile.site.resumeJson}>
-          <span className="chip__dot" /> resume.json
+          <span className="chip__dot" /> {t('aiNative.chips.resumeJson')}
         </a>
       </motion.div>
 
       <div className="ai-native">
         <motion.div className="ai-native__card" variants={revealItem}>
-          <h3 className="ai-native__card-title">1. Connect the MCP server</h3>
-          <p className="ai-native__card-text">
-            Add my resume as a live tool in Claude Code (or any MCP client). Then ask it about my
-            experience, skills and projects.
-          </p>
+          <h3 className="ai-native__card-title">{t('aiNative.cards.mcp.title')}</h3>
+          <p className="ai-native__card-text">{t('aiNative.cards.mcp.text')}</p>
           <CodeBlock
-            label="Claude Code"
+            label={t('aiNative.cards.mcp.codeLabel')}
             code={`claude mcp add --transport http gitit-resume ${profile.site.mcpUrl}`}
           />
           <p className="ai-native__hint">
-            In the Claude.ai app: Settings → Connectors → Add custom connector →{' '}
-            <code>{profile.site.mcpUrl}</code>
+            {t('aiNative.cards.mcp.hint')} <code>{profile.site.mcpUrl}</code>
           </p>
         </motion.div>
 
         <motion.div className="ai-native__card" variants={revealItem}>
-          <h3 className="ai-native__card-title">2. Fetch the structured resume</h3>
-          <p className="ai-native__card-text">
-            A JSON Resume endpoint — pipe it straight into any tool that consumes structured
-            candidate data.
-          </p>
-          <CodeBlock label="Terminal" code={`curl ${profile.site.resumeJson}`} />
+          <h3 className="ai-native__card-title">{t('aiNative.cards.fetch.title')}</h3>
+          <p className="ai-native__card-text">{t('aiNative.cards.fetch.text')}</p>
+          <CodeBlock label={t('aiNative.cards.fetch.codeLabel')} code={`curl ${profile.site.resumeJson}`} />
           <p className="ai-native__hint">
-            Prefer a guide for LLMs?{' '}
+            {t('aiNative.cards.fetch.hintPrefix')}{' '}
             <a className="text-link" href={profile.site.llmsTxt}>
               /llms.txt <FiExternalLink aria-hidden="true" />
             </a>
@@ -89,14 +82,11 @@ export function AiNative({ onCopyResume, copied, onAskAi }: AiNativeProps) {
         </motion.div>
 
         <motion.div className="ai-native__card ai-native__card--cta" variants={revealItem}>
-          <h3 className="ai-native__card-title">3. Just ask</h3>
-          <p className="ai-native__card-text">
-            A grounded AI assistant that answers questions about me in real time — streamed, like
-            you'd expect.
-          </p>
+          <h3 className="ai-native__card-title">{t('aiNative.cards.ask.title')}</h3>
+          <p className="ai-native__card-text">{t('aiNative.cards.ask.text')}</p>
           <div className="ai-native__cta-row">
             <button className="btn btn--primary" onClick={onAskAi}>
-              <FiMessageSquare aria-hidden="true" /> Ask my AI
+              <FiMessageSquare aria-hidden="true" /> {t('chatFab.label')}
             </button>
             <button className="btn" onClick={onCopyResume}>
               {copied ? (

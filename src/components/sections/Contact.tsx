@@ -12,22 +12,19 @@ type ContactProps = {
 export function Contact({ onCopyResume, copied }: ContactProps) {
   const { t } = useLang();
   return (
-    <Section id="contact" eyebrow="Contact" title="Let's build something with AI.">
+    <Section id="contact" eyebrow={t('contact.eyebrow')} title={t('contact.title')}>
       <motion.div className="contact-card" variants={revealItem}>
-        <p className="contact-card__lead">
-          Looking for someone who can shape an AI product and ship it? I'd love to hear what you're
-          working on.
-        </p>
+        <p className="contact-card__lead">{t('contact.lead')}</p>
 
         <div className="contact-card__actions">
           <a className="btn btn--primary" href={profile.links.email.href}>
             <FiMail aria-hidden="true" /> {profile.links.email.handle}
           </a>
           <a className="btn" href={profile.links.linkedin.href} target="_blank" rel="noreferrer">
-            <FiLinkedin aria-hidden="true" /> LinkedIn
+            <FiLinkedin aria-hidden="true" /> {t('socials.linkedin')}
           </a>
           <a className="btn" href={profile.links.github.href} target="_blank" rel="noreferrer">
-            <FiGithub aria-hidden="true" /> GitHub
+            <FiGithub aria-hidden="true" /> {t('socials.github')}
           </a>
         </div>
 
@@ -37,7 +34,7 @@ export function Contact({ onCopyResume, copied }: ContactProps) {
             {copied ? ` ${t('copyResume.copied')}` : ` ${t('copyResume.idle')}`}
           </button>
           <a className="text-link" href={profile.site.resumeDoc} download>
-            <FiDownload aria-hidden="true" /> Download CV (.docx)
+            <FiDownload aria-hidden="true" /> {t('contact.downloadCv')}
           </a>
         </div>
       </motion.div>

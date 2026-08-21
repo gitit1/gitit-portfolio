@@ -142,4 +142,52 @@ export interface Dict {
     paletteHintPrefix: string;
     paletteHintSuffix: string;
   };
+
+  // Experience section — timeline chrome only. Per-role data (company, role,
+  // bullets) stays in data/experience.ts, English-only by design.
+  experience: {
+    eyebrow: string;
+    title: string;
+  };
+
+  // AI-native section — the pitch that this site itself talks to LLMs.
+  // Product/protocol names (MCP, JSON Resume, llms.txt, Claude Code, Claude.ai)
+  // and the code/URL snippets stay untranslated in both languages.
+  aiNative: {
+    eyebrow: string;
+    title: string;
+    lead: string;
+    chips: {
+      mcpLive: string;
+      llmsTxt: string; // filename, identical in both langs by design
+      resumeJson: string; // filename, identical in both langs by design
+    };
+    cards: {
+      mcp: {
+        title: string;
+        text: string;
+        codeLabel: string; // CodeBlock label, e.g. "Claude Code" — a product name
+        hint: string; // ends right before the embedded <code>{mcpUrl}</code>
+      };
+      fetch: {
+        title: string;
+        text: string;
+        codeLabel: string; // CodeBlock label, e.g. "Terminal"
+        hintPrefix: string; // ends right before the embedded "/llms.txt" link
+      };
+      ask: {
+        title: string;
+        text: string;
+      };
+    };
+  };
+
+  // Contact section — the closing pitch + contact affordances. LinkedIn/
+  // GitHub labels are shared with `socials` above rather than duplicated.
+  contact: {
+    eyebrow: string;
+    title: string;
+    lead: string;
+    downloadCv: string;
+  };
 }
