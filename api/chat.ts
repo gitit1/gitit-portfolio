@@ -26,6 +26,10 @@ function rateLimited(ip: string): boolean {
   return entry.count > RATE_LIMIT;
 }
 
+// Canonical production hosts. Accepted even when ALLOWED_ORIGIN is unset, so
+// production works out of the box on the real domain.
+const PRODUCTION_HOSTS = new Set(['gititregev.com', 'www.gititregev.com']);
+
 function originAllowed(req: Request): boolean {
   const origin = req.headers.get('origin') || req.headers.get('referer') || '';
   if (!origin) return false;
@@ -39,6 +43,9 @@ function originAllowed(req: Request): boolean {
 
   // Local development.
   if (host.startsWith('localhost') || host.startsWith('127.0.0.1')) return true;
+
+  // Canonical production domain, explicit — works even without ALLOWED_ORIGIN set.
+  if (PRODUCTION_HOSTS.has(host)) return true;
 
   // Same-origin: the request came from the site that serves this function.
   // Works out of the box on *.netlify.app, a custom domain, or any host —

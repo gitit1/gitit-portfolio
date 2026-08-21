@@ -1,4 +1,4 @@
-# gititregev.info
+# gititregev.com
 
 Personal site for **Gitit Regev — AI Product Builder**. A modern, AI-native
 portfolio: a live "Ask my AI about me" chat grounded in the resume, plus a
@@ -40,7 +40,7 @@ and the UI, chat prompt, MCP tools, `llms.txt`, and `resume.json` all update:
 Connect the MCP server to Claude Code:
 
 ```bash
-claude mcp add --transport http gitit-resume https://gititregev.info/api/mcp
+claude mcp add --transport http gitit-resume https://gititregev.com/api/mcp
 ```
 
 ## Deploy
@@ -56,7 +56,7 @@ can move between them (or to Cloudflare / a Node server) with little change.
    publish `build`, functions in `netlify/functions/`).
 2. Set environment variables (Site configuration → Environment variables):
    - `ANTHROPIC_API_KEY` — Anthropic API key (server-side only)
-   - `ALLOWED_ORIGIN` — the site's URL, e.g. `https://gititregev.info` (or the
+   - `ALLOWED_ORIGIN` — the site's URL, e.g. `https://gititregev.com` (or the
      `*.netlify.app` URL until the custom domain is attached)
 3. Deploy. The functions are routed to `/api/chat` and `/api/mcp` via each
    function's `config.path`.

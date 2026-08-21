@@ -60,10 +60,9 @@ export const portfolioContent: PortfolioProjectContent[] = [
     slug: 'mfl',
     name: 'MFL',
     tagline: "The home of gay women couples' fanfics.",
-    state: 'live',
-    stateLabel: 'Live — hand-coded original (2019/2020), AI-managed rebuild underway (2026)',
+    state: 'in-development',
+    stateLabel: 'In renovation — hand-coded original (2019/2020), AI-managed rebuild underway (2026)',
     year: '2019–2026',
-    externalLink: 'http://www.myfanficslibrary.com',
     caseRoute: '#/case/mfl',
     capabilities: [
       'TypeScript',
@@ -82,7 +81,7 @@ export const portfolioContent: PortfolioProjectContent[] = [
     state: 'live',
     stateLabel: 'Live — mid-renovation',
     year: '2026',
-    externalLink: 'https://assaf-friends-games.netlify.app',
+    externalLink: 'https://assaf.gititregev.com',
     capabilities: ['TypeScript', 'React', 'AI-agent workflow', 'PWA', 'Hebrew RTL', 'Three.js 3D'],
   },
   {

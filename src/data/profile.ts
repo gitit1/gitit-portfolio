@@ -40,10 +40,10 @@ export const profile = {
   } satisfies Record<string, Link>,
   // Machine-readable endpoints this site exposes.
   site: {
-    origin: 'https://gititregev.info',
-    mcpUrl: 'https://gititregev.info/api/mcp',
-    resumeJson: 'https://gititregev.info/resume.json',
-    llmsTxt: 'https://gititregev.info/llms.txt',
+    origin: 'https://gititregev.com',
+    mcpUrl: 'https://gititregev.com/api/mcp',
+    resumeJson: 'https://gititregev.com/resume.json',
+    llmsTxt: 'https://gititregev.com/llms.txt',
     resumeDoc: '/files/resume-gitit-regev.docx',
   },
 } as const;
