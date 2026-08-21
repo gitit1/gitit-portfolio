@@ -1,0 +1,206 @@
+<!doctype html>
+<html dir="rtl" lang="he">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>gititregev.com — תכנית העלייה לאוויר</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Frank+Ruhl+Libre:wght@500;700&family=Heebo:wght@400;500;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+:root{
+  --ground:#f2f3f7; --paper:#ffffff; --line:#d9dce6; --ink:#171a22; --muted:#5a6070;
+  --accent:#4d5fe6; --accent-soft:#e8ebff; --accent-ink:#2e3bb3;
+  --ok:#2e8b57; --ok-soft:#e3f4ea; --warn:#9a6a12; --warn-soft:#fbf0d6; --bad:#b8352a; --bad-soft:#fbe4e1;
+  --shadow:0 1px 2px rgba(20,24,40,.06),0 6px 18px rgba(20,24,40,.06);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --ground:#0c0e12; --paper:#161920; --line:#2a2f3c; --ink:#e8eaf0; --muted:#9aa1b4;
+    --accent:#8c9bff; --accent-soft:#1d2140; --accent-ink:#b9c2ff;
+    --ok:#4fc38a; --ok-soft:#15301f; --warn:#e2a93b; --warn-soft:#33270c; --bad:#ef6b5e; --bad-soft:#3a1612;
+    --shadow:0 1px 2px rgba(0,0,0,.4),0 8px 24px rgba(0,0,0,.35);
+  }
+}
+:root[data-theme="dark"]{
+  --ground:#0c0e12; --paper:#161920; --line:#2a2f3c; --ink:#e8eaf0; --muted:#9aa1b4;
+  --accent:#8c9bff; --accent-soft:#1d2140; --accent-ink:#b9c2ff;
+  --ok:#4fc38a; --ok-soft:#15301f; --warn:#e2a93b; --warn-soft:#33270c; --bad:#ef6b5e; --bad-soft:#3a1612;
+  --shadow:0 1px 2px rgba(0,0,0,.4),0 8px 24px rgba(0,0,0,.35);
+}
+*{box-sizing:border-box}
+html{background:var(--ground)}
+body{margin:0;background:var(--ground);color:var(--ink);font-family:Heebo,"Segoe UI",Arial,sans-serif;font-size:17px;line-height:1.65}
+.wrap{max-width:78ch;margin:0 auto;padding:40px 20px 80px}
+h1,h2,h3{font-family:"Frank Ruhl Libre",Heebo,Georgia,serif;text-wrap:balance;margin:0}
+h1{font-size:2.3rem;line-height:1.15;font-weight:700}
+h2{font-size:1.55rem;margin:56px 0 14px;padding-top:18px;border-top:1px solid var(--line)}
+h3{font-size:1.15rem;margin:22px 0 8px;font-weight:700}
+p{margin:0 0 12px}
+.eyebrow{font-size:.8rem;letter-spacing:.08em;color:var(--accent-ink);font-weight:700;text-transform:uppercase;margin-bottom:8px}
+.sub{color:var(--muted);margin-top:10px;font-size:1.02rem}
+code,.mono{font-family:"IBM Plex Mono",Consolas,monospace;font-size:.88em;direction:ltr;unicode-bidi:isolate;background:var(--accent-soft);padding:1px 6px;border-radius:4px;color:var(--ink)}
+.tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px;margin:28px 0 0}
+.tile{background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:14px 16px;box-shadow:var(--shadow)}
+.tile .k{font-size:.8rem;color:var(--muted);margin-bottom:4px}
+.tile .v{font-weight:700;font-size:1.05rem;line-height:1.3}
+.chip{display:inline-block;font-size:.78rem;font-weight:700;padding:2px 9px;border-radius:999px;line-height:1.6;white-space:nowrap}
+.chip.ok{background:var(--ok-soft);color:var(--ok)} .chip.warn{background:var(--warn-soft);color:var(--warn)} .chip.bad{background:var(--bad-soft);color:var(--bad)} .chip.acc{background:var(--accent-soft);color:var(--accent-ink)}
+.tbl{overflow-x:auto;border:1px solid var(--line);border-radius:10px;background:var(--paper);box-shadow:var(--shadow)}
+table{border-collapse:collapse;width:100%;font-size:.95rem}
+th,td{padding:10px 12px;text-align:right;vertical-align:top;border-bottom:1px solid var(--line)}
+th{background:var(--accent-soft);color:var(--accent-ink);font-weight:700;font-size:.85rem}
+tr:last-child td{border-bottom:0}
+td.n{font-family:"IBM Plex Mono",monospace;font-size:.85rem;white-space:nowrap}
+.roles{display:grid;grid-template-columns:1fr auto 1fr auto 1fr;gap:10px;align-items:stretch;margin:18px 0}
+.role{background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:14px;box-shadow:var(--shadow)}
+.role h3{margin:0 0 6px;font-size:1.05rem}
+.role p{font-size:.92rem;color:var(--muted);margin:0}
+.arrow{align-self:center;font-size:1.6rem;color:var(--accent);font-weight:700}
+.role.no{border-style:dashed}
+@media (max-width:720px){.roles{grid-template-columns:1fr}.arrow{transform:rotate(90deg);justify-self:center}}
+.dec{background:var(--paper);border:1px solid var(--line);border-right:5px solid var(--accent);border-radius:10px;padding:16px 18px;margin:16px 0;box-shadow:var(--shadow)}
+.dec h3{margin-top:0}
+.dec dl{margin:10px 0 0;display:grid;grid-template-columns:max-content 1fr;gap:6px 14px}
+.dec dt{font-weight:700;color:var(--accent-ink);font-size:.9rem;white-space:nowrap}
+.dec dd{margin:0;font-size:.97rem}
+.dec ul{margin:4px 0 0;padding-right:18px}
+.dec li{margin-bottom:4px}
+.note{background:var(--warn-soft);border:1px solid var(--line);border-radius:10px;padding:12px 16px;font-size:.95rem}
+.muted{color:var(--muted)}
+ol.steps{padding-right:22px}
+ol.steps li{margin-bottom:8px}
+.foot{margin-top:48px;font-size:.85rem;color:var(--muted);border-top:1px solid var(--line);padding-top:14px}
+a{color:var(--accent-ink)}
+a:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<div class="eyebrow">gititregev.com · אתר התדמית · 21 באוגוסט 2026</div>
+<h1>תכנית העלייה לאוויר</h1>
+<p class="sub">מה בדקתי היום, מה נכון ומה לא במה שהיה כתוב, איך מתחלקים התפקידים בין האתר לבין מערכת המעקב (thinking-trail), ומה צריך לקרות — לפי הסדר — כדי שמי שמקליד <code>gititregev.com</code> יראה אתר ולא שגיאה.</p>
+
+<div class="tiles">
+  <div class="tile"><div class="k">מה רואים היום ב-gititregev.com</div><div class="v"><span class="chip bad">שגיאת אבטחה</span><br>הכתובת מצביעה לשרת החדש, אבל שום אתר לא קשור אליה שם</div></div>
+  <div class="tile"><div class="k">הכתובת הישנה gititregev.info</div><div class="v"><span class="chip bad">לא קיימת</span><br>הדומיין לא נפתר בכלל — האתר הישן ירד מהאוויר</div></div>
+  <div class="tile"><div class="k">יש באתר לוח מעקב פנימי?</div><div class="v"><span class="chip ok">לא, נקי</span><br>שום קוד של דשבורד או חיבור למערכת המעקב</div></div>
+  <div class="tile"><div class="k">קישורים לפרויקטים</div><div class="v"><span class="chip warn">2 מתים</span><br>הפאנפיקים ואתר המשחקים של אסף מצביעים לכתובות ישנות</div></div>
+</div>
+
+<h2>1 · מה בדקתי, ומה יצא</h2>
+<p>בדקתי את הקוד של האתר, את המסמכים וההחלטות של thinking-trail, את ה-DNS של שני הדומיינים, ואת רשימת האפליקציות שרצות על השרת החדש. זה מה שנמצא:</p>
+<div class="tbl"><table>
+<thead><tr><th>מה שנבדק</th><th>המצב בפועל</th><th></th></tr></thead>
+<tbody>
+<tr><td>האתר מכיל את לוח המעקב של thinking-trail?</td><td>לא. אין באתר שום קוד של לוח, שום כתובת פנימית, שום חיבור. האתר הוא "פנים ציבוריות" בלבד — כבר עכשיו תואם את מה שביקשת.</td><td><span class="chip ok">תקין</span></td></tr>
+<tr><td>האתר מקבל מידע ממערכת המעקב?</td><td>מעולם לא חובר. מערכת המעקב יודעת לייצא קובץ של "איך אני בונה" (עידנים, סיפורים, יומן — טיוטה מ-22/07), אבל הוא נשאר אצלה בתיקייה; האתר לא קורא אותו. המידע על הפרויקטים באתר כתוב היום ביד.</td><td><span class="chip warn">לא קיים עדיין</span></td></tr>
+<tr><td>איפה חי לוח המעקב?</td><td>בתוך thinking-trail עצמו (רק על המחשב שלך, נעול), ומוצג בתוך הבית של Homebase. הרעיון הישן מיולי — "לוח באתר עם כניסה מהטלפון" — עדיין כתוב במסמכים של thinking-trail כיעד פתוח, וצריך למחוק אותו שם (שורה אחת).</td><td><span class="chip warn">מסמך ישן</span></td></tr>
+<tr><td>המסמך של האתר אמר "חי בכתובת gititregev.info"</td><td>לא נכון. הדומיין הזה לא קיים יותר ב-DNS. תיקנתי את המסמך.</td><td><span class="chip bad">היה שגוי</span></td></tr>
+<tr><td>gititregev.com</td><td>מצביע נכון לשרת החדש (גם עם www), אבל על השרת רצים רק אתר המשחקים של אסף ואתר הפאנפיקים — האתר שלך לא שם. לכן המבקר מקבל שגיאת תעודת אבטחה.</td><td><span class="chip bad">לא באוויר</span></td></tr>
+<tr><td>אפשר להעלות את האתר לשרת כמו שהוא?</td><td>לא. הוא ארוז בשביל Netlify/Vercel. בשרת החדש צריך אריזה אחרת (קובץ הרצה + שרת קטן שמגיש את הדפים ואת הצ'אט).</td><td><span class="chip warn">צריך אריזה</span></td></tr>
+<tr><td>קישורים חיצוניים בכרטיסי הפרויקטים</td><td>הפאנפיקים מצביע ל-<code>myfanficslibrary.com</code> (דף חניה ריק); אסף מצביע ל-netlify (לא נמצא). הכתובות החיות היום: <code>str.gititregev.com</code> ו-<code>assaf.gititregev.com</code>.</td><td><span class="chip bad">2 מתים</span></td></tr>
+<tr><td>כתובות ישנות בתוך הקוד</td><td>הכתובת הישנה (.info) מופיעה בקוד במטא של הדף, בקישורי ה-AI (MCP, llms.txt, resume.json). הכל צריך לעבור ל-.com.</td><td><span class="chip warn">לתקן</span></td></tr>
+<tr><td>קורות החיים</td><td>מעודכנים: מכבי דרך SQLink (אוק׳ 2025–היום), Browzwear הסתיים ינו׳ 2025, F5 בהתחלה.</td><td><span class="chip ok">תקין</span></td></tr>
+<tr><td>טקסטים שמחכים לך מיולי</td><td>פסקת המיצוב, משפטי הפתיחה, תיאורי היכולות, הפרויקטים של Homebase — חלקם עדיין טקסט זמני. לפני העלייה אכין לך רשימה מדויקת (מה כתוב היום, איפה) — בלי להמציא במקומך.</td><td><span class="chip warn">לבדוק</span></td></tr>
+</tbody></table></div>
+
+<h2>2 · חלוקת התפקידים החדשה — מה הבנתי ממך</h2>
+<p>כך אני מבין את ההחלטה שלך. אם משהו כאן לא מדויק — זה הרגע לתקן אותי, כי התכנית נבנית על זה.</p>
+<div class="roles">
+  <div class="role"><h3>thinking-trail (מערכת המעקב)</h3><p>פרטית לגמרי. הדבר היחיד שהיא שולחת לאתר: <strong>תמונה מוגמרת ומאושרת של הפרויקטים</strong> — שם, משפט תיאור, מצב (חי / בפיתוח), כתובת, שנה. קובץ שנוצר אחת לכמה זמן ומועתק לאתר לפני בנייה. שום סטטוס פנימי, שום "מה מחכה לך".</p></div>
+  <div class="arrow">←</div>
+  <div class="role"><h3>gititregev.com (האתר)</h3><p>הפנים הציבוריות בלבד. מציג אותך, קורות החיים, הפרויקטים, הצ'אט. <strong>בלי לוח מעקב, בלי כניסה, בלי אזור פרטי — לעולם.</strong></p></div>
+  <div class="arrow">✕</div>
+  <div class="role no"><h3>לוח המעקב (הדשבורד)</h3><p>חי בבית של Homebase, על המחשב שלך. <strong>לא נכנס לאתר.</strong> הרעיון מיולי של "לוח באתר עם כניסה מהטלפון" — מבוטל.</p></div>
+</div>
+<p class="muted">מה כבר נכון היום: האתר באמת לא מכיל לוח. מה עוד לא קיים: ה"תמונה המוגמרת" — הקובץ הזה עדיין לא מיוצר ולא מחובר, ולכן הוא מתוכנן <em>אחרי</em> העלייה לאוויר, לא לפניה (הפרויקטים באתר כתובים ביד ועובדים).</p>
+
+<h2>3 · מה נחשב "באוויר" — הרף שאני מודד מולו</h2>
+<p>לא "עלה בהצלחה" אלא: <code>gititregev.com</code> ו-<code>www</code> נפתחים עם מנעול ירוק (תעודה תקינה) · הצ'אט עונה ומזרים טקסט · שכבת ה-AI (MCP, llms.txt, resume.json) עונה · ציוני Lighthouse 90 ומעלה בארבעת המדדים, טלפון ומחשב · <strong>אפס קישורים מתים</strong> בדף החי · צילומי מסך בשלושת הגדלים שלך (21", לפטופ, טלפון) זהים למה שנבדק מקומית · 68/68 בבדיקות האוטומטיות על הגרסה שעלתה.</p>
+
+<h2>4 · תכנית ההעלאה — לפי הסדר</h2>
+<div class="tbl"><table>
+<thead><tr><th>#</th><th>מה עושים</th><th>מי</th><th>איך יודעים שנגמר</th><th>מצב</th></tr></thead>
+<tbody>
+<tr><td class="n">D0</td><td>סדר במסמכים: המסמך הזה, קובץ הסטטוס בעברית, ומסמך ההמשך הטכני — אומרים אמת (לא "חי" כשלא חי).</td><td>אני</td><td>נכתב ונשמר</td><td><span class="chip ok">נסגר 21/08</span></td></tr>
+<tr><td class="n">D1</td><td>אמת בכתובות: כל ".info" בקוד הופך ל-".com"; הפאנפיקים מקושר לכתובת החיה (ממתין לאישורך, החלטה 3); אסף מקושר ל-<code>assaf.gititregev.com</code>; הצ'אט מקבל פניות מהכתובת החדשה.</td><td>סוכן בנייה</td><td>חיפוש ".info" בקוד = 0 תוצאות; בנייה ובדיקות ירוקות; 68/68</td><td><span class="chip acc">ממתין</span></td></tr>
+<tr><td class="n">D2</td><td>אריזה לשרת החדש: שרת קטן שמגיש את האתר ואת הצ'אט/MCP, קובץ הרצה (Dockerfile), כתובת "אני חי" לבדיקת בריאות. שומרים גם את האריזה הישנה (Netlify/Vercel) — זו המטרה של "אפשר להעביר בין שירותי אחסון".</td><td>סוכן בכיר</td><td>רץ מקומית על הפורט שלי (4012): דף נפתח, צ'אט מזרים, MCP עונה</td><td><span class="chip acc">ממתין</span></td></tr>
+<tr><td class="n">D3</td><td>בדיקת תוכן (קריאה בלבד): רשימה של כל טקסט זמני שמחכה למילים שלך — קובץ, שורה, מה כתוב היום. את ממלאת או מאשרת כמו שהוא.</td><td>סוכן קריאה</td><td>רשימה אצלך</td><td><span class="chip acc">ממתין</span></td></tr>
+<tr><td class="n">D4</td><td>העלאה לשרת: יצירת האפליקציה בשרת (Coolify), חיבור לריפו בגיטהאב, הכתובות <code>gititregev.com</code> + <code>www</code>, המפתח של הצ'אט. <strong>שלוש פעולות רק את יכולה:</strong> לאשר דחיפה לגיטהאב, לתת את מפתח ה-API של הצ'אט (עולה כסף לפי שימוש), ולהריץ סקריפט קצר שרושם את מפתח הגישה של השרת לגיטהאב (המערכת חוסמת אותי מלגעת בקבצי מפתח).</td><td>אני + את</td><td>האפליקציה רצה בשרת</td><td><span class="chip acc">ממתין</span></td></tr>
+<tr><td class="n">D5</td><td>שער ה"באוויר" (סעיף 3) — תעודה, צ'אט, MCP, Lighthouse, צילומים, קישורים. רק אז קובץ הסטטוס מקבל "חי ב-gititregev.com".</td><td>אני</td><td>כל הרף עובר, עם צילומים</td><td><span class="chip acc">ממתין</span></td></tr>
+<tr><td class="n">D6</td><td>אחרי שהאתר חי: (א) לבנות את "תמונת הפרויקטים המוגמרת" ממערכת המעקב ולחבר אותה לאתר; (ב) "הכל במסך אחד" (הבחירה שלך מיולי); (ג) עיצוב לטלפון; (ד) דפי הצגה ל-Wildhearth ול-MFL.</td><td>בהמשך</td><td>—</td><td><span class="chip">לא התחיל</span></td></tr>
+</tbody></table></div>
+
+<h2>5 · החלטות שרק את יכולה לקבל</h2>
+
+<div class="dec">
+<h3>החלטה 1 · מה קודם — לעלות לאוויר, או לסיים קודם את "הכל במסך אחד"?</h3>
+<dl>
+<dt>מה זה בכלל</dt><dd>ביולי הכנתי לך דף עם שלוש אפשרויות איך כל מקטע באתר ייכנס למסך אחד בלי גלילה. עדיין לא בחרת. בינתיים התברר שהאתר לא באוויר בכלל.</dd>
+<dt>למה זה עלה עכשיו</dt><dd>כי מי שמקליד היום <code>gititregev.com</code> מקבל שגיאת אבטחה — וזה הרבה יותר גרוע מכמה מקטעים שדורשים גלילה קלה.</dd>
+<dt>האפשרויות</dt><dd><ul>
+<li><strong>לעלות קודם</strong> (כמו שהאתר היום — יפה, נגיש, עם 3 מקטעים שגולשים קצת), ואז ללטש. מה תראי: אתר חי תוך ימים; הליטוש אחר כך בלי לחץ.</li>
+<li><strong>ללטש קודם</strong> ואז לעלות. מה תראי: עוד סבב עיצוב ובחירה לפני שמישהו רואה משהו; הכתובת ממשיכה להראות שגיאה בינתיים.</li>
+</ul></dd>
+<dt>ההמלצה שלי</dt><dd><strong>לעלות קודם.</strong> הרף האובייקטיבי של אתר תדמית הוא "קיים, מאובטח, נכון, מהיר" — והיום הוא נכשל בסעיף הראשון. הקאונטר הכן: את ביקשת במפורש "אבחר ומשם נמשיך", ויש טעם בלהעלות גרסה שאת שלמה איתה; אבל אף מבקר לא יקרא לגלילה קלה "שבור", ושגיאת אבטחה — כן.</dd>
+<dt>אם לא מחליטים</dt><dd>האתר נשאר לא באוויר, והכתובת ממשיכה להפחיד מבקרים.</dd>
+</dl>
+</div>
+
+<div class="dec">
+<h3>החלטה 2 · הכתובת הישנה gititregev.info — עדיין שלך?</h3>
+<dl>
+<dt>מה זה בכלל</dt><dd>הדומיין הישן שבו האתר חי עד עכשיו. היום הוא לא נפתר בכלל — כנראה פג או נותק.</dd>
+<dt>למה זה עלה עכשיו</dt><dd>יש אנשים וקישורים (לינקדאין, גוגל) שעוד מכירים את הכתובת הישנה.</dd>
+<dt>האפשרויות</dt><dd><ul>
+<li><strong>עדיין בבעלותך</strong> → לחדש ולהפנות אוטומטית ל-.com (מי שמקליד .info יגיע לאתר החדש). עולה את דמי החידוש השנתיים.</li>
+<li><strong>לא בבעלותך / לא רוצה</strong> → לא עושים כלום עם .info. בכל מקרה כל ההפניות בקוד עוברות ל-.com (זה לא תלוי בהחלטה).</li>
+</ul></dd>
+<dt>ההמלצה שלי</dt><dd>אם החידוש זול — לחדש ולהפנות, לשנה-שנתיים, בשביל הקישורים הישנים. אם כבר אבד — לשחרר.</dd>
+<dt>אם לא מחליטים</dt><dd>מי שמגיע מהכתובת הישנה לא מוצא כלום.</dd>
+</dl>
+</div>
+
+<div class="dec">
+<h3>החלטה 3 · לאן מקשרים את אתר הפאנפיקים מתוך האתר שלך?</h3>
+<dl>
+<dt>מה זה בכלל</dt><dd>כרטיס MFL באתר מקשר היום ל-<code>myfanficslibrary.com</code> — שמראה דף חניה ריק, כי הדומיין עוד לא חובר לשרת החדש.</dd>
+<dt>האפשרויות</dt><dd><ul>
+<li><strong>לקשר עכשיו ל-<code>str.gititregev.com</code></strong> (חי היום) ולהחליף ל-myfanficslibrary.com כשתחברי אותו. מה תראי: קישור שעובד מהיום הראשון.</li>
+<li><strong>להשאיר את myfanficslibrary.com</strong> ולחכות שיחובר. מה תראי: קישור מת עד אז.</li>
+</ul></dd>
+<dt>ההמלצה שלי</dt><dd>str עכשיו. קישור מת בדף הראשי של אתר תדמית הוא הדבר הראשון שמגייס שם לב אליו.</dd>
+<dt>אם לא מחליטים</dt><dd>נשאר מת — ואז האתר לא עובר את הרף של סעיף 3 ואני לא מכריז "באוויר".</dd>
+</dl>
+</div>
+
+<div class="dec">
+<h3>החלטה 4 · שלוש פעולות שרק את מבצעת בשלב ההעלאה</h3>
+<dl>
+<dt>מה זה בכלל</dt><dd>(א) מילת "דחפי" לגיטהאב — הכלל אצלנו שאני לא דוחף בלי מילה שלך. (ב) מפתח ה-API של הצ'אט — חשבון שלך, חיוב לפי שימוש (הצ'אט מוגבל ל-10 פניות לדקה לכתובת, זול מאוד). (ג) הרצת סקריפט קצר שרושם בשרת מפתח גישה לריפו — אותו נוהל שעשינו עם אתר אסף.</dd>
+<dt>מתי</dt><dd>רק אחרי ש-D1–D3 סגורים ובדוקים מקומית. אני אכין הכל ואגיד לך בדיוק מה להקליד.</dd>
+</dl>
+</div>
+
+<div class="dec">
+<h3>החלטה 5 · תיקון שורה אחת במסמכים של thinking-trail</h3>
+<dl>
+<dt>מה זה בכלל</dt><dd>במסמכי thinking-trail עדיין כתוב יעד "חיבור לאתר (התחברות מהטלפון)" והחלטה מיולי על "לוח באתר". לפי מה שאמרת היום — זה בוטל. צריך שורה אחת שם: "האתר מקבל רק תמונה מוגמרת של פרויקטים; הלוח חי ב-Homebase".</dd>
+<dt>למה לא עשיתי</dt><dd>זה ריפו אחר — לפי הכלל שלך אני לא נוגע בו מהסשן הזה בלי מילה מפורשת.</dd>
+<dt>האפשרויות</dt><dd>"כן, תתקן שם" (אעשה מכאן) / לעשות בסשן של thinking-trail.</dd>
+</dl>
+</div>
+
+<h2>6 · מה לא בתכנית, ולמה</h2>
+<ul>
+<li><strong>חיבור חי בין מערכת המעקב לאתר</strong> — לא. ההחלטה מיולי נשארת: האתר מקבל קובץ מוגמר לפני בנייה, לא שואל שרת פרטי. ככה שום דבר לא-מאושר לא יכול לדלוף.</li>
+<li><strong>להוריד את האריזה ל-Netlify/Vercel</strong> — לא. נשארת בריפו כדי שאפשר יהיה לעבור שירות אחסון בקלות (אחד היעדים שלך).</li>
+<li><strong>שינוי שם הריפו/התיקייה</strong> (עדיין נקראים gititregev.info) — לא עכשיו; לא משפיע על שום דבר שמבקר רואה.</li>
+</ul>
+
+<div class="note"><strong>סיכון אחד לומר בקול:</strong> ה-MCP והצ'אט נכתבו כ"פונקציות ענן". באריזה לשרת משלנו הם צריכים להתחבר דרך שרת Node קטן. זה עבודה של יום, לא שבוע — אבל זה הדבר היחיד בתכנית שיכול להפתיע, ולכן הוא נבדק מקומית (D2) לפני שנוגעים בשרת.</div>
+
+<p class="foot">נכתב 21/08/2026 אחרי בדיקה מול הקוד, מסמכי thinking-trail, DNS, ורשימת האפליקציות בשרת. המסמך הטכני המקביל: <code>docs/HANDOFF.md</code> (מקטע 2026-08-21). קובץ הסטטוס בעברית: <code>STATUS.md</code>.</p>
+</div>
+</body>
+</html>

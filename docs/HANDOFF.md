@@ -6,9 +6,73 @@
 Purpose: let a NEW session pick up the site redesign with zero other context.
 Newest state at top.
 
+## 2026-08-21 — VERIFIED: site role vs thinking-trail, and the GO-LIVE plan for gititregev.com
+
+Owner (2026-08-21): "thinking-trail אמור עכשיו רק להביא תמונה מוגמרת של
+פרויקטים לאתר הזה ולא להכיל את הדשבורד שלו … לפני שנדחף אותו לשרת החדש …
+הוא האתר הראשי שאמור לעלות שכותבים gititregev.com". Architect verified
+against code + thinking-trail + DNS + Coolify, then re-sequenced the plan.
+Owner-facing version (Hebrew RTL): `docs/PLAN-GOLIVE-2026-08-21.html`.
+
+### What was verified (facts, 2026-08-21)
+
+| claim | reality |
+|---|---|
+| Site contains thinking-trail's dashboard/cockpit | **No.** Repo-wide grep for cockpit/dashboard/5203/thinking-trail/feed in `src api netlify scripts` → zero code hits. The site is public-face only. ✅ already matches the ruling |
+| Site consumes a thinking-trail feed | **Never wired.** thinking-trail's `npm run export-feed` writes `data/feed/how-i-build.json` (eras/stories/journal, preview from 2026-07-22, 3 stories/5 journal) inside ITS repo; nothing imports it here. Current `HowIBuild.tsx` is hand-authored from `data/skills.ts`. Confirmed by thinking-trail HANDOFF 2026-08-21 ("that wiring to the site was never built … dashboard role now belongs to the Hub (Wave 6)") |
+| thinking-trail's dashboard | Lives in thinking-trail itself (localhost:5203, loopback-bound, token, CORS allowlist) and is being framed into the **Homebase Hub** (Wave 6). Homebase DECISIONS 2026-08-14/21: thinking-trail is a Homebase platform service. So the "site cockpit / phone login" phase-2 idea (DECISIONS 2026-07-23 in thinking-trail, STATUS goal "חיבור לאתר (התחברות מהטלפון)") is **superseded** — needs a one-line correction in thinking-trail's STATUS.md + DECISIONS.md (NOT done here — other repo, owner must say so) |
+| `STATUS.md: server: live https://gititregev.info` | **False.** `gititregev.info` has NO DNS at all (no A, no NS) — domain gone/expired. The old site is offline |
+| `gititregev.com` | A → 204.168.255.68 (Hetzner hub) + www CNAME, but **no Coolify app bound** to it → visitors get a TLS trust error. Coolify has only `assaf-friends-games` + `shipping-the-rainbow` |
+| Deployable on Coolify as-is | **No.** No Dockerfile, no Node server; `api/chat.ts` + `api/mcp.ts` are web-standard handlers packaged only for Netlify/Vercel functions |
+| External links in `portfolio-content.ts` | **2 dead:** MFL → `http://www.myfanficslibrary.com` (GoDaddy parking, 114 bytes); Assaf → `assaf-friends-games.netlify.app` (404). Live truth: `https://str.gititregev.com`, `https://assaf.gititregev.com` |
+| Hard-coded `gititregev.info` in code | `src/data/profile.ts` (origin/mcpUrl/resumeJson/llmsTxt), `index.html` (canonical, og:url, og:image, twitter:image, JSON-LD url) — all must become `gititregev.com` (canonical-domain decision 2026-07-18) |
+| Career data | ✅ current (`experience.ts` has Maccabi via SQLink Oct 2025–Present, Browzwear ended Jan 2025, F5) |
+| Owner-content placeholders (memory 2026-07) | still to re-check: AI positioning paragraph + hero phrases (`profile.ts`), skill blurbs (`skills.ts`), Independent bullets, Homebase entries — WP-D3 lists them for her |
+
+### New division of roles (recorded here; thinking-trail docs need the mirror line)
+
+- **gititregev.com (this repo)** = the public face ONLY. No dashboard, no
+  status board, no private route, ever. Shows projects only as approved
+  portfolio entries (DECISIONS 2026-07-23 in thinking-trail: "all project
+  status PRIVATE").
+- **thinking-trail** = private producer. Its ONLY output toward this site is a
+  *finished picture of projects*: an approved, build-time JSON snapshot
+  (per the 2026-07-20 decoupled-consumer decision — push, not live endpoint,
+  no auth needed on the site). Contract to be defined in WP-D6 (after
+  go-live); until then `portfolio-content.ts` stays the hand-maintained
+  source and is NOT blocked on it.
+- **Homebase Hub** = where the dashboard/cockpit is viewed (Wave 6).
+
+### GO-LIVE plan — dispatch ledger (architect plans/verifies; agents build)
+
+Bar for "live": `https://gititregev.com` + `www` answer 200 with a valid
+Let's Encrypt cert · chat streams · `/api/mcp` initialize + 5 tools ·
+`/llms.txt` + `/resume.json` served · Lighthouse ≥90 ×4 (mobile+desktop) ·
+zero dead links on the live page (each CTA reaches a live target or shows
+the honest chip) · screenshots at 1920×945 / 1440×765 / 390 match the
+local build · `verify-hero.cjs` 68/68 on the prod build.
+
+| WP | deliverable | tier | status |
+|---|---|---|---|
+| D0 | docs truth pass: this section, STATUS.md (Hebrew), plan HTML + artifact | architect | ✅ 2026-08-21 |
+| D1 | domain + links truth in code: every `gititregev.info` → `gititregev.com` (`profile.ts`, `index.html`, README); MFL → `https://str.gititregev.com` (**owner confirm, see decisions**); Assaf → `https://assaf.gititregev.com`; `api/chat.ts` same-origin allowlist covers `gititregev.com` + `www`. Gate: `grep -rn "gititregev.info" src api index.html` = 0; `npm run build` + lint clean; `verify-hero.cjs` 68/68 on 4012 | sonnet | pending |
+| D2 | Coolify packaging: `server/index.mjs` (Node 22, zero new deps: `node:http` + global `Request`/`Response`) serving `build/` static + SPA fallback, routing `/api/chat` + `/api/mcp` to the existing handlers through a small Node→web-standard adapter (streaming preserved), `/healthz`; multi-stage `Dockerfile` (node:22-alpine build → runtime, non-root, `PORT` env, default 3000) + `.dockerignore`; `npm run start`. Keep `netlify.toml`/`vercel.json` (portability goal stays). Gate: local `PORT=4012 node server/index.mjs` → page 200, `/healthz` 200, chat streams with `ANTHROPIC_API_KEY` from env, MCP `initialize` answers; `docker build` if Docker exists locally, else on the hub | opus | pending |
+| D3 | read-only content pre-flight: list every placeholder/owner-pending copy with file:line + current text, for her to fill or approve as-is (never invent her words) | sonnet (explore) | pending |
+| D4 | deploy: **push needs her word** (branch `redesign/gitit-os` → decide: merge to `main` or deploy the branch); Coolify project `gititregev-site`, app from `gitit1/gitit-portfolio`, build_pack=dockerfile, `is_static=false`, domains `https://gititregev.com` + `https://www.gititregev.com`, env `ANTHROPIC_API_KEY` (**hers**), `ALLOWED_ORIGIN=https://gititregev.com`; deploy key registration = **her script run** (classifier blocks key files, see hub-server skill); trigger deploy via API | architect + owner | pending |
+| D5 | live gate (the bar above) + screenshots + Lighthouse; then flip `STATUS.md` to `server: live https://gititregev.com` | architect | pending |
+| D6 | AFTER live: thinking-trail → site **projects snapshot contract** (`projects-public.json`: slug/name/tagline/state/url/year/capabilities, approved+public only, generated by a new `export-projects` in thinking-trail from `project_status` + `projects.visibility`; copied in at build time; `portfolio-content.ts` derives from it). Then R5-b pick, Mobile WP, case pages (order unchanged) | later | not started |
+
+### Owner decisions opened by this verification (plain-language versions in the HTML)
+
+1. **Order:** go live FIRST with the current build (R5-b polish after) — architect's recommendation; or finish R5-b first. Counter-case: she explicitly wanted to pick R5-b "ומשם נמשיך"; but today `gititregev.com` shows an error page, and R5-b changes nothing a visitor would call broken.
+2. **gititregev.info:** does she still own it? If yes → renew + 301 to .com (hub Traefik or registrar forward). If no → nothing; all references move to .com regardless (D1).
+3. **MFL link target:** `https://str.gititregev.com` now (live), switch to `myfanficslibrary.com` once that domain is connected; or wait. Recommendation: str now.
+4. **Push + key + deploy key:** three actions only she can authorize/run (push to GitHub; her `ANTHROPIC_API_KEY` in Coolify = paid usage; deploy-key script).
+5. **thinking-trail doc mirror:** approve a one-line correction in thinking-trail STATUS.md goal + DECISIONS (site gets snapshot only; dashboard = Hub). Done in a thinking-trail session, not here.
+
 ## Current state
 
-- Branch `redesign/gitit-os` @ commit `fc18db2`, tree CLEAN, nothing uncommitted.
+- Branch `redesign/gitit-os` @ commit `b4d1f4c` (+ the 2026-08-21 docs commit); tree clean after it. For DEPLOY work read the 2026-08-21 section above first — it supersedes the "preparation mode" framing below.
 - Verification harness: **68/68 green** (`verify-hero.cjs`).
 - Site is in **PREPARATION mode** until deployed. Owner's ruling (2026-07-25):
   **"בעיקרון כולם מתים עד שאתחיל להעלות לשרת ונקשר לאמת, כרגע רק נכין אותם."**
@@ -16,7 +80,7 @@ Newest state at top.
   to re-flag; severity is deferred until she deploys and wires it to reality.
 - Work is PAUSED by the owner since 2026-07-26 — "back in a few days."
 
-## 🔔 THE ONE OPEN ITEM — do this first when she returns
+## 🔔 R5-b — open owner pick (as of 2026-08-21 sequenced AFTER go-live, see decision 1 above)
 
 **R5-b awaits her pick.** Open the decision artifact for her before doing
 anything else and wait — she asked for this explicitly (2026-07-26):
