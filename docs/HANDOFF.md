@@ -42,18 +42,67 @@ no skips. Agent's local Lighthouse: mobile a11y 0.98 → **1.00**, desktop 0.94 
 both audits FAIL → PASS in both runs. NOT yet re-measured on the live URL — the fix is
 committed but **not deployed** (no push, no redeploy this session).
 
-### R5-b — the untried lever is being MEASURED before she is asked
+### R5-b — the untried lever is MEASURED and REJECTED (2026-08-22)
 
 The HANDOFF's own warning ("⚠️ THE UNTRIED LEVER — try this first on resume, nobody has
-measured it yet") was honoured: an agent is measuring whether raising the capability-graph
-hide-breakpoint past the 1440px laptop brings `projects` under the 0.98 bar without hiding
-real content. Baseline + lever `measure-fills.cjs` tables at 1920x945 and 1440x765, plus
-before/after screenshots, land in the session scratchpad. **The owner is not asked until
-the lever's real numbers exist** — otherwise her options would be part guesswork.
+measured it yet") was honoured. Dispatched to a sonnet agent with a measure-only brief;
+architect looked at the screenshots and reverted the change (tree clean, nothing committed).
 
-Current baseline for reference, from `verify-hero.cjs` this session (its own looser
-thresholds, not the 0.98 bar): @1920x945 how-i-build 1.02 · experience 1.01 · projects 1.01
-· ai-native 0.92 · contact 0.92.
+**Lever tested:** raise the capability-graph hide-breakpoint from `1200px` to `1600px`
+(`_projects-graph.scss` media gate + the matching comment in `_projects.scss`), so the
+panel is hidden at the 1440 laptop and still shown on the 21".
+
+| `#projects` fill | 1920×945 | 1440×765 |
+|---|---|---|
+| today (baseline, re-measured) | 1.013 | 1.136 |
+| with the lever | 1.013 (panel still shown — intended) | **1.103** |
+| bar | 0.98 | 0.98 |
+
+**REJECTED — and it also looks worse.** Gain is 0.033 where 0.123 is needed. The reason,
+visible in `scratchpad/r5b/lever-projects-1440.png`: with the panel gone, the pre-existing
+`repeat(auto-fit, minmax(min(270px,100%), 1fr))` grid reclaims the freed width by going
+**2-up → 3-up**, which orphans the 4th card (Homebase) onto a second row that is clipped at
+the viewport bottom. The new row eats back nearly all the height the panel's removal saved.
+
+Honest confirmations from the run: **no information is lost** at 1440 with the panel hidden
+(all 4 registry projects + their capability chips still render; the panel is aria-hidden
+decoration) — so the lever is not *wrong*, just ineffective. `verify-hero.cjs` went 66/68
+under the lever; both failures are the two graph-interaction assertions that hard-code
+"panel visible at 1440", i.e. expected consequences, not new bugs. They are moot now that
+the lever is reverted.
+
+**Do NOT retry this lever.** If anyone wants `projects` under 0.98 at 1440, the remaining
+untested idea is forcing a SINGLE row of 4 (lower the `minmax` floor from 270px so auto-fit
+picks 4 columns at the ~1120px container) — that touches `.projects-grid`'s column math and
+would put cards at ~250px wide, which risks the legibility floors. Not attempted; not
+recommended without owner input.
+
+### The reframe this produced — what the R5-b decision ACTUALLY is
+
+Even a perfect `projects` fix does not rescue the laptop: `how-i-build` (1.197) and
+`experience` (1.141) at 1440 are the bigger offenders and the graph does not touch them.
+The HANDOFF already recorded the honest limit ("≤0.98 on BOTH screens is not reachable
+without hiding content or breaking the legibility floors"). So the owner's decision is not
+"which technical option" but **which screen must fit**:
+
+- **א׳ calibrate to the 21"** (= the standing A-for-Experience + C-for-the-rest composite)
+  — all five sections pass on the 21"; the laptop scrolls ~13–15% on two or three sections;
+  nothing hidden anywhere. **Architect's recommendation.**
+- **ב׳ make the laptop fit too** — requires hiding content behind a "show more" (option B,
+  already measured and failed on its own terms).
+- **ג׳ deliberately drop the one-screen bar on the laptop** — do nothing beyond the 21"
+  calibration. Practically equivalent to א׳, minus calling it a failure.
+
+Counter-case recorded for her: if she presents herself to recruiters FROM the laptop
+(meetings, conferences, away from the desk), the laptop is the screen that matters and the
+recommendation flips. Only she knows that.
+
+**Decision artifact updated in place (same URL, per her standing rule):**
+https://claude.ai/code/artifact/f4dbedf2-880c-434b-9a38-2865f9e8ed34
+Added: the dated "lever measured & rejected" block with both 1440 screenshots, the
+which-screen-must-fit reframe with the three plain-Hebrew choices, recommendation +
+counter-case + do-nothing outcome; the old "untried lever" note is kept and stamped
+✗ נבדק · נפסל rather than deleted; footer records the 2026-08-22 re-measurement.
 
 ## 2026-08-21 — VERIFIED: site role vs thinking-trail, and the GO-LIVE plan for gititregev.com
 
