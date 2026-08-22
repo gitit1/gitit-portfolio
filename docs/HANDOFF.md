@@ -6,6 +6,55 @@
 Purpose: let a NEW session pick up the site redesign with zero other context.
 Newest state at top.
 
+## 2026-08-22 (later) — resume after usage-limit stop: a11y follow-ups closed, R5-b lever under measurement
+
+State on resume, verified against reality (not memory):
+
+- `redesign/gitit-os` == `main` == `origin/main` @ `ab8fc41`, tree clean.
+- Live probe: `https://gititregev.com/` 200, `/healthz` 200.
+- **Chat still unconfigured live** — `POST /api/chat` with a good Origin returns
+  `{"error":"Server not configured"}`. `ANTHROPIC_API_KEY` is STILL not set in Coolify.
+  This is owner-action #1 and has not moved since D4.
+
+### D7 — a11y follow-ups from the D5 live gate ✅ 2026-08-22, commit `7550e23`
+
+Dispatched to a sonnet agent, then architect-verified independently (diff read, gates
+re-run locally, both viewports rendered and LOOKED AT in EN and HE).
+
+| audit | root cause | fix |
+|---|---|---|
+| `heading-order` | `ProjectSpotlight`'s `<h3 class="spotlight__name">` renders next to the hero `<h1>`, ahead of the first `<h2>` section title in document order → level skip | `<h3>` → `<h2>`. Visually identical by construction: `h1,h2,h3` share one global rule in `global.scss:110`, and the size comes from `.spotlight__name` (`_project-spotlight.scss:99`). Confirmed by rendering, not reasoning |
+| `label-content-name-mismatch` | Header brand button had `aria-label={t('goToTop')}` — "Go to top" shares no text with its visible content ("Gitit Regev" / "AI PRODUCT BUILDER") | aria-label dropped; the accessible name now derives from the visible spans. Lang toggle's aria-label now prefixes the visible glyph (`עב — Switch to Hebrew` / `EN — עבור לאנגלית`), covering both dicts through existing `t()` calls with no dict edits |
+
+**Accepted trade-off, recorded so nobody "fixes" it back:** the brand button no longer
+announces its purpose to a screen reader — it announces "Gitit Regev AI Product Builder".
+Voice control still works on the visible name. `goToTop` is now an ORPHANED dict key in
+`en.ts`/`he.ts`/`types.ts:37`; kept deliberately. The strictly-better alternative is
+an aria-label built as "name + title + em-dash + goToTop" (passes axe's substring
+rule AND announces purpose); it was not taken because the bar was already met and it needs
+its own Lighthouse re-verification. Cheap follow-up if anyone touches the header again.
+
+Architect verification (re-run, not trusted from the agent report): `npm run lint` clean ·
+`npx tsc --noEmit` clean · `npm run build` ok · `verify-hero.cjs` **68/68** · rendered
+1920x945 EN+HE and looked at the shots (RTL mirrors correctly, spotlight name unchanged in
+size, nothing clipped) · live DOM outline now `H1 → H2 → H2 → H3 → H3 → H2 → H3 → H3`,
+no skips. Agent's local Lighthouse: mobile a11y 0.98 → **1.00**, desktop 0.94 → **0.96**,
+both audits FAIL → PASS in both runs. NOT yet re-measured on the live URL — the fix is
+committed but **not deployed** (no push, no redeploy this session).
+
+### R5-b — the untried lever is being MEASURED before she is asked
+
+The HANDOFF's own warning ("⚠️ THE UNTRIED LEVER — try this first on resume, nobody has
+measured it yet") was honoured: an agent is measuring whether raising the capability-graph
+hide-breakpoint past the 1440px laptop brings `projects` under the 0.98 bar without hiding
+real content. Baseline + lever `measure-fills.cjs` tables at 1920x945 and 1440x765, plus
+before/after screenshots, land in the session scratchpad. **The owner is not asked until
+the lever's real numbers exist** — otherwise her options would be part guesswork.
+
+Current baseline for reference, from `verify-hero.cjs` this session (its own looser
+thresholds, not the 0.98 bar): @1920x945 how-i-build 1.02 · experience 1.01 · projects 1.01
+· ai-native 0.92 · contact 0.92.
+
 ## 2026-08-21 — VERIFIED: site role vs thinking-trail, and the GO-LIVE plan for gititregev.com
 
 Owner (2026-08-21): "thinking-trail אמור עכשיו רק להביא תמונה מוגמרת של
