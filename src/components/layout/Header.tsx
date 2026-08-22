@@ -34,7 +34,12 @@ export function Header({ active, theme, onToggleTheme, onNavigate, onAskAi }: He
   return (
     <header className={clsx('header', scrolled && 'header--scrolled')}>
       <div className="container header__inner">
-        <button className="brand" onClick={() => go('home')} aria-label={t('goToTop')}>
+        {/* No aria-label here on purpose: the two child spans (name + role)
+            already give this button a real accessible name computed from
+            its own visible content, so an aria-label would only risk a
+            label-content-name-mismatch (the visible text renders as two
+            lines; an aria-label can't reliably reproduce that verbatim). */}
+        <button className="brand" onClick={() => go('home')}>
           <span className="brand__name">{profile.name}</span>
           <span className="brand__role">{profile.title}</span>
         </button>
@@ -90,7 +95,7 @@ export function Header({ active, theme, onToggleTheme, onNavigate, onAskAi }: He
           <button
             className="icon-btn lang-toggle"
             onClick={toggleLang}
-            aria-label={t('langToggle.ariaLabel')}
+            aria-label={`${t('langToggle.label')} — ${t('langToggle.ariaLabel')}`}
           >
             {t('langToggle.label')}
           </button>

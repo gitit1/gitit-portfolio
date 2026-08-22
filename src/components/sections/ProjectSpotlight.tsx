@@ -205,7 +205,12 @@ function SpotlightPanel({ project, t, arrow }: SpotlightPanelProps) {
 
   const meta = (
     <div className="spotlight__meta">
-      <h3 className="spotlight__name">{project.name}</h3>
+      {/* h2, not h3: this renders inside the hero's <h1> before any <h2>
+          section title appears in document order (the spotlight sits next
+          to the hero identity, ahead of the "How I build" section) — h3
+          here would skip a level (Lighthouse heading-order). Visual size is
+          unaffected: sizing comes from .spotlight__name, not the tag. */}
+      <h2 className="spotlight__name">{project.name}</h2>
       <p className="spotlight__tagline">{project.tagline}</p>
       <div className="spotlight__row">
         {/* stateLabel (richer, English) is title-only per the brief — the
