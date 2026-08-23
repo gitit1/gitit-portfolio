@@ -36,6 +36,10 @@
 @media (min-width: 860px) {
   .hib-bridge__claim {
     font-size: clamp(1.4rem, 2.3vw, 1.9rem);
+    // R5-b option C (2026-08-23): line SPACING only — the font-size above is
+    // untouched (the type scale is exhausted, see HANDOFF). A display-weight
+    // claim at this size carries 1.1 comfortably.
+    line-height: 1.1;
   }
 }
 .hib-bridge__kicker {
@@ -69,11 +73,14 @@
     margin-top: clamp(0.25rem, 0.7vh, 0.45rem);
   }
   .hib-bridge__kicker {
-    margin-top: 0.5rem;
-    line-height: 1.4;
+    // R5-b option C (2026-08-23): -0.15rem. Vertical rhythm only.
+    margin-top: 0.35rem;
+    line-height: 1.35;
   }
   .hib-block {
-    margin-top: clamp(0.6rem, 1.5vh, 1rem);
+    // R5-b option C (2026-08-23): this margin is paid TWICE (receipts row +
+    // method rail), so every 1px here is 2px off the section.
+    margin-top: clamp(0.4rem, 1vh, 0.7rem);
   }
 }
 .hib-block__label {
@@ -92,7 +99,8 @@
 // its margin-bottom is paid twice over. Desktop-only, mobile keeps 1.1rem.
 @media (min-width: 860px) {
   .hib-block__label {
-    margin-bottom: 0.5rem;
+    // R5-b option C (2026-08-23): 0.5rem -> 0.3rem, also paid twice.
+    margin-bottom: 0.3rem;
   }
 }
 
@@ -113,7 +121,9 @@
 }
 @media (min-width: 860px) {
   .hib-col {
-    padding: clamp(0.4rem, 0.9vh, 0.55rem) 1.1rem;
+    // R5-b option C (2026-08-23): vertical padding only — the inline 1.1rem
+    // is untouched, the columns keep their horizontal breathing room.
+    padding: clamp(0.3rem, 0.6vh, 0.4rem) 1.1rem;
   }
 }
 .hib-col:hover {
@@ -130,8 +140,10 @@
 }
 @media (min-width: 860px) {
   .hib-col__head {
-    padding-bottom: 0.35rem;
-    margin-bottom: 0.35rem;
+    // R5-b option C (2026-08-23): the rule between a column's title and its
+    // list keeps its separation, just tighter on both sides.
+    padding-bottom: 0.25rem;
+    margin-bottom: 0.25rem;
   }
 }
 .hib-col__label {
@@ -155,12 +167,23 @@
 }
 @media (min-width: 860px) {
   .hib-col__list {
-    gap: clamp(0.3rem, 0.9vh, 0.5rem);
+    // R5-b option C (2026-08-23): the AI column carries 5 items, so this gap
+    // is paid 4 times over in the row's tallest column — the single biggest
+    // spacing lever inside the receipts row.
+    gap: clamp(0.22rem, 0.62vh, 0.36rem);
   }
 }
 .hib-item {
   display: grid;
   gap: 0.15rem;
+}
+// R5-b option C (2026-08-23): the name/blurb pair reads as one unit, so the
+// hairline between them can go without losing the grouping. Paid once per
+// item (5 in the tallest column). Desktop only; mobile keeps 0.15rem.
+@media (min-width: 860px) {
+  .hib-item {
+    gap: 0.04rem;
+  }
 }
 .hib-item__name {
   font-weight: 600;
@@ -211,7 +234,9 @@
 }
 @media (min-width: 860px) {
   .hib-rail__step {
-    padding-block: clamp(0.4rem, 0.9vh, 0.6rem);
+    // R5-b option C (2026-08-23): the rail is a single row, so this is worth
+    // ~6px once — small but free, the 26px index badge still sets the floor.
+    padding-block: clamp(0.28rem, 0.6vh, 0.42rem);
   }
 }
 .hib-rail__step:last-child {

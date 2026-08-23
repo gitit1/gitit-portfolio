@@ -28,6 +28,49 @@
     gap: 0.1rem;
   }
 }
+// R5-b option A (2026-08-23, owner pick "calibrate to the 21\""): the roles
+// timeline becomes TWO COLUMNS at wide viewports. CSS multicol — not a
+// two-track grid — because multicol is the only layout that fills column 1
+// top-to-bottom before starting column 2. A grid with two tracks flows
+// across-then-down and would scramble the chronology (role 1 top-left, role 2
+// top-RIGHT); multicol keeps the reading order column-major, matching DOM
+// order, so the list still reads newest -> oldest down one column and then
+// down the next. Under `dir="rtl"` the browser mirrors the inline axis on its
+// own, so column 1 (the newest roles) lands on the RIGHT in Hebrew — verified
+// by rendering, not by reasoning.
+//
+// Gated at 1200px, not the site's usual 860px: two columns need real width to
+// avoid re-wrapping every bullet into more lines than the split saves. Below
+// it the timeline stays exactly as it was (single column, mobile untouched).
+@media (min-width: 1200px) {
+  .timeline {
+    display: block;
+    column-count: 2;
+    column-gap: 2.75rem;
+    // Default `column-fill: balance` — the two columns come out near-equal
+    // height, which is what makes this a ~45% height cut for the section.
+  }
+  .tl-item {
+    // No role may be split across the column break: a period line orphaned
+    // at the top of column 2 away from its own role title would be a lie
+    // about the chronology.
+    break-inside: avoid;
+    -webkit-column-break-inside: avoid;
+    page-break-inside: avoid;
+    // Multicol items are in normal flow, so the grid `gap` above no longer
+    // applies; this replaces it as the inter-item rhythm.
+    margin-bottom: 0.1rem;
+  }
+  .tl-item:last-child {
+    margin-bottom: 0;
+  }
+  // With two strands the connector must stop at its own item's bottom edge
+  // rather than bleeding 8px past it — otherwise the last role in column 1
+  // trails a stub into empty space.
+  .tl-item__marker::before {
+    bottom: 0;
+  }
+}
 .tl-item {
   display: grid;
   // minmax(0, 1fr), not a bare 1fr: without the 0 floor an unbreakable

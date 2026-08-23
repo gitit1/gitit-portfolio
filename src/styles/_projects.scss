@@ -41,7 +41,11 @@
 @media (min-width: 860px) {
   .projects-grid {
     grid-template-columns: repeat(auto-fit, minmax(min(270px, 100%), 1fr));
-    gap: 0.65rem;
+    // R5-b option C (2026-08-23): the ROW gap is paid once between the two
+    // card rows; the column gap keeps its 0.65rem so the cards don't crowd
+    // each other horizontally.
+    column-gap: 0.65rem;
+    row-gap: 0.45rem;
   }
 }
 // At the widest desktop viewports the index column is wide enough (~930px
@@ -153,7 +157,14 @@
     // quality." object-fit: cover (below) still crops sensibly at this
     // ratio — every registry image is a real product screenshot, not
     // artwork that depends on a taller frame to read.
-    aspect-ratio: 2.75 / 1;
+    // R5-b option C (2026-08-23): 2.75/1 -> 3.05/1. The art frame is still
+    // the single tallest element per card and the grid is two rows deep, so
+    // this is the section's cheapest real height: ~19px per row, ~38px off
+    // the section, with no content removed and no type touched. object-fit:
+    // cover keeps cropping sensibly (every registry image is a product
+    // screenshot); the icon tiles below compensate their own scale so they
+    // do not render smaller than before.
+    aspect-ratio: 3.05 / 1;
   }
 }
 .project-card__art img {
@@ -172,11 +183,26 @@
   background: var(--accent-wash);
   padding: 1.5rem;
 }
+// R5-b option C (2026-08-23): the flatter art frame leaves less vertical
+// room, so the icon/type tiles' own block padding is trimmed to match. This
+// does NOT change the card's height (aspect-ratio owns that) — it keeps the
+// icon from being squeezed by padding that no longer fits.
+@media (min-width: 860px) and (max-height: 1100px) {
+  .project-card__art--contain,
+  .project-card__art--type {
+    padding-block: 0.6rem;
+  }
+}
 .project-card__art--contain img {
   width: auto;
   height: auto;
   max-width: 42%;
-  max-height: 42%;
+  // R5-b option C (2026-08-23): 42% -> 48% purely to COMPENSATE the flatter
+  // art frame above — the cap is a percentage of the frame's height, so the
+  // icon would otherwise shrink with it. 48% of the new frame renders the
+  // icon at essentially its previous pixel size; it does not make the card
+  // any taller (the frame's aspect-ratio sets that).
+  max-height: 48%;
   object-fit: contain;
   border-radius: var(--radius-sm);
 }
@@ -205,9 +231,12 @@
 }
 @media (min-width: 860px) {
   .project-card__body {
-    padding: clamp(0.35rem, 0.7vh, 0.5rem);
-    padding-block-end: clamp(0.4rem, 0.8vh, 0.55rem);
-    gap: 0.2rem;
+    // R5-b option C (2026-08-23): block padding + inter-row gap trimmed;
+    // the inline padding is held at 0.5rem so the text keeps its inset from
+    // the card edge.
+    padding: clamp(0.28rem, 0.55vh, 0.4rem) clamp(0.35rem, 0.7vh, 0.5rem);
+    padding-block-end: clamp(0.32rem, 0.62vh, 0.45rem);
+    gap: 0.14rem;
   }
 }
 .project-card__name {
@@ -269,7 +298,9 @@
 }
 @media (min-width: 860px) {
   .project-card__meta {
-    margin-top: 0.2rem;
+    // R5-b option C (2026-08-23): the card body's own `gap` already
+    // separates this row; this extra nudge is paid once per card.
+    margin-top: 0.08rem;
   }
 }
 .project-card__year {
