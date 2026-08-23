@@ -51,7 +51,15 @@ export function HowIBuild() {
         <h3 className="hib-block__label">{t('howIBuild.methodLabel')}</h3>
         <ol className="hib-rail">
           {dict.howIBuild.steps.map((step, i) => (
-            <motion.li key={step} className="hib-rail__step" variants={revealItem}>
+            // key={i}, deliberately NOT key={step}: this list is a motion child of a
+            // `whileInView once` parent, and the step TEXT is translated. Keying by the
+            // text remounts all six <li> on a language switch, and the settled parent
+            // never re-fires its reveal — so the whole method rail rendered as an empty
+            // bar in Hebrew for anyone who switched language after scrolling past it
+            // (reproduced 2026-08-23: 6 of 18 items stuck at opacity 0). The steps are a
+            // fixed-length sequence that is never reordered or filtered, so the index is
+            // a stable identity here.
+            <motion.li key={i} className="hib-rail__step" variants={revealItem}>
               <span className="hib-rail__index">{i + 1}</span>
               <span className="hib-rail__name">{step}</span>
             </motion.li>
