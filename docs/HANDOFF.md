@@ -27,7 +27,51 @@ restore of a saved branch.
 | WP | deliverable | tier | status |
 |---|---|---|---|
 | R5b-1 | Rebuild A (experience → 2 columns, column-major so the chronology reads down-then-across, RTL puts column 1 on the right, nothing hidden, single column at 390) + C (measured vertical trim of `how-i-build` and `projects`, spacing only — the type scale is exhausted at 9.9px and no font-size may shrink). Gate: `measure-fills.cjs 1920x945` → **all five sections ≤ 0.98**; 1440 reported but not gated; `verify-hero.cjs` 68/68; `audit-contrast.cjs` 0 failures both themes; lint/tsc/build clean; screenshots of all three sections at 1920×945 in EN and HE | opus | dispatched 2026-08-23 |
-| R5b-2 | architect verification: read the diff, re-run every gate independently, LOOK at the six screenshots against the locked design decisions, then commit | architect | pending R5b-1 |
+| R5b-2 | architect verification: read the diff, re-run every gate independently, LOOK at the six screenshots against the locked design decisions, then commit | architect | ✅ 2026-08-23 commit `ac58f03` |
+| R5b-3 | fix: method rail rendered EMPTY in Hebrew after a language switch (found while shooting R5b-1's screenshots, pre-existing) | architect | ✅ 2026-08-23 commit `1a9566d` |
+
+### R5b results — architect-measured, not taken from the agent report
+
+    1920x945 (THE GATE)   how-i-build 0.960 | experience 0.915 | projects 0.954
+                          ai-native 0.915 | contact 0.915   -> ALL FIVE <= 0.98 ✅
+    1440x765 (reported)   experience 0.912 PASSES TOO (bonus) | ai-native 0.912 |
+                          contact 0.912 | how-i-build 1.131 | projects 1.131 (accepted)
+
+Gates re-run by the architect: lint clean · `tsc --noEmit` clean · build ok ·
+`verify-hero.cjs` 68/68 · `audit-contrast.cjs` 253 elements/theme, **0 failures both
+themes**. Six screenshots at 1920×945 (EN+HE) looked at; column order verified
+column-major in both directions (HE puts the newest roles in the RIGHT column).
+
+How it was built: `experience` uses **CSS multicol** (`column-count: 2` on `.timeline`,
+gated at `min-width: 1200px`) — NOT a two-track grid, which flows across-then-down and
+would scramble the chronology. `break-inside: avoid` on `.tl-item`. `how-i-build` and
+`projects` got spacing-only trims; **no font-size changed anywhere** (`git diff | grep
+font-size` returns one comment line).
+
+**Honest findings the owner was told about, none of them blocking:**
+
+1. **`experience` now carries visible slack** — headInset 162.5px at 1920. This is the
+   locked R5-d whole-block centering behaving exactly as it does on `ai-native` (134px)
+   and `contact` (185px), which already passed. Consistent with the rule, but it is the
+   most visible aesthetic consequence of option A and the section reads emptier than
+   `how-i-build` next to it.
+2. **PRE-EXISTING, NOT FIXED — the CV body is English-only in the Hebrew site.**
+   `src/data/experience.ts` is monolingual; `Experience.tsx` renders `exp.role`,
+   `exp.company` and `exp.bullets` straight from it, and only the eyebrow/title come
+   from i18n. So in HE every role title, company and bullet renders in English. This
+   **contradicts the locked decision** "current-role wording locked: `מכבי · דרך SQLink
+   Group`" — the live HE page shows `Maccabi (via SQLink Group)`. D1b's "Hebrew parity
+   … Experience" covered the section chrome only, not the data. Not fixed here: it is
+   her copy, and the standing rule is never to invent her words. **Owner decision
+   needed** — translate the CV, or accept English CV content inside the Hebrew page as
+   deliberate (defensible: role titles and company names are proper nouns).
+3. **HANDOFF said "7 roles"; `experience.ts` holds 6** (Maccabi, Independent, Browzwear,
+   Apester, Webcollage/Syndigo, F5). The stale count is corrected here. Nothing was
+   dropped — all 6 render in both columns, both languages.
+4. **`verify-hero.cjs` has one FLAKY assertion**: "nav clicks land the slab flush under
+   the header @1920". One run reported `ai-native:548` (scroll had not settled) and two
+   immediate re-runs both reported `ai-native:68` and 68/68. Re-run before treating that
+   single assertion as a regression.
 
 Deliberately given to ONE agent rather than split per section: the gate is a whole-page
 gate (all five sections at once), and two agents would both need port 4012 for
