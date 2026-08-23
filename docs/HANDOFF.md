@@ -6,6 +6,37 @@
 Purpose: let a NEW session pick up the site redesign with zero other context.
 Newest state at top.
 
+## 2026-08-23 — OWNER DECIDED R5-b: option א׳ (calibrate to the 21")
+
+Owner, 2026-08-23, verbatim: **"המלצה א"**. That is the architect's recommendation as
+presented in the decision artifact — i.e. the composite:
+
+- `experience` → **option A**, the two-column timeline.
+- `how-i-build` and `projects` → **option C**, the measured ~5% vertical trim.
+- The laptop (1440×765) is **deliberately allowed to scroll**. It is NOT a gate.
+  Nothing is hidden on any screen; that was the whole point of א׳ over ב׳.
+
+Load-bearing fact she should not be surprised by, and which the ledger below reflects:
+**A and C do not exist in the code.** The earlier round built, measured, screenshotted and
+then REVERTED all three options (artifact footer: "אף אחת משלוש האפשרויות לא נשמרה בענף").
+Only their numbers survived. So this is a rebuild against the recorded targets, not a
+restore of a saved branch.
+
+### Dispatch ledger — WP-R5b
+
+| WP | deliverable | tier | status |
+|---|---|---|---|
+| R5b-1 | Rebuild A (experience → 2 columns, column-major so the chronology reads down-then-across, RTL puts column 1 on the right, nothing hidden, single column at 390) + C (measured vertical trim of `how-i-build` and `projects`, spacing only — the type scale is exhausted at 9.9px and no font-size may shrink). Gate: `measure-fills.cjs 1920x945` → **all five sections ≤ 0.98**; 1440 reported but not gated; `verify-hero.cjs` 68/68; `audit-contrast.cjs` 0 failures both themes; lint/tsc/build clean; screenshots of all three sections at 1920×945 in EN and HE | opus | dispatched 2026-08-23 |
+| R5b-2 | architect verification: read the diff, re-run every gate independently, LOOK at the six screenshots against the locked design decisions, then commit | architect | pending R5b-1 |
+
+Deliberately given to ONE agent rather than split per section: the gate is a whole-page
+gate (all five sections at once), and two agents would both need port 4012 for
+`measure-fills.cjs`, which hard-codes `http://localhost:4012/`.
+
+Explicitly fenced off in the brief: the graph hide-breakpoint stays at 1200px (measured and
+rejected 2026-08-22, see below), and the D7 a11y fixes (`ProjectSpotlight` `<h2>`, brand
+button with no `aria-label`) must not regress.
+
 ## 2026-08-22 (later) — resume after usage-limit stop: a11y follow-ups closed, R5-b lever under measurement
 
 State on resume, verified against reality (not memory):
