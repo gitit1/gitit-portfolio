@@ -6,6 +6,94 @@
 Purpose: let a NEW session pick up the site redesign with zero other context.
 Newest state at top.
 
+## 2026-09-07 (night) — THE APPROVAL SHEET CAME BACK. Hebrew copy is IN THE CODE, verified in a real browser.
+
+The owner returned all 32 decisions from artifact `403d7005` — every one marked
+`approved` — with one load-bearing clarification, verbatim:
+
+> "רק שים לב ששאלתי רק אישור או לא. מה שאישרתי זה ההמלצה שלך"
+
+**Read that carefully, it changes the meaning of 8 of the 32 clicks.** The draft
+buttons were labelled "מאשרת לפרסום" / "לא מפרסמים", so a naive reading is
+"publish all eight". Her sentence overrides that: a click meant *"I approve the
+recommendation you attached to this item"*, not *"publish it"*. Her statement is
+later in time than the clicks and explicit, so it wins. Applied mapping:
+
+| item | the recommendation she approved | what that means |
+|---|---|---|
+| 22 translation items | (no rec — the Hebrew text itself) | ship the Hebrew, using her edited text where she edited it |
+| `choice-title-en` | "leave it in English" | "AI Product Builder" stays English in HE too — done |
+| `choice-dates-he` | "translate" | CV dates now render in Hebrew — done |
+| `draft-story-evolution` | "ממליצה לאשר" | approved for the site — **not built yet** |
+| `draft-story-numbers` | "ממליצה לאשר" | approved for the site — **not built yet** |
+| `draft-story-architecture` | "לאשר **רק אחרי** שתקראי כל ציטוט" | NOT publishable yet — she must first read the 34 verbatim quotes |
+| 5 x `draft-journal-*` | "ממליצה לדחות" | **do not publish.** Approving the recommendation = approving the rejection |
+
+If a future session reads only the raw `decisions` collection it will conclude
+"all 8 drafts approved for publication" and publish five weekly journals she was
+advised against. Do not. Re-read this table.
+
+### Shipped this session — the Hebrew copy the site was missing
+
+The HE page rendered its capability cards and its entire CV body in English (the
+open finding from earlier today). It no longer does.
+
+New file `src/i18n/content-he.ts` — a Hebrew **overlay**, not a translation of
+the data files. Why an overlay: `data/skills.ts` and `data/experience.ts` are the
+machine contract read by `api/mcp.ts`, `data/resume.ts` (JSON Resume + llms.txt)
+and the grounded chat, and all of those must stay English. So English stays
+canonical and the overlay supplies the Hebrew *rendering* only. `data/skills.ts`
+gained a `CapabilityId` union + an `id` per capability so the overlay is
+exhaustive — adding a capability now fails the build until its Hebrew exists.
+
+Every string is owner-approved verbatim. Do not reword them in the code; re-ask her.
+
+**Owner rulings encoded:** company/product names stay English (Maccabi, Browzwear,
+React, MCP) - "AI Product Builder" stays English in both languages - CV dates ARE
+Hebrew - **she deleted every em dash** from the four proposals that had one
+(`cap-mcp`, `cap-react`, `cap-product-thinking`, `exp-independent`), replacing them
+with a comma or a plain hyphen. That is 4 out of 4 — treat it as a rule for her
+Hebrew copy, not a coincidence.
+
+Also fixed while in there: both translated lists now key by a **stable id**
+(`cap.id`, bullet index) instead of by the translated text. Keying by translated
+text inside a `whileInView once` parent is exactly what left the method rail blank
+in Hebrew on 08-23 (`1a9566d`); the capability list had the same latent bug.
+
+### Verification — measured and LOOKED AT, not inferred
+
+`measure-fills.cjs` only ever measured English, and English is the half that did
+not change. Wrote a bilingual pass (`scratchpad/verify-he.cjs`) instead:
+
+    1920x945, production build via vite preview :4012
+    EN  how-i-build 0.960 | experience 0.915 | projects 0.954 | ai-native 0.915 | contact 0.915
+    HE  how-i-build 0.917 | experience 0.915 | projects 0.954 | ai-native 0.915 | contact 0.915
+    -> all ten <= 0.98. HE how-i-build IMPROVED (0.960 -> 0.917): Hebrew is more compact.
+    Language switch after scrolling, both directions: 0 elements below opacity 0.9.
+    Console errors: 0 in both languages.
+
+Gates: `tsc --noEmit` clean - `npm run lint` clean - `npm run build` ok -
+`verify-hero.cjs` **68/68** - `audit-contrast.cjs` **0 failures both themes**.
+Screenshots looked at (`scratchpad/he-shots/`): the three capability columns read
+Hebrew right-to-left (AI - הנדסה - מוצר), the timeline is column-major with the
+newest role top-RIGHT, dates are Hebrew, company names English, English page
+unchanged.
+
+### Honest findings from looking at the HE screenshot
+
+1. **"Independent" still renders in English** in the Hebrew timeline, next to
+   Hebrew role and Hebrew bullets. It is not a company name, so her "names stay
+   English" ruling does not really cover it — but the approval sheet only ever
+   showed her role + bullets for that entry, never the company line. Left English
+   rather than inventing "עצמאית". Opened as an owner question.
+2. **The four project taglines are still English on the Hebrew page**
+   ("A little farm, a whole life." etc., `data/portfolio-content.ts`). `i18n/types.ts`
+   asserted this was "English-only, verbatim by design", but `portfolio-content.ts`
+   itself states no such policy — so this is an untranslated gap, not a decision.
+   Not in the approval sheet. Opened as an owner question.
+3. The `experience` section's visible slack (headInset 162.5px) is unchanged and
+   still the known R5-d centering consequence — Hebrew did not make it worse.
+
 ## 2026-09-07 (evening) — CHAT IS LIVE. Approval sheet published. Session ends for the folder rename.
 
 **Chat works.** The owner entered `ANTHROPIC_API_KEY` in Coolify herself (env uuid

@@ -3,6 +3,10 @@
 // BODY that has been rebuilt for the redesign (currently: hero). Other
 // section bodies (headlines, paragraphs, card copy) stay English until they
 // are rebuilt too — see en.ts / he.ts for the exact boundary.
+//
+// Separately: the two monolingual DATA files (data/skills.ts,
+// data/experience.ts) stay English because MCP/JSON Resume/chat read them;
+// their Hebrew rendering lives in i18n/content-he.ts, not here.
 
 import type { SectionId } from '../config/sections';
 import type { ProjectState } from '../data/portfolio';
@@ -38,9 +42,10 @@ export interface Dict {
   goTo: string; // prefix for "Go to <section>" aria-labels (scroll rail)
 
   // "How I build" section — the bridge claim, the capability receipts row
-  // (data itself stays in data/skills.ts, English-only) and the 6-step
-  // method rail. Step copy is names-only for now; per-step prose is pending
-  // owner approval.
+  // (the capability data itself stays in data/skills.ts, English-canonical;
+  // its Hebrew rendering lives in i18n/content-he.ts) and the 6-step method
+  // rail. Step copy is names-only for now; per-step prose is pending owner
+  // approval.
   howIBuild: {
     eyebrow: string;
     title: string;
@@ -143,8 +148,10 @@ export interface Dict {
     paletteHintSuffix: string;
   };
 
-  // Experience section — timeline chrome only. Per-role data (company, role,
-  // bullets) stays in data/experience.ts, English-only by design.
+  // Experience section — timeline chrome only. Per-role data stays in
+  // data/experience.ts, English-canonical (it feeds MCP + JSON Resume);
+  // role/period/bullets get their Hebrew from i18n/content-he.ts, while
+  // company names stay English in both (owner ruling 2026-09-07).
   experience: {
     eyebrow: string;
     title: string;

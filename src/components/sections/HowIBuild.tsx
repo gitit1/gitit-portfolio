@@ -1,6 +1,7 @@
 import { motion } from 'framer-motion';
 import { Section, revealItem } from '../common/Section';
 import { capabilities, groupMeta, type CapabilityGroup } from '../../data/skills';
+import { localizedCapability, localizedGroupMeta } from '../../i18n/content-he';
 import { useLang } from '../../i18n/LanguageContext';
 
 const GROUP_ORDER: CapabilityGroup[] = ['ai', 'engineering', 'product'];
@@ -9,11 +10,12 @@ const GROUP_ORDER: CapabilityGroup[] = ['ai', 'engineering', 'product'];
 // are one section now. Three stacked blocks:
 //   1. the bridge claim   — the "Why AI fits me" argument, owner-approved
 //                           copy (howIBuild.bridge), the strongest text here
-//   2. the receipts row   — the capability groups from data/skills.ts
+//   2. the receipts row   — the capability groups from data/skills.ts, with
+//                           their Hebrew rendering from i18n/content-he.ts
 //   3. the method rail    — the 6-step build method, step names only
 //                           (per-step prose is pending owner-approved copy)
 export function HowIBuild() {
-  const { t, dict } = useLang();
+  const { t, dict, lang } = useLang();
   return (
     <Section id="how-i-build" eyebrow={t('howIBuild.eyebrow')} title={t('howIBuild.title')} lead={t('howIBuild.lead')}>
       <motion.div className="hib-bridge" variants={revealItem}>
@@ -25,7 +27,7 @@ export function HowIBuild() {
         <h3 className="hib-block__label">{t('howIBuild.receiptsLabel')}</h3>
         <div className="hib-receipts">
           {GROUP_ORDER.map((group) => {
-            const meta = groupMeta[group];
+            const meta = localizedGroupMeta(group, lang, groupMeta[group]);
             const items = capabilities.filter((c) => c.group === group);
             return (
               <motion.div key={group} className={`hib-col hib-col--${group}`} variants={revealItem}>
@@ -34,12 +36,18 @@ export function HowIBuild() {
                   <span className="hib-col__tagline">{meta.tagline}</span>
                 </div>
                 <ul className="hib-col__list">
-                  {items.map((cap) => (
-                    <li key={cap.name} className="hib-item">
-                      <span className="hib-item__name">{cap.name}</span>
-                      <span className="hib-item__blurb">{cap.blurb}</span>
-                    </li>
-                  ))}
+                  {items.map((cap) => {
+                    // key={cap.id}, not key={cap.name}: the name is translated,
+                    // and keying by translated text remounts the list on a
+                    // language switch — the bug documented on the rail below.
+                    const copy = localizedCapability(cap, lang);
+                    return (
+                      <li key={cap.id} className="hib-item">
+                        <span className="hib-item__name">{copy.name}</span>
+                        <span className="hib-item__blurb">{copy.blurb}</span>
+                      </li>
+                    );
+                  })}
                 </ul>
               </motion.div>
             );
