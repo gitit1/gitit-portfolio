@@ -6,6 +6,46 @@
 Purpose: let a NEW session pick up the site redesign with zero other context.
 Newest state at top.
 
+## 2026-09-07 (evening) — CHAT IS LIVE. Approval sheet published. Session ends for the folder rename.
+
+**Chat works.** The owner entered `ANTHROPIC_API_KEY` in Coolify herself (env uuid
+`ehpsmvk90z7cz2c3zjf4utnu`, 108 chars; the preview twin `ku76o0witd1s5juzv8zb71hj` is
+Coolify's usual duplicate and is harmless). Verified twice, not assumed: `curl` with a good
+Origin -> **HTTP 200** and a correct grounded answer; then a real browser at 1440x900 opened
+"Ask my AI", sent "What did Gitit build at Browzwear?" and got an accurate answer sourced
+from `experience.ts` — screenshot looked at, no `.chat__error`, 0 console errors. Shot:
+`…/scratchpad/live/chat-live.png`. D5's last open item is CLOSED; the chat had never been
+verified end-to-end before today.
+
+**Owner rulings 2026-09-07:** company/product names stay English · she wants ONE clickable
+approval page for both the translations and the drafts · the folder rename happens now, so
+this session ends for it.
+
+**Approval artifact (db-backed, decisions persist per item):**
+https://claude.ai/code/artifact/403d7005-1388-4036-aae5-39224ed91858
+Contents: 22 translation items (3 group taglines + 1 labels row + 12 capability cards + 6 CV
+blocks) with an editable Hebrew proposal beside the live English; 2 rulings (keep "AI Product
+Builder" English? translate the CV dates?); the 8 thinking-trail drafts, each with a
+recommendation and its counter-case. **Next session: read the decisions with `read_db` on
+collection `decisions`** (doc id = the item id, body `{status, text, at}`; `status` is
+`approved`/`rejected`/null, `text` carries her edited Hebrew) — do NOT re-ask her.
+
+Recommendations recorded there: approve stories 1 + 3; story 2 (34 verbatim quotes of her own
+messages) only after she reads every quote — that conversation also touched leaked API keys;
+reject all five weekly journals for the public site ("6 sessions, 3.8M output tokens, tools:
+Read, Bash" teaches a reader nothing about how she thinks).
+
+### The folder rename — run AFTER this session's window is closed
+
+    Rename-Item "C:\Users\gitit\Git\Workplace\gititregev.info" "gititregev.com"
+    Rename-Item "C:\Users\gitit\.claude\projects\c--Users-gitit-Git-Workplace-gititregev-info" "c--Users-gitit-Git-Workplace-gititregev-com"
+
+The second line moves this project's Claude memory + session history with it; without it the
+next session starts with an empty project folder. thinking-trail already aliases
+`gititregev-info` -> `gititregev-com` in `config/roots.json`, so its history does not split.
+Left for the next session: update the `dev-ports` skill line for 3012 (it still says "rename
+pending 2026-08-21").
+
 ## 2026-09-07 (later) — SHIPPED. The 08-22/08-23 work is LIVE, verified in a real browser.
 
 Owner, 2026-09-07: "אז קומיט ודחיפה ופרסום גירסא" + "א - אישרתי עכשיו".
