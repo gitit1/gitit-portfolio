@@ -6,6 +6,64 @@
 Purpose: let a NEW session pick up the site redesign with zero other context.
 Newest state at top.
 
+## 2026-09-07 (late night, 2) — SHE READ ALL 34 AND DECIDED. Stories parked by her call.
+
+Her reading gate is CLOSED. All 34 marked, saved in the artifact db
+(https://claude.ai/code/artifact/41122944-1b5c-4e20-be2a-cc7730b989e9, collection `quotes`,
+doc `q<index>`, `{decision:"in"|"out"}`) — **read the db, do not re-ask**.
+
+**The set that goes on the site — 14 turns, 5,143 chars (26% of the transcript), 8 of her 10:**
+
+    0ג -> 1ע -> 6ג -> 7ע -> 9ג -> 10ע -> 12ג -> 13ע -> 15ג -> 25ג -> 28ג -> 29ע -> 31ג -> 33ע
+
+She agreed with the recommendation on 32 of 34. Two deliberate overrides — the page labelled
+both "בניגוד להמלצה" as she clicked, so both were informed:
+
+**#20 OUT** (I said keep). "אני אמורה לבדוק משהו?" — her call, costs nothing.
+
+**#25 IN** (I said cut). This is the "$200 subscription / 90% of the weekly quota" message.
+The cost is real and should be stated plainly in any future session: **her personal
+subscription tier and usage become public and permanent.** But her call is better than mine
+and the reason is structural — I missed it. Cutting #25 left #28 ("וזה למה צריכה אותך
+שתסביר לי איך לכוון אותו") with no lead-in, which I had flagged as needing an invented bridge
+sentence. #25 IS that lead-in, and it turns #15→#25→#28 into one coherent cost thread:
+*don't burn tokens* → *how did I hit 90% of my quota* → *so explain the mechanism to me*.
+No invented bridge needed any more. The resulting arc:
+
+> intent → reframe → scope → holding the agent accountable → cost discipline →
+> the cost surprise → wanting the mechanism, not the fix → the explanation →
+> make it permanent → what it became
+
+**Still mandatory when building, regardless of her IN marks:**
+1. **#15 must lose its final clause** about classified work projects. She marked it IN with
+   `rec: trim`, and the trim shown to her on the page WAS that cut. It is a safety trim, not
+   a style one. Everything else in #15 stays — it is her strongest operating instruction.
+2. **#29 and #33 are trims too** — #29 keeps its first paragraph only (the rest goes technical);
+   #33 shortens to a line or two from 942 chars.
+3. **#15 → #25 needs one bridge line.** Three of her turns now run consecutively, and #25 opens
+   with "תכתוב לי את זה" where "זה" refers to build turns that are cut. One short connective
+   line of page copy, not an invented quote.
+4. Typos in her own words (e.g. "יעיל יותק", "הארכיטקסט", "מוצלחת בזנ") — ask her before
+   touching them. Fixing reads as care; not fixing reads as authentic. Never reword, only spell.
+
+### The two number stories: PARKED by the owner
+
+Owner, 2026-09-07: **"לא בשל אז לא עכשיו"** — she read the data findings (era 1 empty, era 2
+mislabelled and overlapping era 3, all 91.5M tokens from one era only, zero quotes generated,
+six weeks stale) and parked both. **They are not rejected** — she approved them on the sheet;
+they are waiting on the data being fixed. Do not build them, and do not quietly re-open them:
+the plan and the three framing options are in the 2026-09-07 (late night) entry below, and
+step P1 (re-run the aggregation) is the precondition for any of it.
+
+### The ONE thing blocking the quote section from being built
+
+Placement, and it is unchanged by her decisions: `how-i-build` measures **0.960** fill against
+the 0.98 gate, with the type scale exhausted at ~9.9px. 4,200 characters of quotes cannot go
+into a section with no room. So before anyone writes a line of this component, the choice is:
+**a 7th page-section of its own** (adds a nav entry + a scroll-rail dot; `config/sections.ts`
+drives both) **or a restructure of `how-i-build`** (something currently in it gives up space).
+That is an owner call and it is the first item next session.
+
 ## 2026-09-07 (late night) — PLAN for the two approved stories + the 34-quote review page is published
 
 ### The quote review page is live (owner asked for the link)
