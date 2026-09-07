@@ -6,7 +6,15 @@
 Purpose: let a NEW session pick up the site redesign with zero other context.
 Newest state at top.
 
-## 2026-09-07 (night) — THE APPROVAL SHEET CAME BACK. Hebrew copy is IN THE CODE, verified in a real browser.
+## 2026-09-07 (night) — THE APPROVAL SHEET CAME BACK. Hebrew copy is LIVE, verified against gititregev.com.
+
+**Shipped.** `71cc8b5` on `main`, Coolify deploy `709gehftrr9cxjqtomttatow` finished on that exact
+commit. Verified against the LIVE site in a real browser, both languages: all five sections
+<= 0.98 (HE how-i-build 0.917, EN 0.960), `dir` flips to rtl, the HE timeline reads
+"עצמאית" under "AI Product Builder", 0 console errors, language switch mid-scroll hides
+nothing. The chat was re-probed after the redeploy (a redeploy can drop an env var):
+POST /api/chat -> HTTP 200 with a correct grounded answer about Browzwear.
+Live shots: `scratchpad/live-shots/`.
 
 The owner returned all 32 decisions from artifact `403d7005` — every one marked
 `approved` — with one load-bearing clarification, verbatim:
