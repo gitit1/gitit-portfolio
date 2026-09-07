@@ -6,6 +6,49 @@
 Purpose: let a NEW session pick up the site redesign with zero other context.
 Newest state at top.
 
+## 2026-09-07 — RESUME CHECK (state verified against reality, not memory) + thinking-trail correction
+
+Verified this session by probing/greping, not by reading old notes:
+
+- `redesign/gitit-os` is **7 commits ahead of `origin/main` and of `origin/redesign/gitit-os`**
+  (`7550e23 … 6fae23d`). Nothing from 08-22/08-23 is on GitHub. Coolify deploys `main`
+  from `gitit1/gitit-portfolio` with **no auto-webhook** → the LIVE site still serves the
+  `ab8fc41` build: no R5-b layout, no D7 a11y fixes, and the HE method-rail bug is live.
+- Live probes: `https://gititregev.com/` 200 · `/healthz` 200 · `/llms.txt` 200 ·
+  `POST /api/chat` with a good Origin → **500 `{"error":"Server not configured"}`**.
+  `ANTHROPIC_API_KEY` is STILL absent in Coolify (unchanged since D4, 2026-08-22).
+- Repo remotes: `origin` = `gitit1/gitit-portfolio` (public), `old-origin` =
+  `gitit1/gititregev.info`. README still calls **Vercel/Netlify the deploy target** and
+  never mentions the self-hosted hub that actually serves the site → README rewrite opened
+  by the owner 2026-09-07.
+
+### thinking-trail: what changed in Homebase, and what it means HERE
+
+Owner asked (2026-09-07): "הפרדנו את thinking-trail — קיבענו את זה פה?"
+
+What actually happened, read from Homebase's own docs:
+1. **2026-08-21 (Homebase WP-5.2)** — thinking-trail's folder MOVED INTO the Homebase
+   workspace (`Homebase/thinking-trail`, remote `git-homebase/thinking-trail`). Its
+   `config/roots.json` already aliases `gititregev-info` → `gititregev-com`, so renaming
+   this folder will NOT split this project's history.
+2. **2026-08-26 (Homebase docs HANDOFF, V2 design brief)** — the brief **PROMOTES**
+   thinking-trail: it comes OUT of Hub (`Hub → /development`) and becomes its own
+   top-level host in the global nav (`מרכז · ניהול הבית · מסלול החשיבה`), and it must not
+   be duplicated as a card/summary/widget (the two Center work widgets come off the Life
+   board). That is the "separation" — separated from the **Hub**, still inside Homebase.
+
+Consequence for this repo: **none technically.** Re-verified by grep 2026-09-07 — the site
+has ZERO code contract with thinking-trail (`src api netlify scripts` → no hits; only prose
+in these docs and in `tools/site-verify/README.md`). `export-feed` still writes
+`thinking-trail/data/feed/how-i-build.json` (last written 2026-07-22, preview data) and
+nothing here consumes it. The load-bearing site rule is unchanged and still recorded above:
+**the site never shows the cockpit — it receives an approved story snapshot only (WP-D6).**
+
+Corrected here: the 2026-08-21 line below saying the cockpit "is being framed into the
+Homebase Hub (Wave 6)" describes a state that was true on 08-21 and was superseded on
+08-26 — the cockpit is being promoted out of Hub into its own Homebase area. WP-D6's
+contract (snapshot → site) is unaffected by that move.
+
 ## 2026-08-23 — OWNER DECIDED R5-b: option א׳ (calibrate to the 21")
 
 Owner, 2026-08-23, verbatim: **"המלצה א"**. That is the architect's recommendation as
