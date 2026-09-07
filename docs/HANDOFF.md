@@ -6,6 +6,41 @@
 Purpose: let a NEW session pick up the site redesign with zero other context.
 Newest state at top.
 
+## 2026-09-07 (later) — SHIPPED. The 08-22/08-23 work is LIVE, verified in a real browser.
+
+Owner, 2026-09-07: "אז קומיט ודחיפה ופרסום גירסא" + "א - אישרתי עכשיו".
+
+- Gates re-run before pushing: `npm run lint` clean · `npx tsc --noEmit` clean · `npm run build` ok.
+- Pushed `redesign/gitit-os` and fast-forwarded `main` (`ab8fc41` → `d6eb9c5`), both on
+  `gitit1/gitit-portfolio`. Coolify deploy `hbhelxfmbet6jguaqqqqcv5t` → **finished**, commit
+  `d6eb9c5`.
+- **LIVE verification (real browser at 1920×945 against `https://gititregev.com`, screenshots
+  looked at, not inferred):** section fills EN `how-i-build 0.969 · experience 0.928 ·
+  projects 0.964 · ai-native 0.928 · contact 0.928`; HE `how-i-build 0.950`, rest identical —
+  **all ≤ 0.98**. `dir` flips to `rtl` on toggle; the method rail renders **6 steps in Hebrew
+  after a mid-scroll language switch** (כוונה · תשאול · החלטות · תוכנית · הנחיה · תוצאה,
+  opacity 1) — the `1a9566d` bug fix is confirmed live. **0 console errors.** Experience is
+  two-column with the newest role top-RIGHT in HE (column-major, correct).
+- Shots: scratchpad `…/scratchpad/live/{en,he}-{top,how-i-build,experience,projects,ai-native,contact}.png`.
+
+### Honest finding from looking at the live HE page (widens the open CV-language item)
+
+It is not only the CV. In Hebrew, **`src/data/skills.ts` renders in English too** — the three
+capability cards (PRODUCT / ENGINEERING / AI) show English headings and English sentences inside
+the Hebrew page, next to `experience.ts`'s English roles and bullets. Owner ruled 2026-09-07:
+**company/product names stay English** — the open part is the role lines and the descriptive
+sentences, which need her approved wording (never invented here).
+
+### README rewritten (owner: "תחליט אתה")
+
+Decisions taken and why: kept **English** (the repo's readers are recruiters and developers; the
+site itself carries the Hebrew); led with the live URL and the AI-native trio (MCP + llms.txt +
+grounded chat) because that is the only genuinely differentiating claim; **removed the false
+"deployed to Vercel" framing** — the container is how it actually runs, with Netlify/Vercel kept
+as the portability story; **described the server generically** ("a private self-hosted server
+behind a reverse proxy") — the repo is PUBLIC, and provider/app identifiers buy nothing for the
+reader; added the verification harness section (it is evidence of how she works).
+
 ## 2026-09-07 — RESUME CHECK (state verified against reality, not memory) + thinking-trail correction
 
 Verified this session by probing/greping, not by reading old notes:

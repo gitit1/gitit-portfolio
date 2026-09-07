@@ -1,96 +1,86 @@
 # gititregev.com
 
-Personal site for **Gitit Regev — AI Product Builder**. A modern, AI-native
-portfolio: a live "Ask my AI about me" chat grounded in the resume, plus a
-machine-readable layer (a resume-as-MCP-server, `llms.txt`, and a JSON Resume)
-so agents can consume it directly.
+Personal site of **Gitit Regev — AI Product Builder**. Live at
+**[gititregev.com](https://gititregev.com)**.
 
-Built with **Vite + React + TypeScript + SCSS**, deployed to **Vercel**.
+It is a portfolio that is itself an AI product: the resume is a single source of
+data that renders the page, grounds a live chat about her work, and is published
+back out in machine-readable form — as a **remote MCP server**, an
+**[llms.txt](https://gititregev.com/llms.txt)** guide and a
+**[JSON Resume](https://gititregev.com/resume.json)** — so an agent can consume
+it directly instead of scraping a page.
 
-## Develop
+Bilingual (English / Hebrew with full RTL), light + dark, no CMS and no database:
+**Vite + React + TypeScript + SCSS**, served by a small Node server in a
+container.
 
 ```bash
 npm install
 npm run dev        # http://localhost:3012
-npm run build      # runs prebuild (generates llms.txt + resume.json) then vite build -> build/
+npm run build      # prebuild (llms.txt + resume.json) -> vite build -> build/
 npm run lint
-npm run generate   # regenerate public/llms.txt + public/resume.json on demand
 ```
 
-The whole site is data-driven from [`src/data/`](src/data/) — edit those files
-and the UI, chat prompt, MCP tools, `llms.txt`, and `resume.json` all update:
+## Content is data, not markup
+
+Everything visible comes from [`src/data/`](src/data/). Edit a file there and the
+UI, the chat's system prompt, the MCP tools, `llms.txt` and `resume.json` all
+follow — there is no second copy to keep in sync.
 
 | File | Purpose |
 | --- | --- |
 | `src/data/profile.ts` | Identity, positioning, links |
 | `src/data/skills.ts` | Capability matrix (AI / engineering / product) |
 | `src/data/experience.ts` | Work timeline |
-| `src/data/projects.ts` | Projects (add a Homebase app = add one object) |
+| `src/data/projects.ts` | Projects — adding one is adding one object |
 | `src/data/resume.ts` | Aggregator: Markdown resume, chat system prompt, JSON Resume, llms.txt |
+| `src/i18n/` | The English and Hebrew dictionaries for the page chrome |
 
-## AI endpoints
+## The AI layer
 
 | Endpoint | What it is |
 | --- | --- |
-| `POST /api/chat` | Streaming chat grounded in the resume (Anthropic `claude-haiku-4-5`) |
+| `POST /api/chat` | Streaming chat grounded in the resume (Anthropic `claude-haiku-4-5`), origin-allowlisted and rate-limited |
 | `GET /api/mcp` | Remote MCP server — tools: `get_resume`, `get_profile`, `get_experience`, `get_projects`, `get_skills` |
-| `/resume.json` | JSON Resume (generated at build) |
-| `/llms.txt` | llms.txt guide for LLMs (generated at build) |
+| `/resume.json` | JSON Resume, generated at build time |
+| `/llms.txt` | llms.txt guide for LLMs, generated at build time |
 
-Connect the MCP server to Claude Code:
+Point Claude Code at the live MCP server:
 
 ```bash
 claude mcp add --transport http gitit-resume https://gititregev.com/api/mcp
 ```
 
-## Deploy
+The chat handler ([`api/chat.ts`](api/chat.ts)) is deliberately narrow: POST only,
+requests must come from the site's own origin (or localhost in development),
+messages are length-capped, history is truncated, and each IP gets 10 messages a
+minute per process. Without an API key it answers
+`500 {"error":"Server not configured"}` and every other part of the site keeps
+working — the chat is additive, never load-bearing.
 
-The app is host-portable: a static Vite build (`build/`) plus web-standard
-serverless functions. It ships with config for both Netlify and Vercel, so it
-can move between them (or to Cloudflare / a Node server) with little change.
+## Verification
 
-### Netlify (primary)
+Visual claims about this site are not accepted from reasoning — they are
+rendered and measured. [`tools/site-verify/`](tools/site-verify/) holds the
+harness: `verify-hero.cjs` (layout assertions), `measure-fills.cjs` (does each
+section fit the viewport), `audit-contrast.cjs` (AA contrast in both themes) and
+`audit-centering.cjs`. See [`tools/site-verify/README.md`](tools/site-verify/README.md).
 
-1. In Netlify: **Add new project → Import an existing project → GitHub**, pick
-   this repo. Netlify reads [`netlify.toml`](netlify.toml) (build `npm run build`,
-   publish `build`, functions in `netlify/functions/`).
-2. Set environment variables (Site configuration → Environment variables):
-   - `ANTHROPIC_API_KEY` — Anthropic API key (server-side only)
-   - `ALLOWED_ORIGIN` — the site's URL, e.g. `https://gititregev.com` (or the
-     `*.netlify.app` URL until the custom domain is attached)
-3. Deploy. The functions are routed to `/api/chat` and `/api/mcp` via each
-   function's `config.path`.
+## Running it anywhere
 
-### Self-hosted (Docker / Coolify)
+The app is intentionally host-portable: a static Vite build plus web-standard
+handlers in [`api/`](api/) that every target reuses — one implementation, three
+ways to run it.
 
-The repo also ships a plain Node server ([`server/index.ts`](server/index.ts))
-that serves `build/` and routes `/api/chat` + `/api/mcp` to the *same* handlers
-in [`api/`](api/) through a Node -> web-standard adapter (streaming preserved).
-`npm run build:server` bundles it — every dependency inlined — into a single
-`dist-server/index.mjs`, and the [`Dockerfile`](Dockerfile) is a two-stage build
-whose runtime image contains only `build/` + `dist-server/` (no `node_modules`).
+### Container (how the live site runs)
 
-In Coolify: **New resource -> Private Repository**, pick this repo, then
-
-| Setting | Value |
-| --- | --- |
-| Build pack | `Dockerfile` |
-| Dockerfile location | `/Dockerfile` |
-| Ports exposes | `3000` |
-| Health check path | `/healthz` |
-| Static site | off — this is a Node app, not a static bundle |
-
-Environment variables:
-
-- `ANTHROPIC_API_KEY` — **required** for `/api/chat`. Without it the chat
-  endpoint answers `500 {"error":"Server not configured"}` and everything else
-  on the site still works.
-- `ALLOWED_ORIGIN` — optional extra origin for the chat allowlist.
-  `gititregev.com`, `www.gititregev.com`, `localhost` and same-origin requests
-  are accepted without it.
-- `PORT` — optional, defaults to `3000`.
-
-Locally:
+[`server/index.ts`](server/index.ts) is a plain Node server that serves `build/`
+with SPA fallback, exposes `/healthz`, and routes `/api/chat` + `/api/mcp` to the
+same handlers in `api/` through a Node → web-standard adapter (streaming
+preserved). `npm run build:server` bundles it — every dependency inlined — into a
+single `dist-server/index.mjs`, and the [`Dockerfile`](Dockerfile) is a two-stage
+build whose runtime image carries only `build/` + `dist-server/`, no
+`node_modules`.
 
 ```bash
 docker build -t gititregev-site .
@@ -100,18 +90,30 @@ docker run --rm -p 3000:3000 -e ANTHROPIC_API_KEY=sk-... gititregev-site
 npm run build && npm run build:server && npm start
 ```
 
-Run it behind a proxy that sets `X-Forwarded-Proto`, `X-Forwarded-Host` and
-`X-Forwarded-For` (Coolify's Traefik does): the server derives the public
-request URL from them, and the chat rate-limiter keys on `X-Forwarded-For`.
-That rate limit is per process, so it resets on every redeploy.
+The live site runs exactly this image on a private self-hosted server behind a
+reverse proxy that terminates TLS. Behind a proxy, pass through
+`X-Forwarded-Proto`, `X-Forwarded-Host` and `X-Forwarded-For`: the server derives
+the public request URL from them, and the chat rate-limiter keys on the client
+IP. That rate limit is per process, so it resets on every restart.
 
-### Vercel (alternative)
+Environment:
 
-Import the repo (framework preset **Vite**); [`vercel.json`](vercel.json) sets
-the output directory to `build`. Same two env vars. Functions live in `api/`.
+| Variable | Required | Meaning |
+| --- | --- | --- |
+| `ANTHROPIC_API_KEY` | for the chat | Server-side only, never exposed to the browser |
+| `ALLOWED_ORIGIN` | no | One extra allowed origin; `gititregev.com`, `www.` and localhost are always accepted |
+| `PORT` | no | Defaults to `3000` |
 
-The Netlify functions ([`netlify/functions/`](netlify/functions/)) are thin
-wrappers that reuse the same handlers in [`api/`](api/) — one implementation,
-two hosts. The chat handler streams from Anthropic with per-IP rate limiting and
-an origin allowlist ([`api/chat.ts`](api/chat.ts)); the MCP server is
-[`api/mcp.ts`](api/mcp.ts).
+### Netlify or Vercel
+
+Both are still wired and kept working, so the site can move hosts in an
+afternoon. Netlify reads [`netlify.toml`](netlify.toml) (build `npm run build`,
+publish `build/`, functions in [`netlify/functions/`](netlify/functions/) — thin
+wrappers around the same `api/` handlers). Vercel reads
+[`vercel.json`](vercel.json) with the framework preset **Vite** and runs `api/`
+as functions directly. Same two environment variables on either.
+
+## Licence
+
+Personal project. The code is public to read; the content — the resume, the
+copy, the imagery — is Gitit Regev's.
