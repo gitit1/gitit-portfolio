@@ -14,6 +14,14 @@
  * layers the real art on top. Node-safe consumers (resume.ts, api/mcp.ts)
  * should import THIS file directly instead, since they only need the facts
  * below, never the art.
+ *
+ * LANGUAGE POLICY — owner ruling 2026-09-07, verbatim: "לא, שיווקי זה שיווקי".
+ * The `tagline` of every project stays ENGLISH on the Hebrew page too. It was
+ * offered for translation alongside the CV and capability copy and she declined:
+ * these are marketing lines, and she wants them to read as marketing lines in
+ * one voice. This is now a DECISION, not an untranslated gap — earlier notes in
+ * i18n/types.ts asserted "English by design" with nothing behind it. Do not add
+ * these to i18n/content-he.ts, and do not re-open it without asking her.
  */
 
 export type ProjectState = 'live' | 'in-development' | 'local';

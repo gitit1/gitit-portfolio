@@ -22,7 +22,11 @@ import type { Experience } from '../data/experience';
 
 type CapabilityCopy = { name: string; blurb: string };
 type GroupCopy = { label: string; tagline: string };
-type ExperienceCopy = { role: string; period: string; bullets: string[] };
+// `company` is an OVERRIDE, present only where the English value is not a
+// real company name. Owner ruling 2026-09-07: brand names (Maccabi, Browzwear,
+// Apester, Webcollage / Syndigo, F5 Networks) stay English in both languages;
+// "Independent" is an English word, not a brand, so it alone gets translated.
+type ExperienceCopy = { role: string; period: string; bullets: string[]; company?: string };
 
 const groupMetaHe: Record<CapabilityGroup, GroupCopy> = {
   ai: {
@@ -104,6 +108,7 @@ const experienceHe: Record<Experience['theme'], ExperienceCopy> = {
     bullets: ['פיתוח פרונטאנד בכיר במכבי, בהשמה דרך SQLink Group.'],
   },
   independent: {
+    company: 'עצמאית',
     // Owner ruling 2026-09-07: this title stays English in both languages.
     role: 'AI Product Builder',
     period: '2024 – היום',
@@ -164,11 +169,18 @@ export function localizedCapability(cap: Capability, lang: Lang): CapabilityCopy
 }
 
 /**
- * Role, period and bullets in the active language. `company` is deliberately
- * absent: company names stay English in both (owner ruling 2026-09-07).
+ * Role, period, bullets and the company LINE in the active language. The
+ * company falls back to the English value unless the overlay overrides it —
+ * only "Independent" does (owner ruling 2026-09-07: real brand names stay
+ * English, an English common noun does not).
  */
-export function localizedExperience(exp: Experience, lang: Lang): ExperienceCopy {
-  return lang === 'he'
-    ? experienceHe[exp.theme]
-    : { role: exp.role, period: exp.period, bullets: exp.bullets };
+export function localizedExperience(
+  exp: Experience,
+  lang: Lang
+): Required<Pick<ExperienceCopy, 'role' | 'period' | 'bullets' | 'company'>> {
+  if (lang !== 'he') {
+    return { role: exp.role, period: exp.period, bullets: exp.bullets, company: exp.company };
+  }
+  const he = experienceHe[exp.theme];
+  return { ...he, company: he.company ?? exp.company };
 }

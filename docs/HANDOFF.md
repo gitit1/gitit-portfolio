@@ -79,18 +79,20 @@ Hebrew right-to-left (AI - הנדסה - מוצר), the timeline is column-major 
 newest role top-RIGHT, dates are Hebrew, company names English, English page
 unchanged.
 
-### Honest findings from looking at the HE screenshot
+### Both open language questions were answered the same night — CLOSED
 
-1. **"Independent" still renders in English** in the Hebrew timeline, next to
-   Hebrew role and Hebrew bullets. It is not a company name, so her "names stay
-   English" ruling does not really cover it — but the approval sheet only ever
-   showed her role + bullets for that entry, never the company line. Left English
-   rather than inventing "עצמאית". Opened as an owner question.
-2. **The four project taglines are still English on the Hebrew page**
-   ("A little farm, a whole life." etc., `data/portfolio-content.ts`). `i18n/types.ts`
-   asserted this was "English-only, verbatim by design", but `portfolio-content.ts`
-   itself states no such policy — so this is an untranslated gap, not a decision.
-   Not in the approval sheet. Opened as an owner question.
+1. **"Independent" -> "עצמאית".** She ruled: translate it. Her "names stay English"
+   rule protects BRANDS; "Independent" is an English common noun, not a brand.
+   Implemented as a `company` OVERRIDE in the overlay, present only on that one
+   entry — Maccabi, Browzwear, Apester, Webcollage / Syndigo and F5 Networks still
+   fall through to the English value. Verified in the browser: the HE timeline now
+   reads "עצמאית" under "AI Product Builder", styled like every other company line.
+2. **Project taglines stay ENGLISH.** She ruled, verbatim: **"לא, שיווקי זה שיווקי"**.
+   The four taglines ("A little farm, a whole life." etc.) are marketing lines and
+   she wants them in one voice. This is now a real DECISION and it is written into
+   `data/portfolio-content.ts`'s header where the values live — earlier notes in
+   `i18n/types.ts` asserted "English by design" with nothing behind them. Do not
+   add these to the overlay, and do not re-open it without asking her.
 3. The `experience` section's visible slack (headInset 162.5px) is unchanged and
    still the known R5-d centering consequence — Hebrew did not make it worse.
 

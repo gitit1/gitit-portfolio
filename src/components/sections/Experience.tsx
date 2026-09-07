@@ -11,8 +11,9 @@ export function Experience() {
     <Section id="experience" eyebrow={t('experience.eyebrow')} title={t('experience.title')}>
       <div className="timeline">
         {experiences.map((exp) => {
-          // Role, period and bullets are translated (i18n/content-he.ts);
-          // company names stay English in both languages by owner ruling.
+          // Role, period, bullets and the company line come from
+          // i18n/content-he.ts. Real brand names stay English in both
+          // languages; only "Independent" is translated (owner ruling).
           const copy = localizedExperience(exp, lang);
           return (
             <motion.article key={exp.theme} className="tl-item" variants={revealItem}>
@@ -27,10 +28,10 @@ export function Experience() {
                 <div className="tl-item__company">
                   {exp.link ? (
                     <a href={exp.link} target="_blank" rel="noreferrer">
-                      {exp.company} <FiExternalLink aria-hidden="true" />
+                      {copy.company} <FiExternalLink aria-hidden="true" />
                     </a>
                   ) : (
-                    <span>{exp.company}</span>
+                    <span>{copy.company}</span>
                   )}
                 </div>
                 <ul className="tl-item__bullets">
