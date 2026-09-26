@@ -1,5 +1,7 @@
 # site-verify — rendered verification for gititregev.info
 
+מצב: סגור · הקובץ מתאר כלי שהועבר לכאן ב-5.8.2026 אבל מדבר על ריפו בשם אחר (gititregev.info) — כדאי מבט אנושי לפני שמסמנים אותו כחי.
+
 Moved into this repo 2026-08-05 (hygiene WP-H2) from `thinking-trail/tools/site-verify`,
 where it originated; that copy is retired in favor of this one. Run everything
 from `gititregev.info` now — see below.

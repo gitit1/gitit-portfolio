@@ -1,5 +1,7 @@
 # HANDOFF — gititregev.info (site redesign)
 
+מצב: פתוח · הקובץ כותב שהועבר לכאן ב-5.8.2026 והוא יומן המסירה החי של הפרויקט, עם רשומות עד 7.9.2026.
+
 > Moved in from thinking-trail/docs/HANDOFF.md on 2026-08-05 (hygiene WP-H1);
 > that file keeps only a pointer here.
 

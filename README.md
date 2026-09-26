@@ -1,5 +1,7 @@
 # gititregev.com
 
+מצב: פתוח · תיעוד עדכני של האתר החי בפרויקט פעיל ופתוח לציבור, בלי סימן להתיישנות.
+
 Personal site of **Gitit Regev — AI Product Builder**. Live at
 **[gititregev.com](https://gititregev.com)**.
 
