@@ -58,7 +58,21 @@ owner-approved verbatim; she removed every em dash — never write one in her He
 | R4 | survey tools: thinking-trail, door, hub, chat-archive, make-money, Utils, infra-* | Explore | verified |
 | L1 | merge into the approval list → hub question rows | me | done — waiting on her |
 | B* | build (after her approval only) | — | unblocked 2026-11-04 (all 3 answered) |
-| W1 | template + routing + Wildhearth + עולם החברים pages | opus | returned 2026-11-04 (local only, not pushed) — architect to verify |
+| W1 | template + routing + Wildhearth + עולם החברים pages | opus | **verified 2026-11-04** by architect (lint/tsc/build re-run, screenshots looked at, Hebrew facts checked against game code) — waiting on her hub row `q-site-w1` |
+
+**Architect verification notes (2026-11-04):**
+- The site's "light" theme is a graphite ground (`--bg:#262b34`) by design, so light-labelled
+  shots look dark. That is the existing theme, not a defect.
+- The agent's full-page shots repeat the sticky header (stitched capture). The clean shots for her are
+  made with `scratchpad/shot-review.cjs` (Playwright `fullPage`), against `vite preview --port 4012`.
+- The agent called "family debt tracking" a nonexistent app. Wrong: `family_debt_tracker_app` was a
+  separate app until July 2026, then became the finance app's `/debts` module (archived to
+  `Homebase/_archive/` 2026-09-26). Tagline change kept; the CV bullet (experience.ts /
+  content-he.ts) is historical and STAYS. Code comment corrected in 65c48cd.
+- Review page for her: https://claude.ai/artifact/Y3bRqkt5upMHK9XyPsvB8c (both pages desktop+phone,
+  all 21 images, every new Hebrew string). Source: `scratchpad/review-w1/index.html`.
+- The home MFL card still shows the old MFL hero (fic-cover thumbnails) — replaced in W2 by
+  Shipping the Rainbow with brand-only art.
 
 ### W1 as built (2026-11-04, agent report — local only, branch `feature/project-pages`, NOT pushed)
 - Routing: `src/hooks/useRoute.ts` (pathname + popstate, `navigate()`, `onInternalLinkClick`). No router dep.
