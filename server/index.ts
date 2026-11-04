@@ -341,6 +341,13 @@ async function route(req: IncomingMessage, res: ServerResponse): Promise<void> {
   const candidate = pathname.endsWith('/') ? join(target, 'index.html') : target;
   if (await serveFile(req, res, candidate, pathname)) return;
 
+  // A directory page without the trailing slash (`/wildhearth`): serve its own
+  // index.html (project pages carry page-specific <head> meta — see
+  // scripts/generate-project-meta.mts) before falling back to the app shell.
+  if (extname(pathname) === '' && !pathname.endsWith('/')) {
+    if (await serveFile(req, res, join(target, 'index.html'), `${pathname}/index.html`)) return;
+  }
+
   // SPA fallback: extensionless paths render the app shell.
   if (extname(pathname) === '') {
     if (await serveFile(req, res, join(BUILD_DIR, 'index.html'), '/index.html')) return;

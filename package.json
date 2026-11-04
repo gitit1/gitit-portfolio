@@ -8,6 +8,7 @@
     "generate": "tsx scripts/generate-static.mts",
     "prebuild": "tsx scripts/generate-static.mts",
     "build": "vite build",
+    "postbuild": "tsx scripts/generate-project-meta.mts",
     "build:server": "esbuild server/index.ts --bundle --platform=node --format=esm --target=node22 --outfile=dist-server/index.mjs --banner:js=\"import{createRequire as __createRequire}from'node:module';const require=__createRequire(import.meta.url);\"",
     "start": "node dist-server/index.mjs",
     "preview": "vite preview",
