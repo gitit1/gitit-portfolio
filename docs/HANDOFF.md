@@ -109,7 +109,7 @@ NO home card yet — W3 must decide the home index for 13 projects under the 0.9
 PUBLIC repo) at 807c8ad, per her 2.11 rule (backup pushes need no ask). Safe because the Coolify app
 builds `main` only, with no auto-deploy webhook (D4 below). ⚠ The Coolify API answered **401** with
 `COOLIFY_API_TOKEN` on 2026-11-04 (same as 31.10, server not checked). The W5 deploy step needs that
-token fixed in the Coolify UI first, or a deploy from the UI.
+token fixed in the Coolify UI first, or a deploy from the UI. Re-measured 2026-11-04 evening: `COOLIFY_API_TOKEN` is the HETZNER token (50 chars, `3|`), correct Bearer header; `/api/health` → 200, `/api/v1/version` → 401 ⇒ server healthy, **token itself rejected**. Home Coolify (`COOLIFY_HOME_API_TOKEN`) is a different server and works. Before W5: hub row asking her for a new token (Coolify UI → Keys & Tokens) or a UI deploy.
 
 **Architect verification notes (2026-11-04):**
 - The site's "light" theme is a graphite ground (`--bg:#262b34`) by design, so light-labelled
