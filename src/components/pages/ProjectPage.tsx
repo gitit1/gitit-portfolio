@@ -87,7 +87,10 @@ export function ProjectPage({ id }: ProjectPageProps) {
                     />
                     {page.status.label}
                   </span>
-                  <span className="pp__year">{page.year}</span>
+                  {/* dir=ltr: a range like "2019–2026" must not flip in Hebrew. */}
+                  <span className="pp__year" dir="ltr">
+                    {page.year}
+                  </span>
                 </div>
                 <p className="pp__summary">{page.summary}</p>
                 <div className="pp__cta">
@@ -116,16 +119,18 @@ export function ProjectPage({ id }: ProjectPageProps) {
               />
             </motion.header>
 
-            <motion.ul
-              className={clsx('pp__figures', `pp__figures--${page.figures.length}`)}
-              aria-label={t('projectPage.figuresLabel')} variants={reveal}>
-              {page.figures.map((f) => (
-                <li key={f.label} className="pp__figure">
-                  <span className="pp__figure-value">{f.value}</span>
-                  <span className="pp__figure-label">{f.label}</span>
-                </li>
-              ))}
-            </motion.ul>
+            {page.figures && page.figures.length > 0 && (
+              <motion.ul
+                className={clsx('pp__figures', `pp__figures--${page.figures.length}`)}
+                aria-label={t('projectPage.figuresLabel')} variants={reveal}>
+                {page.figures.map((f) => (
+                  <li key={f.label} className="pp__figure">
+                    <span className="pp__figure-value">{f.value}</span>
+                    <span className="pp__figure-label">{f.label}</span>
+                  </li>
+                ))}
+              </motion.ul>
+            )}
 
             {page.pitch && (
               <motion.figure className="pp__pitch" variants={reveal}>
@@ -211,21 +216,16 @@ export function ProjectPage({ id }: ProjectPageProps) {
               )}
             </motion.div>
 
-            <motion.section className="pp__block" variants={reveal}>
-              <h2 className="pp__h2">{t('projectPage.gallery')}</h2>
-              <ul className={clsx('pp__gallery', page.art.gallery.some((s) => s.shape === 'phone') && 'pp__gallery--phones')}>
-                {page.art.gallery.map((shot, i) => (
-                  <li key={shot.src} className={clsx('pp__gallery-item', `pp__gallery-item--${shot.shape}`)}>
-                    <ShotButton
-                      shot={shot}
-                      className="pp__tile"
-                      label={t('projectPage.openShot')}
-                      onOpen={() => setOpen(galleryOffset + i)}
-                    />
-                  </li>
-                ))}
-              </ul>
-            </motion.section>
+            {page.art.gallery.length > 0 && (
+              <motion.section className="pp__block" variants={reveal}>
+                <h2 className="pp__h2">{t('projectPage.gallery')}</h2>
+                <Gallery
+                  shots={page.art.gallery}
+                  label={t('projectPage.openShot')}
+                  onOpen={(i) => setOpen(galleryOffset + i)}
+                />
+              </motion.section>
+            )}
 
             <motion.section className="pp__block pp__tech" variants={reveal}>
               <h2 className="pp__h2">{t('projectPage.tech')}</h2>
@@ -251,6 +251,71 @@ export function ProjectPage({ id }: ProjectPageProps) {
 
       <ShotLightbox shots={shots} index={open} onChange={setOpen} title={page.name} />
     </MotionConfig>
+  );
+}
+
+type GalleryProps = {
+  shots: ProjectShot[];
+  label: string;
+  /** Index into `shots` (the lightbox order stays the flat list). */
+  onOpen: (i: number) => void;
+};
+
+/**
+ * Three layouts, picked by the shots themselves (wave 2, 2026-11-04):
+ * - all wide: two columns (three when there are exactly three, so no row is
+ *   left half-empty);
+ * - all phones: the narrow portrait grid;
+ * - mixed (desktop + phone shots of one app): wide shots in two columns and
+ *   the phone shots grouped THREE to a cell, because three 9:16 tiles side by
+ *   side are about as tall as one 16:9 tile, so the rows stay even.
+ */
+function Gallery({ shots, label, onOpen }: GalleryProps) {
+  const indexed = shots.map((shot, i) => ({ shot, i }));
+  const wides = indexed.filter((s) => s.shot.shape === 'wide');
+  const phones = indexed.filter((s) => s.shot.shape === 'phone');
+
+  const tile = ({ shot, i }: { shot: ProjectShot; i: number }) => (
+    <ShotButton shot={shot} className="pp__tile" label={label} onOpen={() => onOpen(i)} />
+  );
+
+  if (wides.length > 0 && phones.length > 0) {
+    const trios: (typeof phones)[] = [];
+    for (let k = 0; k < phones.length; k += 3) trios.push(phones.slice(k, k + 3));
+    return (
+      <ul className="pp__gallery pp__gallery--mixed">
+        {wides.map((s) => (
+          <li key={s.shot.src} className="pp__gallery-item pp__gallery-item--wide">
+            {tile(s)}
+          </li>
+        ))}
+        {trios.map((trio) => (
+          <li key={trio[0].shot.src} className="pp__gallery-item pp__gallery-item--trio">
+            <ul className="pp__trio">
+              {trio.map((s) => (
+                <li key={s.shot.src}>{tile(s)}</li>
+              ))}
+            </ul>
+          </li>
+        ))}
+      </ul>
+    );
+  }
+
+  return (
+    <ul
+      className={clsx(
+        'pp__gallery',
+        phones.length > 0 && 'pp__gallery--phones',
+        phones.length === 0 && shots.length === 3 && 'pp__gallery--three'
+      )}
+    >
+      {indexed.map((s) => (
+        <li key={s.shot.src} className={clsx('pp__gallery-item', `pp__gallery-item--${s.shot.shape}`)}>
+          {tile(s)}
+        </li>
+      ))}
+    </ul>
   );
 }
 

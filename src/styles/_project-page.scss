@@ -337,6 +337,27 @@
     align-items: start;
   }
 }
+// Wave 2: a page with only "what works today" gets the full width (its list
+// splits into two columns on wide screens), and a third card (a side note
+// next to "what's next") takes its own full-width row instead of wrapping
+// under the first column.
+@media (min-width: 860px) {
+  .pp__col:only-child {
+    grid-column: 1 / -1;
+  }
+  .pp__col:only-child .pp__list {
+    display: block;
+    columns: 2;
+    column-gap: 2.5rem;
+  }
+  .pp__col:only-child .pp__list li {
+    break-inside: avoid;
+    margin-block-end: 0.55rem;
+  }
+  .pp__cols > .pp__col:nth-child(3) {
+    grid-column: 1 / -1;
+  }
+}
 .pp__col {
   padding: clamp(1.1rem, 2.5vw, 1.5rem);
   display: flex;
@@ -448,6 +469,29 @@
 }
 .pp__gallery--phones .pp__gallery-item--wide .pp__shot-btn img {
   height: auto;
+}
+
+// Exactly three wide shots: three columns, so no row is left half-empty.
+@media (min-width: 960px) {
+  .pp__gallery--three {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+// Mixed galleries (wave 2): wide shots in the normal two columns; the phone
+// shots sit three to a cell, so each cell is about as tall as a 16:9 tile.
+.pp__trio {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.6rem;
+}
+.pp__trio .pp__shot-btn {
+  aspect-ratio: 9 / 16;
+}
+.pp__trio .pp__shot-btn img {
+  object-position: top;
 }
 
 /* ---- Tech ---- */
