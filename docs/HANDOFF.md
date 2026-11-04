@@ -60,6 +60,17 @@ owner-approved verbatim; she removed every em dash — never write one in her He
 | B* | build (after her approval only) | — | unblocked 2026-11-04 (all 3 answered) |
 | W1 | template + routing + Wildhearth + עולם החברים pages | opus | **verified 2026-11-04** by architect (lint/tsc/build re-run, screenshots looked at, Hebrew facts checked against game code) — waiting on her hub row `q-site-w1` |
 
+**Her answer to `q-site-w1` (2026-11-04, typed):** "אבל התמונה שמוצגת לmfl עדיין לא תקינה.. כאילו
+הראשית וגם של החברים של אסף, תבדוק גם תמונות ראשיות ואז תמשיך לגל 2 אם יהיו לי תיקונים אכתוב לך
+אותם". Done the same day in 506432b: home card + spotlight for `mfl` now named **Shipping the
+Rainbow** with `mfl/str-hero.jpg`, a brand card rendered ONLY from StR's own brand code (source:
+`scratchpad/str-art/str-card.html` + `render.cjs`; recompose it there, never hand-edit the jpg);
+old `mfl/hero.jpg` (2020 shot with other people's fic covers) deleted. Friends World art =
+`friends-world/d-home.jpg` (live site). Graph labels wrap at >16 chars; verify-hero hovers the node
+circle. Homebase card still an icon until W3. Fix shots were added to the review page (same URL).
+Hub row `u-site-imgfix` (update, "קיבלתי, להמשיך"). **W2 dispatched** (opus): /shipping-the-rainbow,
+/fanfic-os, /recipes, /files, /premarket-lab; no new home cards this wave.
+
 **Backup push 2026-11-04:** `feature/project-pages` pushed to origin (`gitit1/gitit-portfolio`,
 PUBLIC repo) at 807c8ad, per her 2.11 rule (backup pushes need no ask). Safe because the Coolify app
 builds `main` only, with no auto-deploy webhook (D4 below). ⚠ The Coolify API answered **401** with
