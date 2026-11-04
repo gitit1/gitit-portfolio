@@ -25,6 +25,29 @@ included too. Hard rules from the brief:
 
 Hub told: row `messages/u-site-started` + a message to window homebase-5e, 2026-11-04.
 
+### Her answers (2026-11-04, all three closed — never re-ask)
+- `q-site-list`: she clicked "לאשר עם שינויים" with no text, then wrote (row `web-1793794667211`,
+  12:17:47Z), verbatim: **"התשובה הייתה לאשר את המומלץ למקרה וברח לי תשובה אחרת"** → the list is
+  approved AS RECOMMENDED, all 13 pages. Hub (homebase-5e) confirmed the same reading.
+- `q-site-form`: **"דפים בתוך האתר הקיים (מומלץ)"** → pages live inside gititregev.com at a path
+  like `gititregev.com/wildhearth` (the wording of the option she picked). One deploy, one move home.
+- `q-site-investments`: **"רק המעקב, בלי מערכת המשמעת (מומלץ)"**.
+
+### Build plan (waves; each wave: local only → screenshots looked at → shown to her → next)
+Hub's standing ask: show her EACH page in a screenshot and EVERY image before it is published;
+report each step to homebase-5e. Work branch: `feature/project-pages` (off `redesign/gitit-os`).
+Routing facts: `server/index.ts` already has an SPA fallback for extensionless paths, and serves
+`/dir/` → `dir/index.html` if such a file exists, so per-page static HTML with its own meta is possible.
+- **W1** shared project-page template + routing + Wildhearth + עולם החברים (both have clean or
+  public images); Projects section links to built pages only.
+- **W2** Shipping the Rainbow, Fanfic OS, recipes, files, premarket lab (images clean or brand-only).
+- **W3** Homebase umbrella + budget, tasks, media, investments-tracker (need screenshots on
+  INVENTED data from a COPY of each app's data — never the real DB).
+- **W4** the AI control room (demo-data shots or a drawn diagram) + the quotes story home question.
+- **W5** ask her (hub row) to deploy; after deploy prune the server per hub-server skill.
+Every new Hebrew string is a draft until she approves it (the 2026-09-07 rule: Hebrew copy is
+owner-approved verbatim; she removed every em dash — never write one in her Hebrew).
+
 ### Dispatch ledger
 
 | piece | what | tier | status |
@@ -34,7 +57,8 @@ Hub told: row `messages/u-site-started` + a message to window homebase-5e, 2026-
 | R3 | survey Homebase personal apps (finance, investments, tasks, files, media, recipes, parents, premarket) | Explore | verified |
 | R4 | survey tools: thinking-trail, door, hub, chat-archive, make-money, Utils, infra-* | Explore | verified |
 | L1 | merge into the approval list → hub question rows | me | done — waiting on her |
-| B* | build (after her approval only) | — | blocked on her 3 answers |
+| B* | build (after her approval only) | — | unblocked 2026-11-04 (all 3 answered) |
+| W1 | template + routing + Wildhearth + עולם החברים pages | opus | dispatched |
 
 The four survey reports were saved to the session scratchpad
 (`…/5be0c190-…/scratchpad/survey-R1-games.md`, `-R2-fanfic.md`, `-R3-homebase.md`, `-R4-tools.md`);
@@ -48,7 +72,10 @@ https://claude.ai/artifact/4rRM8wyxwoBK4dm11FhEWG (rendered and looked at: deskt
   files, premarket lab, the AI control room). Out: tools-for-parent, make-money, bank spikes, infra,
   fav_fanfics_library, the visual test. Alt option offered: start with 4.
 - `q-site-form` — pages inside gititregev.com (recommended) vs. a separate site per project.
-- `q-site-investments` — tracker only (recommended) / also the trading-discipline system / leave out.
+- `q-site-investments` — **ANSWERED 2026-11-04 12:16Z: "רק המעקב, בלי מערכת המשמעת (מומלץ)".**
+  The investments page shows ONLY the multi-account tracker (value + P&L vs real deposits). No trade
+  gate, no end-of-day checklist, no clean-day streaks, no score, no tax reserve / reward fund. Do not
+  re-ask. Approval page updated with a ✔ tag.
 
 **Facts found that a builder must respect (all from code, 2026-11-04):**
 - Links only where the site is open to anyone → today only assaf.gititregev.com. Wildhearth is
