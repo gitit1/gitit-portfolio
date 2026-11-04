@@ -37,7 +37,7 @@ included too. Hard rules from the brief:
    no internal addresses. **No build before she approves the list.**
 3. Every question to her is a ROW on the hub page (http://127.0.0.1:5212, CLI
    `Homebase/docs/git-nas/hub/local/hub-db.mjs`), never in chat. Rows from this session use
-   `from: "5be0c190"`, `fromLabel: "האתר האישי"`, `routedTo: "8ecea247"` (current hub session).
+   `from: "5be0c190"`, `fromLabel: "האתר האישי"`, `routedTo: "5be0c190"` (answers come back to this session). Hub session moved 2026-11-04 evening: now 54224014, window homebase-70 (was 8ecea247 / homebase-5e) — send reports there.
 4. The site stays on Hetzner/Coolify. Moving it home belongs to the hub + lane 4 — do not touch.
 5. Every push to the live site is asked first; after it, prune the server per the hub-server skill.
 
