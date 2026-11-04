@@ -58,7 +58,35 @@ owner-approved verbatim; she removed every em dash — never write one in her He
 | R4 | survey tools: thinking-trail, door, hub, chat-archive, make-money, Utils, infra-* | Explore | verified |
 | L1 | merge into the approval list → hub question rows | me | done — waiting on her |
 | B* | build (after her approval only) | — | unblocked 2026-11-04 (all 3 answered) |
-| W1 | template + routing + Wildhearth + עולם החברים pages | opus | dispatched |
+| W1 | template + routing + Wildhearth + עולם החברים pages | opus | returned 2026-11-04 (local only, not pushed) — architect to verify |
+
+### W1 as built (2026-11-04, agent report — local only, branch `feature/project-pages`, NOT pushed)
+- Routing: `src/hooks/useRoute.ts` (pathname + popstate, `navigate()`, `onInternalLinkClick`). No router dep.
+  `App.tsx` renders `HomeView` or `ProjectView`; unknown paths still render home. `/` keeps working as before.
+- Data (Node-safe split kept): `src/data/project-pages-content.ts` (facts, meta) + `src/data/project-pages.ts`
+  (art) + `src/i18n/project-pages-he.ts` (Hebrew overlay, **every string DRAFT** — needs her verbatim approval).
+  New chrome strings: `projectPage.*` in `i18n/he.ts` (DRAFT block) + `projectMeta.ctaCase` HE
+  "צפייה בקייס" -> "לדף הפרויקט" (DRAFT), EN "View the case" -> "See the project".
+- Template: `src/components/pages/ProjectPage.tsx` + `src/styles/_project-page.scss`; gallery uses the existing Lightbox
+  with prev/next (glyphs swapped per direction, arrow keys follow reading direction).
+- Home cards: Wildhearth -> `/wildhearth`, assaf -> `/friends-world` (that page links out to assaf.gititregev.com).
+  Copy fixed in `portfolio-content.ts`: assaf tagline no longer names the child's age; Homebase tagline no longer says
+  "family debt tracking"; Wildhearth stateLabel = private preview. Card/spotlight taglines wrapped in `<bdi>` (RTL
+  full stop no longer jumps to the front). **Still stale, NOT touched (approved Hebrew verbatim):** the experience
+  bullet in `i18n/content-he.ts` + `data/experience.ts` still lists "מעקב חובות משפחתי" — ask her.
+- Static meta: `postbuild` -> `scripts/generate-project-meta.mts` writes `build/wildhearth/index.html` +
+  `build/friends-world/index.html` (own title/description/og). og images: `public/og/*.jpg` (stable URLs).
+  `server/index.ts` now serves `build/<dir>/index.html` for `/<dir>` without the slash. `vite preview` does NOT
+  (it serves the home <head> for `/wildhearth`; the page still renders) — test meta with `npm run build:server && PORT=4012 npm start`.
+- Images: Wildhearth title-vista + 10 guide shots (`src/styles/assets/portfolio/wildhearth/gallery/`, 08 re-encoded
+  to 225 KB, total ~1.1 MB). Friends World: 6 fresh phone shots + 1 desktop shot of the live site (2026-11-04) + 2 shots
+  of the 3D sort game (`.../friends-world/`, ~690 KB). Rejected: final-30baskets.png (labels overlap, unreadable);
+  a desktop sort shot (left an orphan tile). No potty/pacifier art, no growup category screen.
+- Gates: lint, tsc, build clean; verify-hero 72/72 (link-overlay assertion updated to the new truth, +4 route checks);
+  audit-contrast 0 failures both themes (home); project pages probed separately (548 text nodes, 0 below AA);
+  measure-fills 1920x945 EN+HE all <= 0.98 (unchanged: EN max 0.960, HE max 0.954). `measure-fills.cjs` now takes
+  `FILLS_LANG=he`. At 1536/1366 how-i-build + projects were ALREADY over before this work (not gated, see 2026-08-23).
+- Screenshots: `tools/site-verify/shots/project-pages-w1/` (untracked on purpose; shots/ is tracked in git).
 
 The four survey reports were saved to the session scratchpad
 (`…/5be0c190-…/scratchpad/survey-R1-games.md`, `-R2-fanfic.md`, `-R3-homebase.md`, `-R4-tools.md`);
