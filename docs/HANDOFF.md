@@ -27,6 +27,24 @@ World and StR only (recommended; the 8 private tools get the technical page only
 now; ג marketing first. **Nothing is built until she answers.**
 **Her answer (16:30Z), verbatim:** "קודם הטכניים ואחר כך פרויקט פרויקט לא רק 3 בלבד נחשוב על כל אחד / אז אולי דווקא טכני , דף פרויקט, המשך לבא בתור" → technical first; EVERY project gets its own marketing-site consideration (not just 3). Order ambiguous → row `q-site-order` (project-by-project recommended vs all-technical-first). Started the step common to both: **/wildhearth technical rewrite** dispatched (opus). Hub is now 54224014 / homebase-70. **`q-site-order` answered 16:32Z: "פרויקט אחרי פרויקט (מומלץ)"** → per project: technical page → its marketing-site decision/build → next project. Wildhearth first.
 
+**/wildhearth technical page verified by architect (2026-11-04, a7dbb71).** New optional `caseStudy`
+model (problem, layered diagram, decisions chose/instead/cost/source, aiWork decides/delegates/verifies,
+courseChanges, metrics value/label/measures/how, `productSite {note,url?}` = switch for the marketing
+link), `src/components/pages/CaseStudy.tsx`, `.pp-case*`/`.pp-arch*` styles; other 6 pages unchanged.
+Measured numbers: 1,079 commits (07-03 → 11-02), 343 .ts / 72,088 lines, 108+16 system modules, **974**
+PixelLab PNGs (the "~1,200" in earlier notes was wrong), 77 verify scripts (69 browser), 947 commits
+co-authored with Claude. Decision 4 (72× world) comes from branch `new-world` and is stated as a plan,
+"verified, never deployed". verify-hero has one pre-existing flaky check (home nav @1920, different
+section each run, same on 61aa39b). ⚠ Agent incident: `git worktree remove --force` followed a
+node_modules junction and emptied `gititregev.com/node_modules`; reinstalled with
+`npm install --legacy-peer-deps` — never junction node_modules into a temp worktree.
+Phone close-ups taken with element screenshots show the hidden slide-down nav (it sits at top −258);
+viewport shots prove it is NOT visible to users. Review page https://claude.ai/artifact/1KHEGjUF9Ud1T9kD8KKgdF
+(`scratchpad/review-wh-tech/`). Hub rows waiting: `q-site-wh-tech` (approve) and
+`q-site-wh-marketing` (update Wildhearth's landing and open only it [recommended] / update, keep
+password / skip). Landing work = Wildhearth repo `landing.html` + `nginx.conf` only; a Wildhearth
+deploy also ships the undeployed 26.10 master fixes and needs the new Hetzner token.
+
 ## 2026-11-04 — NEW GOAL: a small marketing page per project (session 5be0c190)
 
 Owner brief (from hub row `q-site-session`, answered "פתחתי" 2026-11-04): go over her recent
