@@ -8,6 +8,63 @@
 Purpose: let a NEW session pick up the site redesign with zero other context.
 Newest state at top.
 
+## 2026-11-04 — NEW GOAL: a small marketing page per project (session 5be0c190)
+
+Owner brief (from hub row `q-site-session`, answered "פתחתי" 2026-11-04): go over her recent
+projects, give each a small marketing site under gititregev.com, and refresh every project's
+info + images (MFL, Wildhearth and the rest are stale on the site). In-development projects are
+included too. Hard rules from the brief:
+1. Collect what each project REALLY is from its code + docs. Invent nothing.
+2. Send her a list first (which projects, what each shows) — no private data, no money amounts,
+   no internal addresses. **No build before she approves the list.**
+3. Every question to her is a ROW on the hub page (http://127.0.0.1:5212, CLI
+   `Homebase/docs/git-nas/hub/local/hub-db.mjs`), never in chat. Rows from this session use
+   `from: "5be0c190"`, `fromLabel: "האתר האישי"`, `routedTo: "8ecea247"` (current hub session).
+4. The site stays on Hetzner/Coolify. Moving it home belongs to the hub + lane 4 — do not touch.
+5. Every push to the live site is asked first; after it, prune the server per the hub-server skill.
+
+Hub told: row `messages/u-site-started` + a message to window homebase-5e, 2026-11-04.
+
+### Dispatch ledger
+
+| piece | what | tier | status |
+|---|---|---|---|
+| R1 | survey Games: Wildhearth, assaf-friends-games, -3d | Explore | verified |
+| R2 | survey MFL/StR, Fanfic OS, fav_fanfics_library | Explore | verified |
+| R3 | survey Homebase personal apps (finance, investments, tasks, files, media, recipes, parents, premarket) | Explore | verified |
+| R4 | survey tools: thinking-trail, door, hub, chat-archive, make-money, Utils, infra-* | Explore | verified |
+| L1 | merge into the approval list → hub question rows | me | done — waiting on her |
+| B* | build (after her approval only) | — | blocked on her 3 answers |
+
+The four survey reports were saved to the session scratchpad
+(`…/5be0c190-…/scratchpad/survey-R1-games.md`, `-R2-fanfic.md`, `-R3-homebase.md`, `-R4-tools.md`);
+the facts that matter are now in the approval page below, which is the durable copy.
+
+**Approval page:** `docs/projects-list-2026-11-04.html`, published at
+https://claude.ai/artifact/4rRM8wyxwoBK4dm11FhEWG (rendered and looked at: desktop light/dark, phone).
+**Three hub rows waiting for her** (`routedTo: 5be0c190`, window homebase-14):
+- `q-site-list` — approve the list (13 pages: Wildhearth, עולם החברים + 3D sort as a paragraph,
+  Shipping the Rainbow, Fanfic OS, Homebase umbrella, finance, tasks, recipes, media, investments,
+  files, premarket lab, the AI control room). Out: tools-for-parent, make-money, bank spikes, infra,
+  fav_fanfics_library, the visual test. Alt option offered: start with 4.
+- `q-site-form` — pages inside gititregev.com (recommended) vs. a separate site per project.
+- `q-site-investments` — tracker only (recommended) / also the trading-discipline system / leave out.
+
+**Facts found that a builder must respect (all from code, 2026-11-04):**
+- Links only where the site is open to anyone → today only assaf.gititregev.com. Wildhearth is
+  Basic-Auth, STR is login-only with no demo account, Fanfic OS holds her private manuscript.
+- Every existing screenshot of finance, tasks, investments, thinking-trail, door and hub shows REAL
+  data → re-shoot on invented data (finance: on a COPY, never the real app.db). Clean today:
+  Wildhearth `public/guide-img/*.jpg` + `src/assets/pixellab/ui/title-vista.png`, recipes
+  `playwright-shots/direction3-2026-10-06/`, files `playwright-shots/wave1-conductor/`, premarket
+  `playwright-shots/WP-H-2026-10-20/`, 3D sort `shots/wp1-*.png`, final-*.png.
+- Wildhearth's own landing undercounts: code has 10 skills and 15 townsfolk (not 9/10).
+- עולם החברים: never the potty/pacifier games or their art, never his age or development details.
+- STR: no TV stills, no fic titles/authors/uploader names, no adult list names, no "bypassing" wording.
+- The 2026-07-23 thinking-trail ruling "no statuses, no teaser" is superseded by her 2026-11-04 brief
+  (in-development projects included) — stated openly on the approval page.
+- The existing Projects section has stale copy (Homebase "family debt tracking" does not exist).
+
 ## 2026-09-07 (late night, 2) — SHE READ ALL 34 AND DECIDED. Stories parked by her call.
 
 Her reading gate is CLOSED. All 34 marked, saved in the artifact db

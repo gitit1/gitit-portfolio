@@ -1,0 +1,271 @@
+<title>פרויקטים לאתר האישי</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rubik:wght@500;700&family=Assistant:wght@400;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: one reading column; a short "what you need to do" band, then project cards grouped by decision (in / inside another page / out). */
+:root{
+  --bg:#eef1f4; --paper:#ffffff; --ink:#1b2430; --muted:#5a6675; --line:#d5dbe3;
+  --accent:#0f6b72; --accent-soft:#e1f0f1;
+  --live:#1f7a3a; --live-bg:#e3f3e7; --gate:#8a5a00; --gate-bg:#fbf0d9;
+  --dev:#2453a6; --dev-bg:#e4ecfa; --out:#6b7280; --out-bg:#eceef1; --warn:#a3361f; --warn-bg:#fbe6e1;
+  --display:"Rubik","Assistant",system-ui,sans-serif; --body:"Assistant","Segoe UI",system-ui,sans-serif; --mono:"IBM Plex Mono",ui-monospace,Consolas,monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#141a21; --paper:#212a35; --ink:#e7ecf2; --muted:#a4afbd; --line:#3a4656;
+  --accent:#5fc2c9; --accent-soft:#1d3a3e;
+  --live:#7dd197; --live-bg:#1d3826; --gate:#e9bd62; --gate-bg:#3d3119; --dev:#8fb2f0; --dev-bg:#1f2d4a; --out:#a7afbb; --out-bg:#2c3440; --warn:#f0a08e; --warn-bg:#43251f;
+  color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#141a21; --paper:#212a35; --ink:#e7ecf2; --muted:#a4afbd; --line:#3a4656;
+  --accent:#5fc2c9; --accent-soft:#1d3a3e;
+  --live:#7dd197; --live-bg:#1d3826; --gate:#e9bd62; --gate-bg:#3d3119; --dev:#8fb2f0; --dev-bg:#1f2d4a; --out:#a7afbb; --out-bg:#2c3440; --warn:#f0a08e; --warn-bg:#43251f;
+  color-scheme:dark}
+body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:17px;line-height:1.6;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:32px 64px}
+.wrap{max-width:860px;margin:0 auto;display:flex;flex-direction:column;gap:28px}
+h1,h2,h3{font-family:var(--display);text-wrap:balance;margin:0;line-height:1.25}
+h1{font-size:2rem}
+h2{font-size:1.35rem;padding-top:8px}
+h3{font-size:1.15rem}
+p{margin:0}
+.meta{font-family:var(--mono);font-size:.8rem;color:var(--muted);letter-spacing:.02em}
+.lead{display:flex;flex-direction:column;gap:10px}
+.band{background:var(--accent-soft);border:1px solid var(--line);border-radius:10px;padding:18px 20px;display:flex;flex-direction:column;gap:8px}
+.band b{color:var(--accent)}
+.rules{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.rule{background:var(--paper);border:1px solid var(--line);border-radius:8px;padding:12px 14px;font-size:.95rem;min-width:0}
+.rule strong{display:block;font-family:var(--display);font-weight:500;margin-bottom:2px}
+.group{display:flex;flex-direction:column;gap:14px}
+.group>p{color:var(--muted)}
+.card{background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:18px 20px;display:flex;flex-direction:column;gap:10px;box-shadow:0 1px 3px rgba(0,0,0,.08);min-width:0}
+.head{display:flex;flex-wrap:wrap;align-items:center;gap:8px 12px}
+.chip{font-family:var(--body);font-size:.85rem;font-weight:600;padding:3px 9px;border-radius:999px;white-space:nowrap}
+.live{color:var(--live);background:var(--live-bg)} .gate{color:var(--gate);background:var(--gate-bg)}
+.dev{color:var(--dev);background:var(--dev-bg)} .out{color:var(--out);background:var(--out-bg)} .warn{color:var(--warn);background:var(--warn-bg)}
+.what{font-size:1rem}
+dl{display:grid;grid-template-columns:max-content 1fr;gap:6px 14px;margin:0;font-size:.95rem}
+dt{color:var(--muted);font-weight:600}
+dd{margin:0;min-width:0}
+ul{margin:0;padding-inline-start:20px}
+li{margin:2px 0}
+.no{color:var(--warn)}
+.sub{border-top:1px dashed var(--line);padding-top:10px;font-size:.95rem}
+.outlist{background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:14px 20px}
+.outlist li{margin:6px 0}
+.en{font-family:var(--body);direction:ltr;unicode-bidi:isolate}
+footer{color:var(--muted);font-size:.9rem;border-top:1px solid var(--line);padding-top:14px}
+.quotes{display:flex;flex-direction:column;gap:2px;margin-top:4px;direction:ltr;text-align:right;font-style:italic;color:var(--muted)}
+@media (max-width:520px){.rules{grid-template-columns:1fr} dl{grid-template-columns:1fr} dt{margin-top:4px} h1{font-size:1.6rem}}
+</style>
+
+<div class="wrap">
+
+<header class="lead">
+  <p class="meta">האתר האישי · gititregev.com · 4.11.2026</p>
+  <h1>אילו פרויקטים נכנסים לאתר, ומה יוצג בכל אחד</h1>
+  <p>ביקשת לעבור על הפרויקטים האחרונים שלך ולתת לכל אחד דף שיווקי קטן באתר, כולל פרויקטים שעדיין בבנייה, ולעדכן את המידע והתמונות שהתיישנו. לפני שבונים, זו הרשימה. כל פרט בה נלקח מהקוד ומהתיעוד של הפרויקט עצמו, כפי שהם היום.</p>
+</header>
+
+<section class="band">
+  <p><b>מה נשאר לך:</b> לענות על שלוש שורות בדף החמ״ל. האחת מאשרת את הרשימה הזאת, השנייה בוחרת איפה הדפים יישבו, והשלישית מחליטה כמה לספר על אפליקציית ההשקעות.</p>
+  <p>עד שתאשרי לא נבנה כלום, ושום דבר לא עולה לאתר החי. גם אחרי האישור, כל העלאה לאתר החי תישאל אותך קודם.</p>
+</section>
+
+<section class="group">
+  <h2>הכללים שהפעלתי על כל דף</h2>
+  <div class="rules">
+    <div class="rule"><strong>בלי מידע פרטי</strong>בלי שמות של בני משפחה, בלי פרטים על הטיפולים של אסף, בלי סכומים, בנקים, כרטיסים ובתי השקעות, בלי כתובות פנימיות, מספרי פורטים או פרטי שרת.</div>
+    <div class="rule"><strong>תמונות</strong>איפה שיש צילום מסך נקי, משתמשים בו. באפליקציות הפרטיות כל הצילומים הקיימים מראים מידע אמיתי, אז מצלמים מחדש על נתונים מומצאים. כל תמונה מוצגת לך לפני שהיא עולה.</div>
+    <div class="rule"><strong>מצב אמיתי</strong>כל פרויקט מקבל תווית כנה: חי ופתוח, חי עם כניסה, בבנייה, או בשימוש אישי בלבד. ביולי החלטת שהאתר לא יציג מצבים של פרויקטים. הבקשה שלך מ-4.11 להכניס גם פרויקטים בבנייה מחליפה את ההחלטה הזו.</div>
+    <div class="rule"><strong>קישורים</strong>קישור יוצא רק לאתר שכל אחד יכול לפתוח. אתר שנפתח על מסך כניסה או סיסמה לא מקבל קישור.</div>
+  </div>
+</section>
+
+<section class="group">
+  <h2>נכנסים לאתר, כל אחד עם דף משלו</h2>
+
+  <article class="card">
+    <div class="head"><h3>Wildhearth</h3><span class="chip gate">בבנייה · תצוגה מוקדמת עם סיסמה</span></div>
+    <p class="what">משחק חווה וחיים בדפדפן, בעולם ישן לפני המהפכה התעשייתית, בלי קרבות. מתחילים כמעט בלי כסף, בחווה מוזנחת, ובונים חיים שלמים.</p>
+    <dl>
+      <dt>מה יוצג</dt><dd><ul>
+        <li>המשפט של המשחק עצמו, <span class="quotes"><span>"A single-player, old-world life-sim…"</span></span>ושישה העקרונות שבדף הנחיתה שלו (שום דבר לא בחינם, חווה שבונים מחדש, כישורים שמרוויחים מעשייה, קשרים עמוקים, תושבים חכמים לבחירה, אף פעם לא קרבות).</li>
+        <li>מה כבר אפשר לשחק היום: ארבע דרכי פתיחה (דייג, חקלאי, מוזיקאי, מגדל חיות), 10 כישורים, 15 תושבים עם סדר יום וקשרים, דיג, ליקוט, נגינה ברחוב, חקלאות, בישול, נגרות, ריהוט ושיפוץ הבית, עונות ומזג אוויר.</li>
+        <li>מה עוד לפניו: העיר שמעבר לכיכר, נישואין ומשפחה, חיות מחמד, מכרות וסירות, מפת עולם.</li>
+      </ul></dd>
+      <dt>תמונות</dt><dd>מסך הפתיחה (בית על גבעה בשקיעה) ו-8 עד 10 צילומים אמיתיים מתוך המשחק, מתוך מדריך המשחק שצולם ב-7.10. הם כבר נקיים.</dd>
+      <dt>קישור</dt><dd>אין. המשחק מאחורי סיסמה.</dd>
+      <dt class="no">לא יוצג</dt><dd>פרטי השרת והסיסמה, תקציבי הציור והשימוש בכלי בינה מלאכותית.</dd>
+    </dl>
+    <p class="sub">תיקון שנמצא בדרך: דף הנחיתה של המשחק אומר 9 כישורים ו-10 תושבים, ובקוד יש 10 ו-15. באתר יופיעו המספרים מהקוד.</p>
+  </article>
+
+  <article class="card">
+    <div class="head"><h3>עולם החברים</h3><span class="chip live">חי · פתוח לכולם</span></div>
+    <p class="what">אתר משחקי למידה בעברית לילדים שעוד לא קוראים, בנוי לטלפון, סביב 100 ״חברים״ צבעוניים שכל אחד מהם הוא מספר.</p>
+    <dl>
+      <dt>מה יוצג</dt><dd><ul>
+        <li>62 משחקים ב-9 קטגוריות: מספרים, כיף, אותיות, יצירה, אנגלית, חשיבה, ספורט, גדלים ומוזיקה.</li>
+        <li>הקראה בעברית בקול מוקלט, מצב רגוע, ורמת קושי שגדלה עם הילד.</li>
+        <li>העקרונות מהתיעוד שלו: בלי כישלונות, בלי טיימרים ובלי תחרות. אפשר להתקין אותו כמו אפליקציה.</li>
+        <li>השם הפרטי של אסף, כמו שאישרת ב-7.9.</li>
+      </ul></dd>
+      <dt>תמונות</dt><dd>צילומים חדשים מהאתר החי, כי הצילומים הקיימים מיולי וקודמים לשדרוג הציורים.</dd>
+      <dt>קישור</dt><dd><span class="en">assaf.gititregev.com</span></dd>
+      <dt class="no">לא יוצג</dt><dd>הגיל שלו, משחקי הגמילה מטיטולים וממוצץ וכל תמונה שלהם, ושום פרט התפתחותי.</dd>
+    </dl>
+    <p class="sub"><b>בתוך אותו דף, כפסקה קטנה ״בבנייה״:</b> גרסת תלת־ממד למשחק המיון (כדורים לסלים), שנבנית לטאבלט. יש לה צילומים נקיים. היא עוד לא רצה על מכשיר אמיתי, ולכן לא תקבל דף משלה.</p>
+  </article>
+
+  <article class="card">
+    <div class="head"><h3>Shipping the Rainbow</h3><span class="chip gate">חי · רק עם כניסה</span></div>
+    <p class="what">הבית שלך לפנדום של זוגות נשים: פורטל אחד עם שלושה שערים. ספריית סיפורים שאת עוקבת אחריהם ומגבה אותם, דף לכל זוג עם ספריית סרטונים, וספרייה של סדרות קצרות לטלפון. נבנה ידנית ב-2019 ונבנה מחדש עם סוכני בינה מלאכותית ב-2026.</p>
+    <dl>
+      <dt>מה יוצג</dt><dd><ul>
+        <li>שלושת השערים ומה כל אחד עושה, במשפטים שכבר כתובים בקוד:
+          <span class="quotes"><span>"Browse, track, and back up your fanfic collection."</span><span>"The home of the gay ships."</span><span>"Short vertical WLW dramas."</span></span></li>
+        <li>הסיפור: למה בנית אותו (אתרים שמעלימים סיפורים בלי אזהרה), ושבע השנים מהגרסה הראשונה.</li>
+        <li>שעוזר בינה מלאכותית מעשיר את הספרייה דרך כלי ייעודי.</li>
+      </ul></dd>
+      <dt>תמונות</dt><dd>רק כותרת הפורטל עם קשת הצבעים, ואיור חדש שאכין מהסמל שכבר קיים בקוד. כל שאר הצילומים מראים תמונות מסדרות טלוויזיה, שמות של כותבות ושל מעלות סרטונים, ושמות רשימות קריאה.</dd>
+      <dt>קישור</dt><dd>אין. האתר נפתח על מסך כניסה ואין חשבון הדגמה.</dd>
+      <dt class="no">לא יוצג</dt><dd>שמות סיפורים וכותבות, תמונות וקטעים מסדרות, תוכן למבוגרים, כתובת המייל שלך, והתיאור של כלי ההורדה כ״עוקף הגנות״.</dd>
+    </dl>
+  </article>
+
+  <article class="card">
+    <div class="head"><h3>Fanfic OS</h3><span class="chip dev">בבנייה · פרטי</span></div>
+    <p class="what">מערכת לתכנון ולכתיבה של סאגה ארוכה: היא מחזיקה את כל עולם הסיפור, כדי שכל שינוי ייבדק אחורה וקדימה לאורך מאות פרקים. היום היא משרתת את הסאגה שלך.</p>
+    <dl>
+      <dt>מה יוצג</dt><dd><ul>
+        <li>מה המערכת עושה: ניווט בסאגה, מעקב רציפות, מעבדת רעיונות, כתבי יד, ואישור שלך לכל שינוי.</li>
+        <li>שעוזרי בינה מלאכותית עובדים בה דרך שער כלים משלה.</li>
+        <li>שורה על חדר הכותבים, הכלי המקומי שבודק פרקים עם מודל שרץ על המחשב שלך.</li>
+      </ul></dd>
+      <dt>תמונות</dt><dd>אין היום אף צילום. אכין צילום של מסך אחד על פרויקט הדגמה מומצא, או שהדף יהיה בלי תמונה.</dd>
+      <dt>קישור</dt><dd>אין. מה שבפנים הוא כתב היד שלך.</dd>
+      <dt class="no">לא יוצג</dt><dd>שום טקסט מהסאגה, שם הסאגה ופרטי העלילה.</dd>
+    </dl>
+  </article>
+
+  <article class="card">
+    <div class="head"><h3>Homebase</h3><span class="chip out">שימוש אישי · לא פתוח לציבור</span></div>
+    <p class="what">דף הגג של ״הבית הדיגיטלי״ שלך: משפחה של אפליקציות אישיות בעברית, עם כניסה אחת, ערכת עיצוב משותפת, גיבוי לילי, ועוזרי בינה מלאכותית שפועלים בהן דרך שער אחד שבודק ורושם כל פעולה.</p>
+    <dl>
+      <dt>מה יוצג</dt><dd>העקרונות (כל אפליקציה מחזיקה את התחום שלה, שום דבר לא נשמר רק בדפדפן), איך האפליקציות מתחברות, ושורה על התשתית: כניסה אחת, גיבוי מוצפן כל לילה, ומעבר לשרת ביתי. משם מקשרים לדף של כל אפליקציה.</dd>
+      <dt>תמונות</dt><dd>מסך הבית המאוחד על נתוני דוגמה, אחרי בדיקה שאין בו שום פרט אישי.</dd>
+      <dt class="no">לא יוצג</dt><dd>רשימת הפורטים, שמות השרתים, הקישורים לכלי הניהול.</dd>
+    </dl>
+  </article>
+
+  <article class="card">
+    <div class="head"><h3>תקציב הבית</h3><span class="chip out">בשימוש יומיומי · פרטי</span></div>
+    <p class="what">אפליקציית תקציב משפחתי שהחליפה את קובץ האקסל של שנים: תוכנית מול ביצוע בכל חודש, חיובי אשראי שמגיעים לאישור שלך, חשבונות, חסכונות, חובות ותכנון שנתי.</p>
+    <dl>
+      <dt>מה יוצג</dt><dd>לוח עם 20 רכיבים שמסדרים לבד, גיליון תקציב חודשי, ייבוא עם תור לבדיקה שלומד מה כל חיוב, משיכה אוטומטית מהבנק ומהכרטיסים, תכנון שנתי, ״הר הכסף״ (כל הכסף במקום אחד), ועוזר בינה מלאכותית מובנה. בשימוש כל יום מאוגוסט.</dd>
+      <dt>תמונות</dt><dd>כל הצילומים הקיימים מראים כסף, בתי עסק ושמות של בני משפחה. אצלם מחדש על עותק עם נתונים מומצאים לגמרי, בלי לגעת בנתונים האמיתיים שלך.</dd>
+      <dt class="no">לא יוצג</dt><dd>שום סכום, שום שם של בנק או כרטיס, שום שורה אמיתית.</dd>
+    </dl>
+  </article>
+
+  <article class="card">
+    <div class="head"><h3>המשימות ולוח השנה</h3><span class="chip out">בשימוש · בעיצוב מחדש</span></div>
+    <p class="what">מתכנן יום רגוע: ״החמש של היום״ (לא יותר מחמש משימות), לוח שנה שמסתנכרן עם Outlook בשני הכיוונים, ומעקב הרגלים שבועי. רוב המשימות נוצרות משיחה, והמשפט המקורי נשמר איתן.</p>
+    <dl>
+      <dt>מה יוצג</dt><dd>הרעיון של ״חמש היא תקרה, לא מכסה למלא״, הסנכרון עם Outlook, והמשימות שנולדות משיחה. וגם שהאפליקציה נמצאת עכשיו בעיצוב מחדש.</dd>
+      <dt>תמונות</dt><dd>הצילומים הקיימים מראים פגישות אמיתיות. אצלם מחדש על נתונים מומצאים.</dd>
+      <dt class="no">לא יוצג</dt><dd>שום פגישה או משימה אמיתית, ושום דבר על הגן או על הטיפולים.</dd>
+    </dl>
+  </article>
+
+  <article class="card">
+    <div class="head"><h3>המתכונים</h3><span class="chip out">גמור · פרטי</span></div>
+    <p class="what">ספר מתכונים של קישורים: מדביקים קישור והשם, התמונה והמרכיבים מתמלאים לבד. מסדרים לפי קטגוריות צבעוניות, מחפשים ״מה יש לי עם…״, מסמנים ״אהבנו״ או ״לנסות״, ומתכננים שבוע עם רשימת קניות אחת.</p>
+    <dl>
+      <dt>מה יוצג</dt><dd>הכול, כולל העיצוב ״המטבח הצבעוני״ שביקשת שייראה חי ולא כמו לוח בקרה.</dd>
+      <dt>תמונות</dt><dd>צילומים קיימים ונקיים מאוקטובר, במחשב ובטלפון, בבהיר ובכהה.</dd>
+    </dl>
+  </article>
+
+  <article class="card">
+    <div class="head"><h3>ספריית המדיה</h3><span class="chip out">בשימוש · פרטי</span></div>
+    <p class="what">מנהל אוסף סדרות וסרטים: סורק את הכוננים, מזהה כל סדרה, מראה אילו פרקים ואילו כתוביות בעברית חסרים, זוכר איפה עצרת בכל סדרה, ומסתנכרן עם Plex. הוא בא להחליף את Sonarr ואת גיליון האקסל, ולא מוריד שום דבר. האפליקציה הוותיקה בבית, מדצמבר 2025.</p>
+    <dl>
+      <dt>מה יוצג</dt><dd>הסריקה וההתאמה, הפרקים והכתוביות החסרים, ״להמשיך מאיפה שעצרתי״, והסנכרון עם Plex.</dd>
+      <dt>תמונות</dt><dd>צילום קיים עם פרקי דוגמה, ועוד צילומים חדשים על ספרייה מומצאת.</dd>
+      <dt class="no">לא יוצג</dt><dd>פוסטרים של סדרות (יש להם זכויות יוצרים), הרשימה האמיתית של מה שיש לך ומה שראית, ומאיפה הקבצים מגיעים.</dd>
+    </dl>
+  </article>
+
+  <article class="card">
+    <div class="head"><h3>ההשקעות</h3><span class="chip warn">ממתין להכרעה שלך</span></div>
+    <p class="what">מעקב השקעות משפחתי: מאחד כמה חשבונות לתמונה אחת של שווי ורווח או הפסד מול מה שהופקד באמת. יש בו גם מערכת משמעת למסחר, שבודקת לפני כל עסקה אם היא מותרת. הוא אף פעם לא מבצע עסקאות.</p>
+    <dl>
+      <dt>מה יוצג</dt><dd>תלוי בשורה השלישית בחמ״ל: או רק המעקב, או גם מערכת המשמעת, או שהאפליקציה לא נכנסת בכלל.</dd>
+      <dt>תמונות</dt><dd>רק מומצאות לגמרי. כל הצילומים הקיימים מראים אחזקות, שמות של בני משפחה ובתי השקעות.</dd>
+      <dt class="no">לא יוצג</dt><dd>שום סכום או אחזקה, שמות בתי ההשקעות, ושאת מנהלת כסף גם לבני משפחה.</dd>
+    </dl>
+  </article>
+
+  <article class="card">
+    <div class="head"><h3>הקבצים שלי</h3><span class="chip dev">בבנייה · התחיל לפני יומיים</span></div>
+    <p class="what">דרופבוקס אישי מעל השרת הביתי, בעברית ונוח מהטלפון: גלישה בתיקיות, חיפוש, תצוגה מקדימה, הורדה של קובץ או של תיקייה שלמה, וקבצים אחרונים.</p>
+    <dl>
+      <dt>מה יוצג</dt><dd>מה שכבר עובד, ומה בא אחר כך: העלאות גדולות, סל מחזור, תמונות מהטלפון וקישורי שיתוף.</dd>
+      <dt>תמונות</dt><dd>צילומים קיימים על תיקיות דוגמה, בלי קבצים אישיים.</dd>
+      <dt class="no">לא יוצג</dt><dd>שמות התיקיות בשרת וכל פרט עליו.</dd>
+    </dl>
+  </article>
+
+  <article class="card">
+    <div class="head"><h3>מעבדת המסחר המוקדם</h3><span class="chip dev">כלי מחקר · נתוני דמה בלבד</span></div>
+    <p class="what">כלי מחקר שבודק השערה אחת על נתוני מחיר ברמת הדקה: האם מניות שעלו אחרי סגירת המסחר ושמרו על העלייה עד הבוקר מתנהגות אחרת ממניות דומות שאיבדו אותה. בלי מסחר ובלי המלצות.</p>
+    <dl>
+      <dt>מה יוצג</dt><dd>השאלה, מסך החקירה, ציר הזמן של לילה אחד, ובדיקה לאחור עם קבוצות השוואה. יהיה כתוב בבירור שעוד אין בו נתונים אמיתיים.</dd>
+      <dt>תמונות</dt><dd>צילומים קיימים על מניות מומצאות.</dd>
+      <dt class="no">לא יוצג</dt><dd>העסקאות שלך, וכללי הפיילוט שלך.</dd>
+    </dl>
+  </article>
+
+  <article class="card">
+    <div class="head"><h3>חדר הבקרה: איך אני מנהלת צוות של סוכני בינה מלאכותית</h3><span class="chip out">בשימוש יומיומי · פרטי</span></div>
+    <p class="what">הדף הכי חזק לטעמי, כי הוא מראה איך את עובדת. אדם אחד מנהל הרבה סוכנים במקביל, בעזרת כמה כלים שבנית לעצמך.</p>
+    <dl>
+      <dt>מה נכנס</dt><dd><ul>
+        <li><b>מערכת המעקב:</b> אוספת את כל היסטוריית העבודה שלך עם עוזרי בינה מלאכותית, מ-2023 עד היום, ומציגה לוח אחד לכל הפרויקטים: מה מחכה לך, בדיקות, רעיונות, דוחות.</li>
+        <li><b>הדלת:</b> כתובת אחת שמראה אילו אפליקציות למעלה, מפעילה ועוצרת אותן, ובונה גרסה חדשה עם אפשרות לחזור לקודמת.</li>
+        <li><b>החמ״ל:</b> דף אחד שאליו כל הסוכנים כותבים שאלות ודיווחים. את עונה שם, והתשובה חוזרת לסוכן הנכון.</li>
+        <li><b>ארכיון השיחות:</b> חיפוש בכל ההיסטוריה שלך עם ChatGPT, בעברית.</li>
+        <li>שורה על כל אחד מאלה: השער שבודק ורושם כל פעולה של סוכן, תור הפקודות של ChatGPT ש״שוכח״ כל פקודה אחרי שמסר אותה, ודלת האתרים (בנויה, לא באוויר).</li>
+      </ul></dd>
+      <dt>תמונות</dt><dd>כל הצילומים הקיימים מראים מידע אמיתי. אכין צילומים חדשים על נתוני הדגמה, או סרטוט פשוט של איך הכלים מתחברים.</dd>
+      <dt class="no">לא יוצג</dt><dd>שמות סשנים, השאלות והתשובות שלך, מה מחכה לך, פרטי השרתים, וכל מספר על עלויות.</dd>
+    </dl>
+    <p class="sub">הקשר למה שכבר מחכה: קטע הציטוטים מהשיחה שקראת ב-7.9 עוד לא נבנה, כי חסר לו מקום. הדף הזה יכול להיות הבית שלו, ואם תרצי שאלה על זה תגיע בנפרד.</p>
+  </article>
+</section>
+
+<section class="group">
+  <h2>לא נכנסים, ולמה</h2>
+  <ul class="outlist">
+    <li><b>הכלים להורים:</b> קפוא מאוגוסט, יש בו רק התחלה, וכל מה שיש בו נוגע לפרטים של ההורים.</li>
+    <li><b>המחקר על הכנסה מהצד:</b> אין בו קוד, והוא כולו על הכסף שלך.</li>
+    <li><b>כלי הבדיקה של הבנקים:</b> ניסויים חד־פעמיים, חלקם נוגעים בתנאי שימוש של בנקים.</li>
+    <li><b>תשתיות השרת, הגיבוי והכניסה:</b> רק שורה אחת בדף Homebase.</li>
+    <li><b>ספריית ה-EPUB הקטנה:</b> שני שינויים במאי, והיא לא הגרסה הישנה של Shipping the Rainbow.</li>
+    <li><b>מבחן הציורים של Wildhearth:</b> בדיקה סגורה, בלי קוד משחק.</li>
+  </ul>
+</section>
+
+<section class="group">
+  <h2>מה עוד ישתנה באתר הקיים</h2>
+  <ul class="outlist">
+    <li>קטע ״פרויקטים״ באתר מציג היום ארבעה פרויקטים, וחלק מהמידע בו כבר לא נכון. למשל Homebase מתואר שם עם ״מעקב חובות משפחתי״, שלא קיים כאפליקציה. הוא יתעדכן לפי הרשימה הזאת ויקשר לדפים החדשים.</li>
+    <li>הדפים החדשים יהיו בעברית ובאנגלית, כמו שאר האתר. משפטי השיווק של הפרויקטים נשארים באנגלית, לפי ההחלטה שלך מ-7.9.</li>
+    <li>האתר נשאר בשרת שבו הוא נמצא היום. המעבר לשרת הביתי נשאר אצל החמ״ל.</li>
+  </ul>
+</section>
+
+<footer>נאסף ב-4.11.2026 מהקוד, מהתיעוד ומהיסטוריית השינויים של כל פרויקט. שום דבר עוד לא נבנה ושום דבר לא עלה.</footer>
+</div>
