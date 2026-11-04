@@ -3,6 +3,7 @@ import { AnimatePresence, motion, MotionConfig } from 'framer-motion';
 import clsx from 'clsx';
 import { FiChevronLeft, FiChevronRight } from 'react-icons/fi';
 import { portfolio, resolveTarget, type PortfolioProject } from '../../data/portfolio';
+import { onInternalLinkClick } from '../../hooks/useRoute';
 import { useLang } from '../../i18n/LanguageContext';
 import { ProjectSpotlightArt } from './ProjectSpotlightArt';
 
@@ -211,7 +212,9 @@ function SpotlightPanel({ project, t, arrow }: SpotlightPanelProps) {
           here would skip a level (Lighthouse heading-order). Visual size is
           unaffected: sizing comes from .spotlight__name, not the tag. */}
       <h2 className="spotlight__name">{project.name}</h2>
-      <p className="spotlight__tagline">{project.tagline}</p>
+      <p className="spotlight__tagline">
+        <bdi lang="en">{project.tagline}</bdi>
+      </p>
       <div className="spotlight__row">
         {/* stateLabel (richer, English) is title-only per the brief — the
             visible chip word is the short, translated projectMeta.state.* string. */}
@@ -243,7 +246,9 @@ function SpotlightPanel({ project, t, arrow }: SpotlightPanelProps) {
     <a
       className="spotlight__panel spotlight__panel--link"
       href={target.href}
-      {...(target.kind === 'external' ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
+      {...(target.kind === 'external'
+        ? { target: '_blank', rel: 'noopener noreferrer' }
+        : { onClick: onInternalLinkClick })}
     >
       <ProjectSpotlightArt project={project} />
       {meta}

@@ -7,6 +7,7 @@ import { portfolio, resolveTarget, type PortfolioProject } from '../../data/port
 import { useLang } from '../../i18n/LanguageContext';
 import { ProjectsGraph } from './ProjectsGraph';
 import { Lightbox } from '../common/Lightbox';
+import { onInternalLinkClick } from '../../hooks/useRoute';
 
 // The full Projects index — an honest listing of the portfolio registry
 // (data/portfolio.ts), one card per entry, in registry order. Replaces the
@@ -142,7 +143,11 @@ function ProjectCard({ project, t, arrow, traced, onHover, onZoom }: ProjectCard
         <h3 className="project-card__name">{project.name}</h3>
         {/* Tagline is data, not chrome — rendered from the registry AS-IS,
             never translated or edited (see data/portfolio.ts). */}
-        <p className="project-card__tagline">{project.tagline}</p>
+        {/* <bdi>: an English line inside the Hebrew page keeps its own
+            punctuation order (no full stop jumping to the front). */}
+        <p className="project-card__tagline">
+          <bdi lang="en">{project.tagline}</bdi>
+        </p>
         {/* Capabilities in context — plain static chips, no interaction of
             their own (the graph beside the index is where they become
             interactive). Same data the graph draws its nodes from. */}
@@ -193,7 +198,9 @@ function ProjectCard({ project, t, arrow, traced, onHover, onZoom }: ProjectCard
           aria-label={`${project.name} — ${
             target.kind === 'case' ? t('projectMeta.ctaCase') : t('projectMeta.ctaLive')
           }`}
-          {...(target.kind === 'external' ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
+          {...(target.kind === 'external'
+            ? { target: '_blank', rel: 'noopener noreferrer' }
+            : { onClick: onInternalLinkClick })}
         />
       )}
 

@@ -81,21 +81,19 @@ export type SpotlightTarget =
   | { kind: 'external'; href: string }
   | { kind: 'none' };
 
-// Case-study pages are being planned (`caseRoute` below records the plan),
-// but there is no hash router anywhere in this app today — verified
-// `#/case/*` resolves to nothing at runtime. A case link only renders once
-// its route actually ships: add the project's slug here when that happens.
-// Until then, `resolveTarget` falls through past `caseRoute` to the
-// project's real external link, then to no link at all.
-const LIVE_CASE_ROUTES = new Set<string>([]);
-
-// Click target resolution, in order: the project's own case-study page (only
-// once its route is live — see LIVE_CASE_ROUTES), else its real external
-// link, else no link at all (e.g. Homebase) — never an invented destination.
+// Project pages (wave 1, 2026-11-04): a project's own page inside this site
+// is a plain path (`/wildhearth`), rendered by components/pages/ProjectPage
+// from data/project-pages-content.ts. `caseRoute` is only set in the
+// registry once that page really exists, so its presence IS the gate — the
+// old LIVE_CASE_ROUTES allow-list (from the `#/case/*` hash-route plan that
+// never shipped) is gone.
+//
+// Click target resolution, in order: the project's own page inside this site,
+// else its real external link, else no link at all (e.g. Homebase) — never an
+// invented destination. A project with BOTH (assaf) links to its own page;
+// that page carries the link out to the live site.
 export function resolveTarget(project: PortfolioProjectContent): SpotlightTarget {
-  if (project.caseRoute && LIVE_CASE_ROUTES.has(project.slug)) {
-    return { kind: 'case', href: project.caseRoute };
-  }
+  if (project.caseRoute) return { kind: 'case', href: project.caseRoute };
   if (project.externalLink) return { kind: 'external', href: project.externalLink };
   return { kind: 'none' };
 }

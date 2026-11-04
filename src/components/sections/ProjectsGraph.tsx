@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import clsx from 'clsx';
 import { portfolio, resolveTarget } from '../../data/portfolio';
+import { onInternalLinkClick } from '../../hooks/useRoute';
 
 // The Projects section's second door: a capability constellation next to the
 // index grid (Projects.tsx). Bipartite graph — 4 project nodes, one node per
@@ -319,7 +320,9 @@ export function ProjectsGraph({ hoverSlug, onHoverSlug }: ProjectsGraphProps) {
                 data-slug={project.slug}
                 href={target.href}
                 tabIndex={-1}
-                {...(target.kind === 'external' ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
+                {...(target.kind === 'external'
+                  ? { target: '_blank', rel: 'noopener noreferrer' }
+                  : { onClick: onInternalLinkClick })}
                 {...pointerHandlers}
               >
                 {inner}
