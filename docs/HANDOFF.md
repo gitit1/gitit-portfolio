@@ -8,6 +8,37 @@
 Purpose: let a NEW session pick up the site redesign with zero other context.
 Newest state at top.
 
+## 2026-11-04 (night) — Wildhearth landing update IN PROGRESS (her pick: update + open landing only)
+
+- `q-site-wh-marketing` answered 18:39Z: "לעדכן ולפתוח רק את דף הנחיתה (מומלץ)".
+- `q-site-wh-tech` was NOT approved: she asked for a clickable link → re-posted as `q-site-wh-tech-2`
+  (review URL on its own line). She said it still wasn't clickable on her phone; hub says stale tab,
+  row reset to unanswered. **Still waiting — not approved.**
+- Work lives in the WILDHEARTH repo, branch `site/landing-public` (off origin/master 690b0ca11), in a
+  worktree at `<scratchpad>/wh-landing` — the main Wildhearth checkout (`v1-rebuild`) has another
+  session's uncommitted work: never touch it. Files: `landing.html`, `nginx.conf`, new `public/landing/`.
+- **Finding: the skill's "drop the include from `location = /`" is NOT enough.** The landing's hero
+  image and font were Vite-hashed `/assets/` files, which stay locked → public page with no art and a
+  password prompt. Fix: everything the landing loads is in `public/landing/` (served at `/landing/`,
+  open); `/landing.html` 301s to `/`; game, guide, `/assets/`, `/guide-img/` stay locked.
+- Also found: the landing's font file was retired 9-30 with the old skin (dead link); the page now
+  uses the game's "Stone & Gold" tokens. Facts re-counted on master: 11 skills (not 9; my hub row
+  said 10 — wrong), 15 townsfolk, 7 needs, 4 paths, 1 festival; harbour town + rowboat to Saltstilt
+  ARE built (removed from "still ahead"); fence is not a repair piece (roof/window/barn only).
+  Not built: marriage/family, pets, mining. Gallery = 6 guide shots cropped clear of pink callouts.
+- Landing links to gititregev.com/wildhearth → deploy BOTH sites together (deploy row still to come,
+  needs the new Hetzner token; Wildhearth deploy also ships the undeployed 26.10 master fixes).
+- **DONE + verified 2026-11-04:** commit `f747292de` on `site/landing-public`, pushed to origin
+  (backup only, master untouched). Verified in a local `docker build` + `docker run` with a TEST
+  htpasswd (`scratchpad/wh-check.cjs`): 17 route checks green (`/` + `/landing/*` 200, `/play`,
+  `/guide`, `/index.html`, `/landing.html`, `/assets/`, `/guide-img/` 401, `/healthz` 200), 0 failed
+  requests, 0 overflow at 1440/390; looked at desktop + phone shots myself (fixed uneven gallery
+  cards, a cut tutorial bubble in the fishing shot, panels touching the phone edge).
+- Review page https://claude.ai/artifact/XwbNegJuswBxfAu6BQd3Er → hub row `q-site-wh-landing`
+  (waiting). `q-site-wh-tech-2` still waiting. hub-server skill note on opening the landing fixed.
+- Next after both approvals: one deploy row (both sites) + the token row; merge of
+  `site/landing-public` into Wildhearth master goes through her or the Wildhearth session.
+
 ## 2026-11-04 (evening) — SCOPE CHANGE from her: two different things. Waiting on `q-site-plan2`.
 
 Her answer to `q-site-w2`, verbatim (typed, 16:14Z): "אבל שאמרתי אתר שיווקי זה ממש אתר שיווקי כי נגיד
