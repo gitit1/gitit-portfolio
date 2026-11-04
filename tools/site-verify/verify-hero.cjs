@@ -673,11 +673,26 @@ function contrastRatio(a, b) { const L1 = relLum(a) + 0.05, L2 = relLum(b) + 0.0
         back: document.querySelector('.pp__back')?.getAttribute('href'),
         sw: document.documentElement.scrollWidth, cw: document.documentElement.clientWidth,
         title: document.title,
+        // Technical case study (2026-11-04): /wildhearth only, for now.
+        arch: document.querySelectorAll('.pp-arch__node').length,
+        decisions: document.querySelectorAll('.pp-case__decision').length,
+        marketing: document.querySelectorAll('.pp__pillars, .pp__pitch, .pp__figures').length,
+        productLink: !!document.querySelector('.pp__cta a'),
       }));
       const h1Ok = lang === 'en' ? st.h1 === h1En : (h1He ? st.h1 === h1He : /[֐-׿]/.test(st.h1));
       ok(`/${route} renders its project page (${lang})`,
         resp.status() === 200 && h1Ok && st.dir === (lang === 'he' ? 'rtl' : 'ltr') && st.back === '/#projects' && st.sw <= st.cw + 1,
         `status=${resp.status()} h1="${st.h1}" dir=${st.dir} back=${st.back} scrollW=${st.sw}/${st.cw} title="${st.title}"`);
+      if (route === 'wildhearth') {
+        // 13 diagram boxes, 4 decisions, no marketing blocks, and no link to
+        // the password-protected product site.
+        ok(`/wildhearth is a technical case study (${lang})`,
+          st.arch === 13 && st.decisions === 4 && st.marketing === 0 && !st.productLink,
+          `diagramNodes=${st.arch} decisions=${st.decisions} marketingBlocks=${st.marketing} ctaLink=${st.productLink}`);
+      } else {
+        ok(`/${route} keeps its page layout, no case study yet (${lang})`, st.arch === 0 && st.decisions === 0,
+          `diagramNodes=${st.arch} decisions=${st.decisions}`);
+      }
       await pctx.close();
     }
   }

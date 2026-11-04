@@ -98,6 +98,21 @@ export const he: Dict = {
     nextShot: 'צילום המסך הבא',
     shotPosition: 'צילום {n} מתוך {total}',
     newTab: '(נפתח בכרטיסייה חדשה)',
+    // DRAFT (2026-11-04, technical case-study sections): not approved yet.
+    caseProblem: 'הבעיה',
+    caseArchitecture: 'ארכיטקטורה',
+    caseDiagramLabel: 'תרשים הארכיטקטורה',
+    caseDecisions: 'החלטות מפתח',
+    caseChose: 'מה נבחר',
+    caseInstead: 'במקום',
+    caseCost: 'מה זה עלה',
+    caseSource: 'מקור',
+    caseAiWork: 'לבנות את זה עם AI',
+    caseAiDecides: 'גיטית מחליטה',
+    caseAiDelegates: 'סוכני AI עושים',
+    caseAiVerifies: 'איך העבודה נבדקת',
+    caseCourse: 'מה היה קשה ומה שינה כיוון',
+    caseNumbers: 'במספרים',
   },
 
   socials: {

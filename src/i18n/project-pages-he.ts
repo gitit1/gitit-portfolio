@@ -14,10 +14,40 @@
 
 import type { Lang } from './types';
 import type { ProjectPage, ProjectShot } from '../data/project-pages';
-import type { ProjectPageId, ProjectPagePillar } from '../data/project-pages-content';
+import type {
+  ProjectCaseStudy,
+  ProjectPageId,
+  ProjectPagePillar,
+  CaseDiagramNode,
+} from '../data/project-pages-content';
+
+/** Hebrew for a technical case study. Keyed by the English entries' ids, so
+ *  structure (order, sources, values, module names) always comes from the
+ *  data and only the words are overlaid. */
+type ProjectCaseStudyHe = {
+  problem: string;
+  architectureIntro: string;
+  diagram: {
+    boundary: string;
+    /** One per layer, in order ('' for a layer without a link). */
+    links: string[];
+    laneTitle?: string;
+    laneBadge?: string;
+    laneLink?: string;
+    externalLink?: string;
+    nodes: Record<string, { label: string; note: string }>;
+  };
+  decisions: Record<string, { title: string; chose: string; instead: string[]; cost: string }>;
+  aiWork: { decides: string[]; delegates: string[]; verifies: string[] };
+  courseChanges?: Record<string, { title: string; text: string }>;
+  metrics?: { asOf: string; items: Record<string, { label: string; measures: string }> };
+  productSite?: { note: string; label?: string };
+};
 
 type ProjectPageHe = {
   name?: string;
+  /** Technical pages translate their tagline (marketing taglines stay English). */
+  tagline?: string;
   status: string;
   summary: string;
   pitchSource?: string;
@@ -28,7 +58,7 @@ type ProjectPageHe = {
   /** Keyed by facet id; for Friends World these are the category names from
    *  the project's own src/i18n/he.ts, never a translation of ours. */
   facetLabels?: Record<string, string>;
-  worksToday: string[];
+  worksToday?: string[];
   next?: string[];
   linkLabel?: string;
   noLinkNote?: string;
@@ -37,48 +67,154 @@ type ProjectPageHe = {
   heroCaption: string;
   galleryCaptions: string[];
   sideCaptions?: string[];
+  caseStudy?: ProjectCaseStudyHe;
 };
 
 const pagesHe: Record<ProjectPageId, ProjectPageHe> = {
+  // TECHNICAL page (2026-11-04). DRAFT: every string here is new and waits for
+  // her approval. No em or en dashes. Module paths, product and tech names
+  // stay English; the diagram's `code` names come from the data untouched.
+  // ⁦ … ⁩ (LRI … PDI) isolate a path or command that touches
+  // punctuation or a number; folder names drop their trailing slash in
+  // Hebrew because "src/" still renders as "/src" inside an RTL line.
   wildhearth: {
+    tagline: 'סימולציה שכתובה בקוד, ושכבת AI לבחירה.',
     status: 'בפיתוח · תצוגה מוקדמת פרטית',
     summary:
-      'משחק חיים וחווה לשחקן יחיד, דו-ממדי ובמבט מלמעלה, שרץ בדפדפן ומתרחש בעולם ישן, לפני המהפכה התעשייתית. אין בו קרבות. מתחילים עם כמה מטבעות וחווה מוזנחת.',
-    pitchSource: 'מתוך דף הנחיתה של המשחק',
-    figureLabels: ['דרכי פתיחה', 'כישורים שמרוויחים מעשייה', 'תושבים עם שם', 'צרכים לדאוג להם'],
-    pillarsTitle: 'העקרונות',
-    pillars: [
-      { title: 'שום דבר לא בחינם', text: 'כל כלי, חיה וזרע נקנים בכסף שהרווחת בעצמך.' },
-      { title: 'חווה שבונים מחדש', text: 'החווה מתחילה מוזנחת. כל תיקון הוא שינוי שרואים, חלק אחרי חלק.' },
-      { title: 'כישורים שמרוויחים מעשייה', text: 'כל כישור גדל רק מתוך שימוש, ויש תקרה לכמה אפשר לשלוט בסך הכול.' },
-      { title: 'קשרים עמוקים', text: 'לכל אחד מאנשי העיר יש סדר יום וסיפור משלו.' },
-      { title: 'תושבים חכמים, לבחירה', text: 'אפשר לתת למודל שפה להפעיל את התושבים, עם מפתח משלך. כבוי כברירת מחדל.' },
-      { title: 'אף פעם לא קרבות', text: 'בלי מפלצות, בלי מוות, בלי מכות. המתח בא מכסף, מזמן ומשאיפות.' },
-    ],
-    worksToday: [
-      'ארבע דרכי פתיחה (דייג, חקלאי, מוזיקאי, מגדל חיות) וחמישה חלומות לחיים',
-      'עשרה כישורים שגדלים רק כשמשתמשים בהם, ושבעה צרכים',
-      '15 תושבים עם שם, סדר יום וקשרים',
-      'דיג, ליקוט, נגינה ברחוב, חטיבת עצים, חקלאות והשקיה',
-      'חנות, דוכן בשוק, לוח עבודות ודואר',
-      'בישול, מלאכה וריהוט',
-      'שדרוג הבית ושיפוץ החווה המוזנחת',
-      'לוח שנה, עונות, מזג אוויר ופסטיבל',
-      'כמה משבצות שמירה, ואבני מסע שמקפיצות בין מקומות',
-      'תושבים חכמים לבחירה, כבויים כברירת מחדל, עם מפתח משלך',
-    ],
-    next: ['העיר שמעבר לכיכר השוק', 'נישואין ומשפחה', 'חיות מחמד', 'מכרות וסירות', 'מפת עולם'],
-    noLinkNote: 'עדיין אין קישור פתוח. המשחק בתצוגה מוקדמת פרטית.',
+      'משחק חיים וחווה לשחקן יחיד, דו-ממדי ובמבט מלמעלה, שרץ כולו בדפדפן ומתרחש בעולם שלפני המהפכה התעשייתית, בלי קרבות.',
+    caseStudy: {
+      problem:
+        'Wildhearth משלב שלושה סוגי משחק: האנשים והקשרים של The Sims, הכישורים, הכלכלה והעולם הפתוח של Ultima Online, וחווה מוזנחת שמשפצים. הבעיה ההנדסית יושבת מתחת לתושבים. אפשר להפעיל אותם עם מודל שפה שחושב וזוכר, אבל משחקים שיצאו עם דמויות כאלה מראים ששחקנים מחפשים את התפרים, ושעלות הקריאות למודל יוצאת משליטה. לכן הכלל המנחה (״עקרון האפס״ של העיצוב) הוא: הסימולציה היא קוד רגיל ושלמה גם כשה-AI כבוי, הכול רץ בדפדפן, וה-AI רק מוסיף שכבה מעל.',
+      architectureIntro:
+        'הכול רץ בלשונית דפדפן אחת, בלי שרת משחק. לולאה אחת ב-main.ts מעדכנת את המערכות, מטפלת באינטראקציות ומציירת פריים על canvas לפי עומק; החלונות הם DOM מעליו. מסלול ה-AI יושב לצד הלולאה ולעולם לא בתוכה: קוראים לו רק ברגעים שיש להם משמעות, כמו פתיחת שיחה או מעבר ליום חדש, מאחורי await שאף פעם לא עוצר פריים.',
+      diagram: {
+        boundary: 'הדפדפן של השחקן · בלי שרת משחק',
+        links: ['', 'בכל פריים', 'עדכון ואינטראקציה', 'ציור ושמירה'],
+        laneTitle: 'מסלול AI לבחירה',
+        laneBadge: 'כבוי כברירת מחדל',
+        laneLink: 'תמונת מצב יוצאת, פעולה שנבדקה חוזרת',
+        externalLink: 'המפתח של השחקן',
+        nodes: {
+          input: { label: 'קלט', note: 'מקלדת, עכבר ומגע' },
+          loop: { label: 'לולאת המשחק', note: 'עדכון, אינטראקציות, ציור' },
+          systems: {
+            label: 'מערכות',
+            note: '108 מודולים של חוקים: כלכלה, כישורים, צרכים, חקלאות, מזג אוויר, לוחות זמנים, משימות',
+          },
+          interact: { label: 'אינטראקציות', note: 'מה כל דבר יודע לעשות, ולמה פעולה מסוימת מושבתת' },
+          world: { label: 'עולם וישויות', note: 'אזורים, התנגשויות, מציאת דרך; המצב של השחקן, התושבים והחיות' },
+          data: { label: 'נתונים וכיוונון', note: 'טבלאות שנכתבו מראש וכל ערכי הכיוונון' },
+          render: {
+            label: 'ציור המסך',
+            note: 'Canvas 2D לפי עומק; ספרייט של PixelLab כשהוא נטען, ואחרת ציור בקוד',
+          },
+          windows: { label: 'חלונות', note: 'חלונות DOM מעל ה-canvas; הסידור שלהם נשמר' },
+          save: { label: 'שמירה', note: 'רשומה עם מספר גרסה לכל מערכת, ב-localStorage' },
+          context: { label: 'תמונת מצב של העולם', note: 'לקריאה בלבד: שעה, מזג אוויר, התושב ומה שהוא זוכר' },
+          ai: {
+            label: 'שכבת ה-AI',
+            note: 'פרומפטים, מטמון, הגבלת קצב, מניעת חזרות; כל תשובה נבדקת מול רשימה סגורה של פעולות',
+          },
+          provider: { label: 'ספק', note: 'anthropic · mock · none' },
+          api: { label: 'Anthropic API', note: 'נקרא עם המפתח של השחקן עצמו, אף פעם לא בכל פריים' },
+        },
+      },
+      decisions: {
+        'ai-layer': {
+          title: 'ה-AI הוא שכבה, לא יסוד',
+          chose:
+            'הסימולציה (כישורים, כלכלה, חקלאות, צרכים, לוחות זמנים, דיאלוג שנכתב מראש) היא קוד רגיל, בלי אף קריאה ל-AI. שכבת ה-AI, שהיא לבחירה, קוראת תמונת מצב של העולם ומחזירה JSON מובנה שנבדק מול רשימה סגורה של פעולות; המשחק מפעיל רק את מה שעבר את הבדיקה. השחקן מביא מפתח Anthropic משלו, והקריאות יוצאות ישר מהדפדפן.',
+          instead: [
+            'תושבים שמונעים ב-AI כלב של המשחק',
+            'שרת ביניים שמחזיק את המפתח (נשאר כאפשרות לעתיד, לא בגרסה 1)',
+            'ה-SDK של Anthropic בתוך החבילה (במקומו fetch רגיל, כדי שהחבילה תישאר קטנה)',
+          ],
+          cost: 'כל יכולת AI צריכה חלופה כתובה ומלאה, לא שלד. המפתח נשמר באחסון של הדפדפן של השחקן, ומסך ההגדרות אומר את זה במפורש. הקריאה מהדפדפן דורשת את כותרת ההסכמה המפורשת של Anthropic לגישה ישירה מדפדפן.',
+        },
+        affordances: {
+          title: 'ה-AI מציע, המנוע מחליט',
+          chose:
+            'פעולות נובעות מהתכונות של הדברים ומההקשר (כישור, ציוד, מזג אוויר, אמון, זיכרון) ונרשמות בקטלוג אפשרויות, במקום תפריט קבוע לכל חפץ. משפט מוקלד יכול לעבור דרך המודל לכוונה מובנית, מתוך מועמדים שהמנוע עצמו מספק; רק המנוע בודק ומבצע, או מסביר למה לא ומציע חלופה קרובה. כשה-AI כבוי, מפענח שכתוב בקוד משרת את אותו קטלוג.',
+          instead: ['פעולות שנכתבות ביד לכל חפץ (מודל האינטראקציה הקיים)', 'לתת למודל להכריע תוצאות מתוך טקסט חופשי'],
+          cost: 'זה הפך כלל שנכתב קודם (בלי פענוח פקודות בשפה טבעית), וכארכיטקטורה חדשה זה עבר מסמך עיצוב ואישור של הבעלים לפני כל שורת קוד במשחק. אילוף חיות נבנה ראשון, כפרוסה אנכית אחת.',
+        },
+        'dual-path': {
+          title: 'לכל ספרייט יש גיבוי שמצויר בקוד',
+          chose:
+            'הגרפיקה מצוירת בקוד או נוצרת ב-PixelLab, ותו לא. כל רכיב חזותי שמבוסס על ספרייט שומר את הציור בקוד כגיבוי בזמן ריצה, כך שהמשחק עולה ואפשר לשחק בו גם בלי אף קובץ תמונה. המצלמה נשארת שטוחה, במבט מלמעלה.',
+          instead: [
+            'גרפיקה בקוד בלבד (״מסלול B״, שנשאר פתוח כאפשרות מלאה)',
+            'חבילות גרפיקה של צד שלישי (נפסל)',
+            'להפוך את העולם לאיזומטרי: בערך 230 קבצים, והיפוך של החלטה שרשומה בארבעה מסמכים; נדחה',
+          ],
+          cost: 'שני מימושים לכל רכיב חזותי. האילוץ האמיתי התברר כזמן סקירה: כל תמונה שנוצרת נבדקת בעין לסטייה לפני שהיא נכנסת, בקבוצות לפי קטגוריה.',
+        },
+        'big-world': {
+          title: 'עולם גדול פי 72, בלי שינוי על המסך',
+          chose:
+            'העולם המתוכנן גדול פי 72 מהמפה של היום. המנוע הניח canvas אחד לכל הקרקע, רשת מסלולים אחת לכל העולם, רשימות התנגשות שעוברים עליהן אחת אחת, ותושבים שהסימולציה מריצה תמיד. הוא מוחלף בשישה שלבים, כל אחד קומיט אחד מאחורי דגל משלו, מול רף: בגודל המפה של היום הקרקע חייבת להיות זהה עד הפיקסל, הכרעות ההתנגשות והמסלולים זהים, וכל שמירה ישנה ממשיכה להיטען.',
+          instead: ['להגדיל את המבנים הקיימים: רשת המסלולים לבדה הייתה גדלה מ-14.4 MB לבערך 1 GB'],
+          cost: 'עבודת מנוע שהשחקן לא רואה, שנבדקת בבדיקות שקילות מול קו בסיס של המשחק של היום. היא יושבת בענף נפרד ועוד לא עלתה.',
+        },
+      },
+      aiWork: {
+        decides: [
+          'גיטית היא בעלת המוצר, והסוכנים מממשים. כל שאלת עיצוב מגיעה אליה כבחירה, וההכרעות שלה נרשמות ב-\u2066docs/DECISIONS.md\u2069 עם תאריך.',
+          'קודם מפרט: שום גל ייצור לא מתחיל לפני שהיא אישרה את המפרט הכתוב במלואו.',
+          'תמונות לפני קוד: מסך חדש מוצג קודם כצילומים או כהדמיה מתוך המשחק האמיתי, ונבנה רק אחרי שהיא הסתכלה.',
+          'ספר המשחק נכתב פרק אחרי פרק, וכל פרק מאושר, לפני שחוזרים לבנות.',
+        ],
+        delegates: [
+          'העבודה רצה בגלים על לוח עבודה, גל אחד בכל פעם, וכל גל נרשם ביומן הסשנים של קובץ המסירה לפני שמתחילים.',
+          'לפני החלטה גדולה הסוכנים בודקים היתכנות: שלוש בדיקות במקביל (חישוב עלויות, זווית המצלמה, ניסויים חיים) הכריעו את כיוון הגרפיקה.',
+          'הסוכנים כותבים את הקוד, מייצרים ומשלבים ספרייטים, ומעדכנים את \u2066docs/WORKLOG.md\u2069 באותו קומיט של השינוי.',
+          'סשנים מקומיים וסשנים בענן חולקים מצב רק דרך הריפו: קובץ מסירה שמתחיל ב-START HERE, קובץ כללים משוכפל ותיקיית זיכרון.',
+        ],
+        verifies: [
+          '77 בדיקות כתובות בתיקייה \u2066verify\u2069. 69 מהן מפעילות Edge בלי ממשק דרך \u2066puppeteer-core\u2069, וכל אחת מרימה שרת פיתוח משלה ומסרבת לעבוד מול שרת ישן.',
+          'בדיקת תאימות שמירה שמתחילה משמירה אמיתית של יום 2 במשחק: כל גרסה חייבת להמשיך לטעון אותה.',
+          'עבודה חזותית לא נגמרת עד שהיא מוצגת, מצולמת ומושווית לתוכנית בעין; בדיקות ירוקות לא נחשבות הסתכלות.',
+          '\u2066TypeScript\u2069 במצב strict ו-\u2066npm run build\u2069 חייבים לעבור לפני כל קומיט שאומר שהעבודה גמורה.',
+        ],
+      },
+      courseChanges: {
+        characters: {
+          title: 'דמויות: מגוף שמצויר בקוד למטריצת ספרייטים, ביום אחד',
+          text: 'ב-10 ביולי הדמויות עברו לגוף פרמטרי שמצויר בקוד, כי PixelLab לא יודע לפרק דמות לשכבות של שיער ובגדים. יום אחרי, אחרי ששיחקה בזה, גיטית הפכה את ההחלטה: האף בפרופיל נראה ארוך מדי, גברים ונשים נראו אותו דבר, ושיער ארוך צויר מעל הגוף. הדמויות הפכו למטריצת ספרייטים נבחרת (2 מגדרים, 5 תסרוקות ו-5 תלבושות בגודל הגוף הראשון) עם צביעת שיער בזמן ריצה, והגוף שבקוד נשאר כגיבוי.',
+        },
+        'art-pivot': {
+          title: 'מהפך גרפי מלא',
+          text: 'המראה הבהיר והחמים לא היה מה שהיא רצתה; היא רצתה משהו קרוב יותר ל-Ultima Online, והאבחנה שלה הייתה שהכול נראה ״מונח״ ולא חלק מסצנה אחת. ההדמיה הראשונה נדחתה. במקום לנסות שוב את אותו מתכון, הסיבה אותרה בזווית המצלמה ובחיבור של החפצים לקרקע, נכתבה כמדריך קומפוזיציה של 25 כללים, וההדמיה נבנתה מחדש עד שהיא אישרה את הכיוון.',
+        },
+        rebuild: {
+          title: 'בנייה מחדש בענף חדש',
+          text: 'העבודה אופסה לגרסה 1 חדשה בענף משלה, ולקחה מהמשחק הישן כל מה שהיה שימושי; המשחק הישן הוקפא לתיקונים דחופים בלבד בתצוגה המוקדמת. איתה הגיע כלל חדש: אין ייצור לפני מפרט מלא ומאושר.',
+        },
+        bible: {
+          title: 'לעצור את הבנייה ולכתוב את הספר',
+          text: 'התוכניות היו מפוזרות על כמה מפות דרכים שהשתמשו במילה ״גרסה״ בשלוש משמעויות שלא מתיישבות זו עם זו, ולכן כל הבנייה נעצרה עד שיהיה ספר משחק מלא. טיוטה ראשונה של 27 פרקים לא עבדה, והוא נבנה מחדש פרק אחד בכל פעם: קודם שאלות על כל פריט, אחר כך הפרק, ואז האישור שלה.',
+        },
+      },
+      metrics: {
+        asOf: 'נמדד ב-4 בנובמבר 2026 מתוך git ועץ הקוד (ענף \u2066v1-rebuild\u2069, רק קבצים שנמצאים במעקב).',
+        items: {
+          commits: { label: 'קומיטים', measures: 'מ-3 ביולי עד 2 בנובמבר 2026' },
+          lines: { label: 'שורות TypeScript', measures: '343 קבצים בתיקייה \u2066src\u2069, כולל הערות ושורות ריקות' },
+          systems: { label: 'מודולי מערכת', measures: 'קבצים בתיקיית \u2066src/systems\u2069, ועוד 16 בשכבת ה-AI' },
+          sprites: { label: 'תמונות PixelLab', measures: 'ספרייטים, גיליונות ואריחים בפורמט PNG בתיקיית \u2066src/assets/pixellab\u2069' },
+          checks: {
+            label: 'סקריפטים של בדיקה',
+            measures: 'בתיקייה \u2066verify\u2069. 69 מפעילים דפדפן בלי ממשק ו-63 מצלמים מסך. אין מסגרת לבדיקות יחידה.',
+          },
+          'co-authored': { label: 'קומיטים שנכתבו יחד עם Claude', measures: 'קומיטים שבהודעה שלהם יש שורת \u2066Co-Authored-By: Claude\u2069' },
+        },
+      },
+      productSite: { note: 'יש לו אתר מוצר משלו (תצוגה מוקדמת פרטית).' },
+    },
     heroCaption: 'מסך הפתיחה של Wildhearth: בית חווה מצויר בפיקסלים על גבעה בשקיעה.',
     galleryCaptions: [
-      'המסך הראשי: החווה, התיק ושבעת הצרכים.',
-      'מגיעים לחווה המוזנחת של הדודה רבתא מירה.',
-      'יוצרים את הדמות.',
-      'בוחרים דרך פתיחה וחלום לחיים.',
+      'המסך הראשי: אזור המשחק, המפה, השעון, הצרכים והסרגל התחתון הם כל אחד חלון; הסרגל מתחיל בשורה להקלדת כוונה.',
       'שדה, מהנבט ועד הקציר.',
-      'דג נוגס בפיתיון.',
-      'מנגנים ברחוב בכיכר השוק.',
-      'מבשלים ליד האח.',
       'משוחחים עם מרן, קונת הדגים.',
       'מרהטים את הבית.',
     ],
@@ -294,10 +430,54 @@ function withCaptions(shots: ProjectShot[], captions: string[] | undefined): Pro
   return shots.map((shot, i) => ({ ...shot, caption: captions?.[i] ?? shot.caption }));
 }
 
+/** Overlays the Hebrew words on a case study; a missing Hebrew entry keeps
+ *  the English (and the verifier's DRAFT review will spot it). */
+function localizeCaseStudy(cs: ProjectCaseStudy, he: ProjectCaseStudyHe | undefined): ProjectCaseStudy {
+  if (!he) return cs;
+  const node = (n: CaseDiagramNode): CaseDiagramNode => ({ ...n, ...he.diagram.nodes[n.id] });
+  const d = cs.architecture.diagram;
+  return {
+    problem: he.problem,
+    architecture: {
+      intro: he.architectureIntro,
+      diagram: {
+        boundary: he.diagram.boundary,
+        layers: d.layers.map((layer, i) => ({
+          link: layer.link && (he.diagram.links[i] || layer.link),
+          nodes: layer.nodes.map(node),
+        })),
+        lane: d.lane && {
+          title: he.diagram.laneTitle ?? d.lane.title,
+          badge: d.lane.badge && (he.diagram.laneBadge ?? d.lane.badge),
+          link: he.diagram.laneLink ?? d.lane.link,
+          nodes: d.lane.nodes.map(node),
+        },
+        external: d.external && {
+          link: he.diagram.externalLink ?? d.external.link,
+          node: node(d.external.node),
+        },
+      },
+    },
+    decisions: cs.decisions.map((dec) => ({ ...dec, ...he.decisions[dec.id] })),
+    aiWork: he.aiWork,
+    courseChanges: cs.courseChanges?.map((c) => ({ ...c, ...he.courseChanges?.[c.id] })),
+    metrics: cs.metrics && {
+      asOf: he.metrics?.asOf ?? cs.metrics.asOf,
+      items: cs.metrics.items.map((m) => ({ ...m, ...he.metrics?.items[m.id] })),
+    },
+    productSite: cs.productSite && {
+      ...cs.productSite,
+      note: he.productSite?.note ?? cs.productSite.note,
+      label: he.productSite?.label ?? cs.productSite.label,
+    },
+  };
+}
+
 /**
  * The page in the active language. English returns the data as-is; Hebrew
- * overlays every translatable field and leaves tagline, pitch text, tech,
- * figures' values and links untouched.
+ * overlays every translatable field and leaves tagline (unless a technical
+ * page translates it), pitch text, tech, figures' values, links, and every
+ * case-study source, date, metric value and module name untouched.
  */
 export function localizeProjectPage(page: ProjectPage, lang: Lang): ProjectPage {
   if (lang !== 'he') return page;
@@ -305,6 +485,8 @@ export function localizeProjectPage(page: ProjectPage, lang: Lang): ProjectPage 
   return {
     ...page,
     name: he.name ?? page.name,
+    tagline: he.tagline ?? page.tagline,
+    taglineLang: he.tagline ? 'he' : 'en',
     status: { ...page.status, label: he.status },
     summary: he.summary,
     pitch: page.pitch && { ...page.pitch, source: he.pitchSource ?? page.pitch.source },
@@ -313,7 +495,8 @@ export function localizeProjectPage(page: ProjectPage, lang: Lang): ProjectPage 
     pillars: he.pillars ?? page.pillars,
     facetsTitle: he.facetsTitle ?? page.facetsTitle,
     facets: page.facets?.map((f) => ({ ...f, label: he.facetLabels?.[f.id] ?? f.label })),
-    worksToday: he.worksToday,
+    worksToday: he.worksToday ?? page.worksToday,
+    caseStudy: page.caseStudy && localizeCaseStudy(page.caseStudy, he.caseStudy),
     next: he.next ?? page.next,
     link: page.link && { ...page.link, label: he.linkLabel ?? page.link.label },
     noLinkNote: he.noLinkNote ?? page.noLinkNote,

@@ -553,6 +553,544 @@
   text-align: center;
 }
 
+/* =========================================================================
+   Technical case study (components/pages/CaseStudy.tsx, 2026-11-04).
+   Same language as the rest of the page: slab → cards one step up
+   (--surface-2 + border + shadow), mono for module names and numbers,
+   accent for structure. Logical properties only.
+   ========================================================================= */
+.pp-case__lead {
+  margin: 0;
+  font-size: clamp(1.05rem, 1.6vw, 1.18rem);
+  line-height: 1.6;
+  color: var(--text);
+  max-width: 78ch;
+}
+.pp-case__text {
+  margin: 0;
+  color: var(--text-muted);
+  line-height: 1.6;
+  max-width: 80ch;
+}
+.pp-case__h3 {
+  font-size: 1.05rem;
+  color: var(--accent-strong);
+}
+
+// ---- Decisions: numbered cards, chose / instead of / cost ----
+.pp-case__decisions {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 0.9rem;
+}
+@media (min-width: 900px) {
+  .pp-case__decisions {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+.pp-case__decision {
+  padding: clamp(1.1rem, 2.5vw, 1.5rem);
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+  min-width: 0;
+}
+.pp-case__decision-title {
+  display: flex;
+  align-items: baseline;
+  gap: 0.6rem;
+  font-size: 1.12rem;
+}
+.pp-case__num {
+  flex: none;
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  color: var(--accent);
+}
+.pp-case__dl {
+  margin: 0;
+  display: grid;
+  gap: 0.3rem;
+}
+.pp-case__dl dt {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--accent-strong);
+  margin-top: 0.45rem;
+}
+.pp-case__dl dt:first-child {
+  margin-top: 0;
+}
+.pp-case__dl dd {
+  margin: 0;
+  font-size: 0.95rem;
+  line-height: 1.55;
+  color: var(--text);
+}
+.pp-case__instead {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+.pp-case__instead li {
+  position: relative;
+  padding-inline-start: 1.1rem;
+  color: var(--text-muted);
+}
+// A hollow ring: "not chosen" (same marker as the "next" lists).
+.pp-case__instead li::before {
+  content: '';
+  position: absolute;
+  inset-inline-start: 0.1rem;
+  inset-block-start: 0.55em;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  border: 1.5px solid var(--text-muted);
+}
+.pp-case__source {
+  margin: auto 0 0;
+  padding-top: 0.75rem;
+  border-top: 1px solid var(--border);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem 0.6rem;
+  font-family: var(--font-mono);
+  font-size: max(11px, 0.76rem);
+  color: var(--text-muted);
+}
+.pp-case__source span {
+  color: var(--text-faint);
+}
+.pp-case__source bdi {
+  overflow-wrap: anywhere;
+}
+
+// ---- How it is built with AI: three cards ----
+.pp-case__ai {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 0.9rem;
+}
+@media (min-width: 1000px) {
+  .pp-case__ai {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    align-items: start;
+  }
+}
+.pp-case__ai .pp__list li {
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+
+// ---- What changed course: a vertical timeline on the start edge ----
+.pp-case__timeline {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+.pp-case__event {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  padding-inline-start: 1.6rem;
+  padding-block-end: 1.4rem;
+  border-inline-start: 2px solid var(--border-feature);
+  margin-inline-start: 0.35rem;
+}
+.pp-case__event:last-child {
+  padding-block-end: 0.2rem;
+}
+.pp-case__event::before {
+  content: '';
+  position: absolute;
+  inset-inline-start: -7px;
+  inset-block-start: 0.2rem;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--accent);
+  box-shadow: 0 0 0 4px var(--surface), 0 0 10px var(--accent-glow);
+}
+.pp-case__date {
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  color: var(--text-faint);
+}
+.pp-case__event .pp-case__source {
+  border-top: 0;
+  padding-top: 0;
+  margin: 0;
+}
+
+// ---- By the numbers ----
+.pp-case__metrics {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 0.75rem;
+}
+@media (min-width: 560px) {
+  .pp-case__metrics {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+@media (min-width: 960px) {
+  .pp-case__metrics {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+.pp-case__metric {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  padding: 0.95rem 1.1rem;
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  box-shadow: var(--shadow-1);
+  min-width: 0;
+}
+.pp-case__metric-label {
+  font-weight: 600;
+  color: var(--text);
+}
+.pp-case__metric-measures {
+  font-size: 0.88rem;
+  line-height: 1.45;
+  color: var(--text-muted);
+}
+.pp-case__metric-how {
+  align-self: flex-start;
+  margin-top: 0.35rem;
+  font-family: var(--font-mono);
+  font-size: max(11px, 0.74rem);
+  padding: 0.15rem 0.45rem;
+  border-radius: 6px;
+  background: var(--accent-wash);
+  border: 1px solid var(--border-feature);
+  color: var(--accent-strong);
+  overflow-wrap: anywhere;
+}
+.pp-case__asof {
+  margin: 0;
+  font-size: 0.85rem;
+  color: var(--text-faint);
+}
+
+/* ---- The architecture diagram ----
+   Boundary (the browser) → main layers + side lane; the external API sits
+   outside. Connectors are CSS lines; their arrowheads point DOWN or BOTH
+   ways only, so nothing needs mirroring in RTL. */
+.pp-arch {
+  --arch-pad: clamp(0.9rem, 2.2vw, 1.4rem);
+  --arch-lane-w: 16.5rem;
+  --arch-line: var(--accent);
+  margin: 0.4rem 0 0;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+.pp-arch__boundary {
+  position: relative;
+  border: 1px solid var(--border-feature);
+  border-radius: var(--radius);
+  padding: calc(var(--arch-pad) + 0.6rem) var(--arch-pad) var(--arch-pad);
+  background: var(--accent-wash);
+}
+.pp-arch__boundary-label {
+  position: absolute;
+  inset-block-start: 0;
+  inset-inline-start: var(--arch-pad);
+  transform: translateY(-50%);
+  padding: 0.15rem 0.6rem;
+  border: 1px solid var(--border-feature);
+  border-radius: 999px;
+  background: var(--surface);
+  font-family: var(--font-mono);
+  font-size: max(11px, 0.74rem);
+  color: var(--accent-strong);
+  white-space: nowrap;
+  max-width: calc(100% - 2 * var(--arch-pad));
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.pp-arch__body {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+@media (min-width: 1000px) {
+  .pp-arch__body--lane {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 6.5rem var(--arch-lane-w);
+    align-items: stretch;
+  }
+}
+.pp-arch__main {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+.pp-arch__layer {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 0.55rem;
+}
+// One-box layers stay a readable width, centred on the arrows.
+.pp-arch__layer--1 {
+  justify-items: center;
+}
+.pp-arch__layer--1 > .pp-arch__node {
+  width: min(100%, 20rem);
+}
+@media (min-width: 640px) {
+  .pp-arch__layer--2,
+  .pp-arch__layer--4 {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .pp-arch__layer--3 {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+.pp-arch__node {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  padding: 0.65rem 0.8rem;
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  box-shadow: var(--shadow-1);
+  min-width: 0;
+}
+.pp-arch__code {
+  font-family: var(--font-mono);
+  font-size: max(11px, 0.72rem);
+  color: var(--accent-strong);
+  overflow-wrap: anywhere;
+}
+.pp-arch__label {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 0.98rem;
+  color: var(--text);
+}
+.pp-arch__note {
+  font-size: 0.84rem;
+  line-height: 1.4;
+  color: var(--text-muted);
+}
+
+// Connectors. Grid keeps the line centred whatever the label's length.
+.pp-arch__link {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+  align-items: center;
+  column-gap: 0.6rem;
+  min-height: 2.4rem;
+}
+.pp-arch__line {
+  grid-column: 2;
+  position: relative;
+  width: 2px;
+  align-self: stretch;
+  margin-block: 0.25rem;
+  background: var(--arch-line);
+}
+// Down arrowhead (symmetric, so it never needs an RTL swap).
+.pp-arch__line::after {
+  content: '';
+  position: absolute;
+  inset-block-end: -1px;
+  inset-inline-start: 50%;
+  transform: translateX(-50%);
+  border-inline: 5px solid transparent;
+  border-block-start: 7px solid var(--arch-line);
+}
+:root[dir='rtl'] .pp-arch__line::after,
+:root[dir='rtl'] .pp-arch__line::before {
+  transform: translateX(50%);
+}
+.pp-arch__link-label {
+  grid-column: 3;
+  justify-self: start;
+  font-family: var(--font-mono);
+  font-size: max(11px, 0.72rem);
+  line-height: 1.3;
+  color: var(--text-muted);
+}
+// Two-headed (vertical): add an up arrowhead.
+.pp-arch__link--both .pp-arch__line::before,
+.pp-arch__link--bridge .pp-arch__line::before,
+.pp-arch__link--out .pp-arch__line::before {
+  content: '';
+  position: absolute;
+  inset-block-start: -1px;
+  inset-inline-start: 50%;
+  transform: translateX(-50%);
+  border-inline: 5px solid transparent;
+  border-block-end: 7px solid var(--arch-line);
+}
+// The link to the outside world is dashed: it leaves the browser.
+.pp-arch__link--out .pp-arch__line {
+  background: repeating-linear-gradient(to bottom, var(--arch-line) 0 5px, transparent 5px 9px);
+}
+
+// The bridge between the layers and the lane: vertical on phones…
+.pp-arch__link--bridge {
+  min-height: 3rem;
+}
+// …and horizontal (two-headed) beside the lane on wide screens.
+@media (min-width: 1000px) {
+  .pp-arch__body--lane > .pp-arch__link--bridge {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: auto auto;
+    align-content: center;
+    justify-items: center;
+    row-gap: 0.5rem;
+    padding-inline: 0.5rem;
+  }
+  .pp-arch__body--lane > .pp-arch__link--bridge .pp-arch__line {
+    grid-column: 1;
+    grid-row: 2;
+    width: 100%;
+    height: 2px;
+    margin: 0;
+    align-self: center;
+  }
+  .pp-arch__body--lane > .pp-arch__link--bridge .pp-arch__link-label {
+    grid-column: 1;
+    grid-row: 1;
+    justify-self: center;
+    text-align: center;
+  }
+  // Left and right arrowheads: a mirrored PAIR, so RTL needs nothing.
+  .pp-arch__body--lane > .pp-arch__link--bridge .pp-arch__line::before,
+  .pp-arch__body--lane > .pp-arch__link--bridge .pp-arch__line::after {
+    content: '';
+    position: absolute;
+    inset-block-start: 50%;
+    inset-block-end: auto;
+    transform: translateY(-50%);
+    border: 0;
+    border-block: 5px solid transparent;
+  }
+  .pp-arch__body--lane > .pp-arch__link--bridge .pp-arch__line::before {
+    left: -1px;
+    right: auto;
+    border-right: 7px solid var(--arch-line);
+  }
+  .pp-arch__body--lane > .pp-arch__link--bridge .pp-arch__line::after {
+    right: -1px;
+    left: auto;
+    border-left: 7px solid var(--arch-line);
+  }
+}
+
+// The optional side lane: dashed, a tint up from the boundary.
+.pp-arch__lane {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  padding: 0.8rem;
+  border: 1.5px dashed var(--border-feature);
+  border-radius: var(--radius-sm);
+  background: var(--surface-feature);
+  min-width: 0;
+}
+.pp-arch__lane-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.4rem 0.6rem;
+}
+.pp-arch__lane-title {
+  font-family: var(--font-display);
+  font-weight: 600;
+  color: var(--accent-strong);
+}
+.pp-arch__badge {
+  font-family: var(--font-mono);
+  font-size: max(11px, 0.7rem);
+  padding: 0.1rem 0.5rem;
+  border-radius: 999px;
+  border: 1px solid var(--border-feature);
+  color: var(--text-muted);
+}
+.pp-arch__lane-nodes {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+// On wide screens the lane is as tall as the layers: the arrows between
+// its boxes stretch, so the provider sits at the bottom, over the API link.
+.pp-arch__lane-link {
+  display: flex;
+  flex: 1;
+}
+.pp-arch__lane-link > .pp-arch__link {
+  flex: 1;
+  min-height: 1.8rem;
+}
+// A dashed stub from the lane down through the boundary's padding, so the
+// link to the external API reads as one line.
+.pp-arch--external .pp-arch__lane::after {
+  content: '';
+  position: absolute;
+  inset-block-start: 100%;
+  inset-inline-start: 50%;
+  height: calc(var(--arch-pad) + 2px);
+  width: 2px;
+  margin-inline-start: -1px;
+  background: repeating-linear-gradient(to bottom, var(--arch-line) 0 5px, transparent 5px 9px);
+}
+.pp-arch__out {
+  display: flex;
+  justify-content: center;
+}
+.pp-arch__out-col {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  padding-inline: var(--arch-pad);
+}
+@media (min-width: 1000px) {
+  .pp-arch__out {
+    justify-content: flex-end;
+  }
+  .pp-arch__out-col {
+    width: calc(var(--arch-lane-w) + 2 * var(--arch-pad) + 2px);
+    padding-inline: calc(var(--arch-pad) + 1px);
+  }
+}
+.pp-arch__ext > .pp-arch__node {
+  width: 100%;
+  border-style: dashed;
+  border-color: var(--border-feature);
+}
+
 // Hebrew sentences read badly in the mono face's Hebrew fallback (wide,
 // typewriter-spaced): full sentences switch to the body face in RTL. Short
 // chrome labels (eyebrow, chips, nav) keep the site-wide mono treatment.
@@ -564,4 +1102,24 @@
 :root[dir='rtl'] .pp-lightbox figcaption {
   font-family: var(--font-body);
   font-size: 0.92rem;
+}
+// Same rule for the case study's Hebrew words in mono slots (labels, dates,
+// link captions); module paths and commands stay mono (they are LTR <bdi>).
+:root[dir='rtl'] .pp-case__dl dt,
+:root[dir='rtl'] .pp-case__date,
+:root[dir='rtl'] .pp-case__source > span,
+:root[dir='rtl'] .pp-arch__boundary-label,
+:root[dir='rtl'] .pp-arch__link-label,
+:root[dir='rtl'] .pp-arch__badge {
+  font-family: var(--font-body);
+  letter-spacing: 0;
+}
+:root[dir='rtl'] .pp-case__dl dt {
+  font-size: 0.82rem;
+  font-weight: 600;
+}
+:root[dir='rtl'] .pp-arch__link-label,
+:root[dir='rtl'] .pp-arch__boundary-label,
+:root[dir='rtl'] .pp-arch__badge {
+  font-size: max(12px, 0.78rem);
 }

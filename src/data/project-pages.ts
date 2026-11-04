@@ -25,14 +25,10 @@
  *   the "your trade" card never shows. Never a settings screen.
  */
 import wildhearthTitle from '../styles/assets/portfolio/wildhearth/title-vista.png';
-import whCharacter from '../styles/assets/portfolio/wildhearth/gallery/03-character-creation.jpg';
-import whFarm from '../styles/assets/portfolio/wildhearth/gallery/05-farm-reveal.jpg';
-import whPath from '../styles/assets/portfolio/wildhearth/gallery/06-choose-your-path.jpg';
+// Technical page (2026-11-04): four shots stay as evidence, not the centre.
+// The other six gallery files stay in the repo for the product site.
 import whMain from '../styles/assets/portfolio/wildhearth/gallery/08-main-screen.jpg';
-import whFishing from '../styles/assets/portfolio/wildhearth/gallery/32-fishing-bite.jpg';
-import whBusking from '../styles/assets/portfolio/wildhearth/gallery/41-busking.jpg';
 import whField from '../styles/assets/portfolio/wildhearth/gallery/51-field-stages.jpg';
-import whCooking from '../styles/assets/portfolio/wildhearth/gallery/62-hearth-cooking.jpg';
 import whTalking from '../styles/assets/portfolio/wildhearth/gallery/82-talking.jpg';
 import whFurnish from '../styles/assets/portfolio/wildhearth/gallery/171-furnish-mode.jpg';
 
@@ -109,14 +105,15 @@ const art: Record<ProjectPageId, ProjectPageArt> = {
       pixel: true,
     },
     gallery: [
-      { src: whMain, caption: 'The main screen: the farm, the backpack and the seven needs.', shape: 'wide' },
-      { src: whFarm, caption: "Arriving at great-aunt Mirra's rundown farm.", shape: 'wide' },
-      { src: whCharacter, caption: 'Creating your character.', shape: 'wide' },
-      { src: whPath, caption: 'Choosing a starting path and a life dream.', shape: 'wide' },
+      // docs/WINDOW_SYSTEM.md (the viewport itself is a window). The shot's
+      // numbered call-outs mark the five windows; the dock's left field is
+      // the typed intent line of docs/AFFORDANCE_ENGINE.md (looked at 2026-11-04).
+      {
+        src: whMain,
+        caption: 'The main screen: viewport, map, clock, needs and dock are each a window; the dock starts with the typed intent line.',
+        shape: 'wide',
+      },
       { src: whField, caption: 'A field from seedling to harvest.', shape: 'wide' },
-      { src: whFishing, caption: 'A bite while fishing.', shape: 'wide' },
-      { src: whBusking, caption: 'Busking in the market square.', shape: 'wide' },
-      { src: whCooking, caption: 'Cooking at the hearth.', shape: 'wide' },
       { src: whTalking, caption: 'Talking with Maren, the fish-buyer.', shape: 'wide' },
       { src: whFurnish, caption: 'Furnishing the house.', shape: 'wide' },
     ],

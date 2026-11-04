@@ -15,6 +15,7 @@ import { localizeProjectPage } from '../../i18n/project-pages-he';
 import { useLang } from '../../i18n/LanguageContext';
 import { onInternalLinkClick } from '../../hooks/useRoute';
 import { Lightbox } from '../common/Lightbox';
+import { CaseStudySections } from './CaseStudy';
 
 // The shared project-page template (wave 1, 2026-11-04). One small marketing
 // page per project, in the site's existing visual language: the same slab
@@ -51,6 +52,22 @@ export function ProjectPage({ id }: ProjectPageProps) {
   const sideOffset = 1 + page.art.gallery.length;
   const [open, setOpen] = useState<number | null>(null);
 
+  const cs = page.caseStudy;
+  const productSite = cs?.productSite;
+
+  const techBlock = (
+    <motion.section className="pp__block pp__tech" variants={reveal}>
+      <h2 className="pp__h2">{t('projectPage.tech')}</h2>
+      <ul className="pp__tags">
+        {page.tech.map((tech) => (
+          <li key={tech} className="pp__tag">
+            {tech}
+          </li>
+        ))}
+      </ul>
+    </motion.section>
+  );
+
   const BackIcon = rtl ? FiArrowRight : FiArrowLeft;
   // "Leaves the site" points up and away from the reading start: up-left in Hebrew.
   const OutIcon = rtl ? FiArrowUpLeft : FiArrowUpRight;
@@ -78,7 +95,7 @@ export function ProjectPage({ id }: ProjectPageProps) {
                     reading LTR while the paragraph stays aligned to the
                     page's own start edge. */}
                 <p className="pp__tagline">
-                  <bdi lang="en">{page.tagline}</bdi>
+                  {page.taglineLang === 'he' ? page.tagline : <bdi lang="en">{page.tagline}</bdi>}
                 </p>
                 <div className="pp__status">
                   <span className="chip">
@@ -94,7 +111,16 @@ export function ProjectPage({ id }: ProjectPageProps) {
                 </div>
                 <p className="pp__summary">{page.summary}</p>
                 <div className="pp__cta">
-                  {page.link ? (
+                  {productSite?.url ? (
+                    // The project's own product site, once it is public.
+                    <a className="btn btn--primary" href={productSite.url} target="_blank" rel="noopener noreferrer">
+                      {productSite.label ?? productSite.note}
+                      <OutIcon aria-hidden="true" className="pp__ext-icon" />
+                      <span className="sr-only"> {t('projectPage.newTab')}</span>
+                    </a>
+                  ) : productSite ? (
+                    <p className="pp__nolink">{productSite.note}</p>
+                  ) : page.link ? (
                     <a
                       className="btn btn--primary"
                       href={page.link.href}
@@ -169,52 +195,64 @@ export function ProjectPage({ id }: ProjectPageProps) {
               </motion.section>
             )}
 
-            <motion.div className="pp__cols" variants={reveal}>
-              <section className="pp__card pp__col">
-                <h2 className="pp__h2">{t('projectPage.worksToday')}</h2>
-                <ul className="pp__list">
-                  {page.worksToday.map((item) => (
-                    <li key={item}>{item}</li>
-                  ))}
-                </ul>
-              </section>
-              {page.next && (
-                <section className="pp__card pp__col pp__col--next">
-                  <h2 className="pp__h2">{t('projectPage.next')}</h2>
-                  <ul className="pp__list pp__list--next">
-                    {page.next.map((item) => (
-                      <li key={item}>{item}</li>
-                    ))}
-                  </ul>
-                </section>
-              )}
-              {page.side && (
-                <section className="pp__card pp__col pp__col--next pp__side">
-                  <div className="pp__side-head">
-                    <span className="chip">
-                      <span className="chip__dot" />
-                      {page.side.status}
-                    </span>
-                  </div>
-                  <h2 className="pp__h2">{page.side.title}</h2>
-                  <p className="pp__side-text">{page.side.text}</p>
-                  {page.art.sideGallery && (
-                    <ul className="pp__side-shots">
-                      {page.art.sideGallery.map((shot, i) => (
-                        <li key={shot.src}>
-                          <ShotButton
-                            shot={shot}
-                            className="pp__tile"
-                            label={t('projectPage.openShot')}
-                            onOpen={() => setOpen(sideOffset + i)}
-                          />
-                        </li>
+            {/* Technical pages (2026-11-04): the case study replaces the
+                marketing blocks above (their data is simply absent). */}
+            {cs && <CaseStudySections cs={cs} />}
+
+            {(!!page.worksToday?.length || !!page.next || !!page.side) && (
+              <motion.div className="pp__cols" variants={reveal}>
+                {!!page.worksToday?.length && (
+                  <section className="pp__card pp__col">
+                    <h2 className="pp__h2">{t('projectPage.worksToday')}</h2>
+                    <ul className="pp__list">
+                      {page.worksToday.map((item) => (
+                        <li key={item}>{item}</li>
                       ))}
                     </ul>
-                  )}
-                </section>
-              )}
-            </motion.div>
+                  </section>
+                )}
+                {page.next && (
+                  <section className="pp__card pp__col pp__col--next">
+                    <h2 className="pp__h2">{t('projectPage.next')}</h2>
+                    <ul className="pp__list pp__list--next">
+                      {page.next.map((item) => (
+                        <li key={item}>{item}</li>
+                      ))}
+                    </ul>
+                  </section>
+                )}
+                {page.side && (
+                  <section className="pp__card pp__col pp__col--next pp__side">
+                    <div className="pp__side-head">
+                      <span className="chip">
+                        <span className="chip__dot" />
+                        {page.side.status}
+                      </span>
+                    </div>
+                    <h2 className="pp__h2">{page.side.title}</h2>
+                    <p className="pp__side-text">{page.side.text}</p>
+                    {page.art.sideGallery && (
+                      <ul className="pp__side-shots">
+                        {page.art.sideGallery.map((shot, i) => (
+                          <li key={shot.src}>
+                            <ShotButton
+                              shot={shot}
+                              className="pp__tile"
+                              label={t('projectPage.openShot')}
+                              onOpen={() => setOpen(sideOffset + i)}
+                            />
+                          </li>
+                        ))}
+                      </ul>
+                    )}
+                  </section>
+                )}
+              </motion.div>
+            )}
+
+            {/* Case-study order (owner-approved outline): stack, then the
+                screenshots as evidence. Marketing pages keep gallery first. */}
+            {cs && techBlock}
 
             {page.art.gallery.length > 0 && (
               <motion.section className="pp__block" variants={reveal}>
@@ -227,16 +265,7 @@ export function ProjectPage({ id }: ProjectPageProps) {
               </motion.section>
             )}
 
-            <motion.section className="pp__block pp__tech" variants={reveal}>
-              <h2 className="pp__h2">{t('projectPage.tech')}</h2>
-              <ul className="pp__tags">
-                {page.tech.map((tech) => (
-                  <li key={tech} className="pp__tag">
-                    {tech}
-                  </li>
-                ))}
-              </ul>
-            </motion.section>
+            {!cs && techBlock}
 
             <footer className="pp__foot">
               {page.closing && <p className="pp__closing">{page.closing}</p>}

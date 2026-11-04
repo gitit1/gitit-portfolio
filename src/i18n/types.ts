@@ -154,6 +154,21 @@ export interface Dict {
     // Lightbox counter, e.g. "Screenshot {n} of {total}" — {n}/{total} replaced at render.
     shotPosition: string;
     newTab: string; // screen-reader suffix for links that open in a new tab
+    // Technical case-study sections (2026-11-04).
+    caseProblem: string;
+    caseArchitecture: string;
+    caseDiagramLabel: string; // accessible name of the drawn diagram
+    caseDecisions: string;
+    caseChose: string;
+    caseInstead: string;
+    caseCost: string;
+    caseSource: string; // prefix before the doc path(s) a decision is recorded in
+    caseAiWork: string;
+    caseAiDecides: string;
+    caseAiDelegates: string;
+    caseAiVerifies: string;
+    caseCourse: string;
+    caseNumbers: string;
   };
 
   // Generic modal dialog (G6-L) — see components/common/Lightbox.tsx.
