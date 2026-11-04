@@ -102,7 +102,10 @@ export const portfolioContent: PortfolioProjectContent[] = [
   {
     slug: 'homebase',
     name: 'Homebase',
-    // 2026-11-04: "family debt tracking" was stale — there is no such app.
+    // 2026-11-04: "family debt tracking" dropped from the tagline. It was a
+    // separate app until July 2026, then became the debts module inside the
+    // finance app (archived 2026-09-26). The CV bullet in experience.ts that
+    // names it is historical and stays.
     tagline: 'Personal Hebrew apps — budget, tasks, recipes, media — one sign-in, one design system.',
     state: 'local',
     stateLabel: 'Personal use — not open to the public',
