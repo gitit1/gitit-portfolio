@@ -43,7 +43,7 @@ viewport shots prove it is NOT visible to users. Review page https://claude.ai/a
 (`scratchpad/review-wh-tech/`). Hub rows waiting: `q-site-wh-tech` (approve) and
 `q-site-wh-marketing` (update Wildhearth's landing and open only it [recommended] / update, keep
 password / skip). Landing work = Wildhearth repo `landing.html` + `nginx.conf` only; a Wildhearth
-deploy also ships the undeployed 26.10 master fixes and needs the new Hetzner token.
+deploy also ships the undeployed 26.10 master fixes and needs the new Hetzner token. **If she picks an update (hub, 2026-11-04):** Wildhearth has its own CLOUD session sharing state via GitHub → `git pull` first, work on a separate branch (landing only), never push to its main/master; the merge goes through her or the Wildhearth session. In any repo: `npm install`, never `npm ci`; never remove a worktree that shares node_modules.
 
 ## 2026-11-04 — NEW GOAL: a small marketing page per project (session 5be0c190)
 
