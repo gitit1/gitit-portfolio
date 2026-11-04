@@ -8,6 +8,24 @@
 Purpose: let a NEW session pick up the site redesign with zero other context.
 Newest state at top.
 
+## 2026-11-04 (evening) — SCOPE CHANGE from her: two different things. Waiting on `q-site-plan2`.
+
+Her answer to `q-site-w2`, verbatim (typed, 16:14Z): "אבל שאמרתי אתר שיווקי זה ממש אתר שיווקי כי נגיד
+לwikdheart כבר יש אחד כזה פעיל, המידע פה צריך יותר להיות טכני ומחשבתי ולהראות יכולות שלי כארכיטקטורה
+ומפתחת וai ואילו האתר השיווקי ממש מציג את האתר \ משחק לעומק וממש מוביל אליו".
+Reading (hub agrees): (1) the pages INSIDE gititregev.com must be TECHNICAL and about how she thinks
+(architecture, decisions, building with AI); (2) a "marketing site" = a separate real site per project
+that presents it in depth and leads into it (Wildhearth's landing is the example). **Do not build on
+W1/W2 copy as-is**; the routing, template, images and privacy work stay.
+Measured 2026-11-04: wildhearth.gititregev.com → 401 (landing behind Basic Auth; its counts are stale
+9/10 vs code 10/15), str.gititregev.com → 200 but opens on the login, assaf.gititregev.com → 200,
+no landing of its own. Proposed technical-page outline: problem → architecture diagram → 2–4 key
+decisions with trade-offs → how she worked with AI (what she decided vs agents, how verified) → what
+was hard → numbers from git → link to the marketing site if one is reachable.
+Row `q-site-plan2` options: א technical pages first, then marketing sites for Wildhearth, Friends
+World and StR only (recommended; the 8 private tools get the technical page only); ב technical only
+now; ג marketing first. **Nothing is built until she answers.**
+
 ## 2026-11-04 — NEW GOAL: a small marketing page per project (session 5be0c190)
 
 Owner brief (from hub row `q-site-session`, answered "פתחתי" 2026-11-04): go over her recent
