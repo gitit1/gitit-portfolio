@@ -27,8 +27,13 @@
 // gone — see G4-A2 — nothing references that file anymore, so hero.jpg
 // gets its own hash again; verified in a production build.)
 import wildhearthArt from '../styles/assets/portfolio/wildhearth/title-vista.png';
-import mflArt from '../styles/assets/portfolio/mfl/hero.jpg';
-import assafFriendsGamesArt from '../styles/assets/portfolio/assaf-friends-games/icon-512.png';
+// 2026-11-04 (owner: the MFL and Friends World images were wrong). MFL's old
+// hero was a 2020 screenshot with other people's fic covers; str-hero.jpg is a
+// brand card rendered only from the project's own brand code (rainbow arcs,
+// gate marks, gate names). Friends World showed its app icon; d-home.jpg is a
+// real screenshot of the live public site, taken 2026-11-04.
+import mflArt from '../styles/assets/portfolio/mfl/str-hero.jpg';
+import assafFriendsGamesArt from '../styles/assets/portfolio/friends-world/d-home.jpg';
 import homebaseArt from '../styles/assets/portfolio/homebase/icon.png';
 import { portfolioContent, type ProjectState, type PortfolioProjectContent } from './portfolio-content';
 
@@ -57,12 +62,11 @@ const art: Partial<Record<string, PortfolioArt>> = {
   },
   mfl: {
     src: mflArt,
-    alt: "My Fanfic's Library homepage: fandoms overview and latest-updates dashboard.",
+    alt: 'Shipping the Rainbow: a pride rainbow over the site name and its three gates, Fanfic Rainbow, OTP Rainbow and Vertical Rainbow.',
   },
   'assaf-friends-games': {
     src: assafFriendsGamesArt,
-    alt: 'App icon for עולם החברים (Friends World): a smiling number-friend character.',
-    fit: 'contain',
+    alt: 'עולם החברים (Friends World) home screen: the number-friends and the game categories.',
   },
   homebase: {
     src: homebaseArt,

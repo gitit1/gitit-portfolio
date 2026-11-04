@@ -172,7 +172,7 @@ function contrastRatio(a, b) { const L1 = relLum(a) + 0.05, L2 = relLum(b) + 0.0
   });
   ok('#projects exists and is a page slab', proj.exists && proj.isSlab, `exists=${proj.exists} slab=${proj.isSlab}`);
   ok('index = exactly the 4 registry projects, registry order',
-    proj.cardCount === 4 && JSON.stringify(proj.names) === JSON.stringify(['Wildhearth', 'MFL', "Assaf's Friends World", 'Homebase']),
+    proj.cardCount === 4 && JSON.stringify(proj.names) === JSON.stringify(['Wildhearth', 'Shipping the Rainbow', "Assaf's Friends World", 'Homebase']),
     `names=[${proj.names.join(' | ')}]`);
   // honest affordances (updated 2026-11-04, project pages wave 1): wildhearth
   // and assaf link to their OWN pages inside the site (/wildhearth,
@@ -238,7 +238,9 @@ function contrastRatio(a, b) { const L1 = relLum(a) + 0.05, L2 = relLum(b) + 0.0
     `pos1=${JSON.stringify(pos1)} pos2=${JSON.stringify(pos2)}`);
 
   // hover sync, both directions
-  await page.hover('.projects-graph__node--project[data-slug="mfl"]', { force: true }).catch(() => {});
+  // Hover the node's CIRCLE: since 2026-11-04 long names wrap to two lines, so
+  // the centre of the whole <g> can fall in the empty gap under the circle.
+  await page.hover('.projects-graph__node--project[data-slug="mfl"] circle', { force: true }).catch(() => {});
   await page.waitForTimeout(250);
   const traced = await page.evaluate(() => !!document.querySelector('.project-card--traced'));
   ok('graph-node hover traces the matching index card', traced, `tracedCardFound=${traced}`);

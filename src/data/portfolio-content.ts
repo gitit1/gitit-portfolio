@@ -71,10 +71,13 @@ export const portfolioContent: PortfolioProjectContent[] = [
   },
   {
     slug: 'mfl',
-    name: 'MFL',
+    // 2026-11-04: shown under its real brand. "MFL" (My Fanfic's Library) was
+    // the 2019 name; the site is "Shipping the Rainbow" since 2026-08-18
+    // (repo my_fanfic_lybrary_site, client/src/lib/gates.ts). Slug stays.
+    name: 'Shipping the Rainbow',
     tagline: "The home of gay women couples' fanfics.",
     state: 'in-development',
-    stateLabel: 'In renovation — hand-coded original (2019/2020), AI-managed rebuild underway (2026)',
+    stateLabel: 'Live, sign-in only: hand-coded original (2019), rebuilt with AI agents (2026)',
     year: '2019–2026',
     capabilities: [
       'TypeScript',

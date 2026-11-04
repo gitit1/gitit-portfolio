@@ -64,6 +64,18 @@ function hashString(value: string): number {
   return hash;
 }
 
+/** Project label lines: names up to 16 chars stay on one line; longer ones
+ *  split at the space nearest the middle. */
+function labelLines(name: string): string[] {
+  if (name.length <= 16 || !name.includes(' ')) return [name];
+  const mid = name.length / 2;
+  let best = -1;
+  for (let i = 0; i < name.length; i += 1) {
+    if (name[i] === ' ' && (best < 0 || Math.abs(i - mid) < Math.abs(best - mid))) best = i;
+  }
+  return [name.slice(0, best), name.slice(best + 1)];
+}
+
 function clampToViewBox(node: LayoutNode): void {
   node.x = Math.min(VIEW_W - PAD, Math.max(PAD, node.x));
   node.y = Math.min(VIEW_H - PAD, Math.max(PAD, node.y));
@@ -295,7 +307,14 @@ export function ProjectsGraph({ hoverSlug, onHoverSlug }: ProjectsGraphProps) {
               <>
                 <circle cx={node.x} cy={node.y} r={PROJECT_R} />
                 <text x={node.x} y={node.y + PROJECT_R + 15} textAnchor="middle">
-                  {project.name}
+                  {/* Long names ("Shipping the Rainbow") ran past the panel
+                      edge when the node sits near it, so they wrap onto two
+                      centred lines instead. */}
+                  {labelLines(project.name).map((line, i) => (
+                    <tspan key={line} x={node.x} dy={i === 0 ? 0 : '1.15em'}>
+                      {line}
+                    </tspan>
+                  ))}
                 </text>
               </>
             );
