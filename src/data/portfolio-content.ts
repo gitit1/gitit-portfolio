@@ -38,7 +38,12 @@ export type PortfolioProjectContent = {
   year: string;
   /** Only set when a real, public URL exists. */
   externalLink?: string;
-  /** Only set for projects that have a case-study page planned. */
+  /**
+   * The project's own page inside this site, as a plain path (e.g.
+   * `/wildhearth`). Only set once that page really exists — see
+   * data/project-pages-content.ts (wave 1, 2026-11-04). The old
+   * `#/case/<slug>` plan is retired: there is no hash router.
+   */
   caseRoute?: string;
   /**
    * The real capabilities this project exercises — evidence-verified
@@ -59,9 +64,9 @@ export const portfolioContent: PortfolioProjectContent[] = [
     name: 'Wildhearth',
     tagline: 'A little farm, a whole life.',
     state: 'in-development',
-    stateLabel: 'In development — playable build, local only',
+    stateLabel: 'In development — private preview (password-protected)',
     year: '2026',
-    caseRoute: '#/case/wildhearth',
+    caseRoute: '/wildhearth',
     capabilities: ['TypeScript', 'AI-agent workflow', 'Browser automation', 'Canvas rendering', 'AI pixel art'],
   },
   {
@@ -71,7 +76,6 @@ export const portfolioContent: PortfolioProjectContent[] = [
     state: 'in-development',
     stateLabel: 'In renovation — hand-coded original (2019/2020), AI-managed rebuild underway (2026)',
     year: '2019–2026',
-    caseRoute: '#/case/mfl',
     capabilities: [
       'TypeScript',
       'React',
@@ -85,19 +89,23 @@ export const portfolioContent: PortfolioProjectContent[] = [
   {
     slug: 'assaf-friends-games',
     name: "Assaf's Friends World",
-    tagline: 'Hebrew learning games for a 4-year-old — no clocks, no failure states.',
+    // 2026-11-04: the old line named the child's age. Owner rule for this
+    // project (projects-list-2026-11-04): never his age, nothing developmental.
+    tagline: "Hebrew learning games for kids who can't read yet — no clocks, no failure states.",
     state: 'live',
-    stateLabel: 'Live — mid-renovation',
+    stateLabel: 'Live — open to everyone',
     year: '2026',
     externalLink: 'https://assaf.gititregev.com',
+    caseRoute: '/friends-world',
     capabilities: ['TypeScript', 'React', 'AI-agent workflow', 'PWA', 'Hebrew RTL', 'Three.js 3D'],
   },
   {
     slug: 'homebase',
     name: 'Homebase',
-    tagline: 'A local suite of Hub-integrated apps — finance, family debt tracking, and shared components.',
+    // 2026-11-04: "family debt tracking" was stale — there is no such app.
+    tagline: 'Personal Hebrew apps — budget, tasks, recipes, media — one sign-in, one design system.',
     state: 'local',
-    stateLabel: 'Local — internal app suite, no public deployment',
+    stateLabel: 'Personal use — not open to the public',
     year: '2026',
     capabilities: [
       'TypeScript',
