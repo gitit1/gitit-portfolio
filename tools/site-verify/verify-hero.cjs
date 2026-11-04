@@ -174,16 +174,16 @@ function contrastRatio(a, b) { const L1 = relLum(a) + 0.05, L2 = relLum(b) + 0.0
   ok('index = exactly the 4 registry projects, registry order',
     proj.cardCount === 4 && JSON.stringify(proj.names) === JSON.stringify(['Wildhearth', 'Shipping the Rainbow', "Assaf's Friends World", 'Homebase']),
     `names=[${proj.names.join(' | ')}]`);
-  // honest affordances (updated 2026-11-04, project pages wave 1): wildhearth
-  // and assaf link to their OWN pages inside the site (/wildhearth,
-  // /friends-world — real routes now, asserted to render below); mfl gets
-  // none (D1, 2026-08-21: old site gone, rebuild not ready — owner ruling) and
-  // homebase none (no page yet). Every card element itself is a plain
-  // <article>, and no interactive element nests inside another (G6-L).
-  ok('only real destinations get link overlays (order: /wildhearth,none,/friends-world,none; no nesting)',
+  // honest affordances (updated 2026-11-04, project pages waves 1+2):
+  // wildhearth, mfl (Shipping the Rainbow) and assaf link to their OWN pages
+  // inside the site (/wildhearth, /shipping-the-rainbow, /friends-world: real
+  // routes, asserted to render below); homebase none (no page yet). Every
+  // card element itself is a plain <article>, and no interactive element
+  // nests inside another (G6-L).
+  ok('only real destinations get link overlays (order: /wildhearth,/shipping-the-rainbow,/friends-world,none; no nesting)',
     proj.cardTags.every(t2 => t2 === 'article') &&
     proj.overlayHrefs.length === 4 &&
-    proj.overlayHrefs[0] === '/wildhearth' && proj.overlayHrefs[1] === null &&
+    proj.overlayHrefs[0] === '/wildhearth' && proj.overlayHrefs[1] === '/shipping-the-rainbow' &&
     proj.overlayHrefs[2] === '/friends-world' && proj.overlayHrefs[3] === null &&
     proj.overlayNested === 0,
     `tags=[${proj.cardTags.join(',')}] overlays=[${proj.overlayHrefs.join(' | ')}] nested=${proj.overlayNested}`);
@@ -649,8 +649,18 @@ function contrastRatio(a, b) { const L1 = relLum(a) + 0.05, L2 = relLum(b) + 0.0
   await mp.screenshot({ path: path.join(OUT, '07-mobile-390-en-dark-full.jpg'), type: 'jpeg', quality: 58, fullPage: true });
   await mctx.close();
 
-  // ---------- Project pages (wave 1, 2026-11-04): the card links are real ----------
-  for (const [route, h1En] of [['wildhearth', 'Wildhearth'], ['friends-world', "Assaf's Friends World"]]) {
+  // ---------- Project pages (waves 1+2, 2026-11-04): every page renders ----------
+  // h1He: the exact Hebrew h1, or null = "any Hebrew text" (a Hebrew name).
+  const PAGES = [
+    ['wildhearth', 'Wildhearth', 'Wildhearth'],
+    ['friends-world', "Assaf's Friends World", null],
+    ['shipping-the-rainbow', 'Shipping the Rainbow', 'Shipping the Rainbow'],
+    ['fanfic-os', 'Fanfic OS', 'Fanfic OS'],
+    ['recipes', 'Recipes', null],
+    ['files', 'My Files', null],
+    ['premarket-lab', 'Premarket Lab', 'Premarket Lab'],
+  ];
+  for (const [route, h1En, h1He] of PAGES) {
     for (const lang of ['en', 'he']) {
       const pctx = await browser.newContext({ viewport: { width: 1440, height: 900 } });
       await pctx.addInitScript((l) => localStorage.setItem('gr-lang', l), lang);
@@ -664,7 +674,7 @@ function contrastRatio(a, b) { const L1 = relLum(a) + 0.05, L2 = relLum(b) + 0.0
         sw: document.documentElement.scrollWidth, cw: document.documentElement.clientWidth,
         title: document.title,
       }));
-      const h1Ok = lang === 'en' ? st.h1 === h1En : (route === 'wildhearth' ? st.h1 === 'Wildhearth' : /[֐-׿]/.test(st.h1));
+      const h1Ok = lang === 'en' ? st.h1 === h1En : (h1He ? st.h1 === h1He : /[֐-׿]/.test(st.h1));
       ok(`/${route} renders its project page (${lang})`,
         resp.status() === 200 && h1Ok && st.dir === (lang === 'he' ? 'rtl' : 'ltr') && st.back === '/#projects' && st.sw <= st.cw + 1,
         `status=${resp.status()} h1="${st.h1}" dir=${st.dir} back=${st.back} scrollW=${st.sw}/${st.cw} title="${st.title}"`);

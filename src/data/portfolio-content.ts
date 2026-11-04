@@ -79,6 +79,9 @@ export const portfolioContent: PortfolioProjectContent[] = [
     state: 'in-development',
     stateLabel: 'Live, sign-in only: hand-coded original (2019), rebuilt with AI agents (2026)',
     year: '2019–2026',
+    // Wave 2 (2026-11-04): its own page inside the site. No external link:
+    // the live site is sign-in only with no demo account.
+    caseRoute: '/shipping-the-rainbow',
     capabilities: [
       'TypeScript',
       'React',
