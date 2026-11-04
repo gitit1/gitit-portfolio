@@ -60,6 +60,12 @@ owner-approved verbatim; she removed every em dash — never write one in her He
 | B* | build (after her approval only) | — | unblocked 2026-11-04 (all 3 answered) |
 | W1 | template + routing + Wildhearth + עולם החברים pages | opus | **verified 2026-11-04** by architect (lint/tsc/build re-run, screenshots looked at, Hebrew facts checked against game code) — waiting on her hub row `q-site-w1` |
 
+**Backup push 2026-11-04:** `feature/project-pages` pushed to origin (`gitit1/gitit-portfolio`,
+PUBLIC repo) at 807c8ad, per her 2.11 rule (backup pushes need no ask). Safe because the Coolify app
+builds `main` only, with no auto-deploy webhook (D4 below). ⚠ The Coolify API answered **401** with
+`COOLIFY_API_TOKEN` on 2026-11-04 (same as 31.10, server not checked). The W5 deploy step needs that
+token fixed in the Coolify UI first, or a deploy from the UI.
+
 **Architect verification notes (2026-11-04):**
 - The site's "light" theme is a graphite ground (`--bg:#262b34`) by design, so light-labelled
   shots look dark. That is the existing theme, not a defect.
