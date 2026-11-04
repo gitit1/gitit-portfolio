@@ -174,20 +174,20 @@ function contrastRatio(a, b) { const L1 = relLum(a) + 0.05, L2 = relLum(b) + 0.0
   ok('index = exactly the 4 registry projects, registry order',
     proj.cardCount === 4 && JSON.stringify(proj.names) === JSON.stringify(['Wildhearth', 'MFL', "Assaf's Friends World", 'Homebase']),
     `names=[${proj.names.join(' | ')}]`);
-  // honest affordances: only assaf gets a link overlay (external, the live
-  // https://assaf.gititregev.com); wildhearth + homebase get none until their
-  // case pages ship (LIVE_CASE_ROUTES gate), and since D1 (2026-08-21) mfl
-  // gets none either — its old site is gone and the rebuilt one is not ready
-  // (owner ruling). Every card element itself is a plain <article>, and no
-  // interactive element nests inside another (the G6-L overlay pattern).
-  ok('only real destinations get link overlays (order: none,none,ext,none; no nesting)',
+  // honest affordances (updated 2026-11-04, project pages wave 1): wildhearth
+  // and assaf link to their OWN pages inside the site (/wildhearth,
+  // /friends-world — real routes now, asserted to render below); mfl gets
+  // none (D1, 2026-08-21: old site gone, rebuild not ready — owner ruling) and
+  // homebase none (no page yet). Every card element itself is a plain
+  // <article>, and no interactive element nests inside another (G6-L).
+  ok('only real destinations get link overlays (order: /wildhearth,none,/friends-world,none; no nesting)',
     proj.cardTags.every(t2 => t2 === 'article') &&
     proj.overlayHrefs.length === 4 &&
-    proj.overlayHrefs[0] === null && proj.overlayHrefs[1] === null && proj.overlayHrefs[3] === null &&
-    /^https:\/\/assaf\.gititregev\.com/.test(proj.overlayHrefs[2] || '') &&
+    proj.overlayHrefs[0] === '/wildhearth' && proj.overlayHrefs[1] === null &&
+    proj.overlayHrefs[2] === '/friends-world' && proj.overlayHrefs[3] === null &&
     proj.overlayNested === 0,
     `tags=[${proj.cardTags.join(',')}] overlays=[${proj.overlayHrefs.join(' | ')}] nested=${proj.overlayNested}`);
-  ok('no dead #/case/ links anywhere (no router exists yet)', proj.deadCase === 0, `deadCaseAnchors=${proj.deadCase}`);
+  ok('no dead #/case/ links anywhere (that hash-route plan never shipped)', proj.deadCase === 0, `deadCaseAnchors=${proj.deadCase}`);
   ok('legacy projects markup fully retired', proj.legacy === 0, `legacyMatches=${proj.legacy}`);
   ok('spotlight All-projects anchor targets #projects', proj.allLinkHref === '#projects' && proj.exists, `href=${proj.allLinkHref}`);
   ok('project card images decoded after scroll (lazy)', proj.imgs.length === 4 && proj.imgs.every(i => i.complete && i.w > 0),
@@ -646,6 +646,29 @@ function contrastRatio(a, b) { const L1 = relLum(a) + 0.05, L2 = relLum(b) + 0.0
   await mp.screenshot({ path: path.join(OUT, '06-mobile-390-en-dark.jpg'), type: 'jpeg', quality: 72 });
   await mp.screenshot({ path: path.join(OUT, '07-mobile-390-en-dark-full.jpg'), type: 'jpeg', quality: 58, fullPage: true });
   await mctx.close();
+
+  // ---------- Project pages (wave 1, 2026-11-04): the card links are real ----------
+  for (const [route, h1En] of [['wildhearth', 'Wildhearth'], ['friends-world', "Assaf's Friends World"]]) {
+    for (const lang of ['en', 'he']) {
+      const pctx = await browser.newContext({ viewport: { width: 1440, height: 900 } });
+      await pctx.addInitScript((l) => localStorage.setItem('gr-lang', l), lang);
+      const pp = await pctx.newPage();
+      const resp = await pp.goto(URL + route, { waitUntil: 'networkidle' });
+      await pp.waitForTimeout(600);
+      const st = await pp.evaluate(() => ({
+        h1: document.querySelector('.pp__name')?.textContent || '',
+        dir: document.documentElement.dir,
+        back: document.querySelector('.pp__back')?.getAttribute('href'),
+        sw: document.documentElement.scrollWidth, cw: document.documentElement.clientWidth,
+        title: document.title,
+      }));
+      const h1Ok = lang === 'en' ? st.h1 === h1En : (route === 'wildhearth' ? st.h1 === 'Wildhearth' : /[֐-׿]/.test(st.h1));
+      ok(`/${route} renders its project page (${lang})`,
+        resp.status() === 200 && h1Ok && st.dir === (lang === 'he' ? 'rtl' : 'ltr') && st.back === '/#projects' && st.sw <= st.cw + 1,
+        `status=${resp.status()} h1="${st.h1}" dir=${st.dir} back=${st.back} scrollW=${st.sw}/${st.cw} title="${st.title}"`);
+      await pctx.close();
+    }
+  }
 
   await browser.close();
 

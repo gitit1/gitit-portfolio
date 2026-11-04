@@ -20,6 +20,9 @@ const PW = 'C:\\Users\\gitit\\AppData\\Local\\npm-cache\\_npx\\e41f203b7505f1fb\
 const { chromium } = require(PW);
 
 const URL = 'http://localhost:4012/';
+// FILLS_LANG=he (optional, 2026-11-04): measure the Hebrew page — the gate is
+// <= 0.98 in BOTH languages, and this script used to measure English only.
+const LANG = process.env.FILLS_LANG || 'en';
 const TARGET = 0.98; // owner's bar: a section must FIT, not merely almost fit.
 
 const parseVp = (s) => {
@@ -43,6 +46,7 @@ const VIEWPORTS = process.argv.slice(2).length
 
   for (const vp of VIEWPORTS) {
     const ctx = await browser.newContext({ viewport: vp, deviceScaleFactor: 1 });
+    await ctx.addInitScript((l) => localStorage.setItem('gr-lang', l), LANG);
     const page = await ctx.newPage();
     await page.goto(URL, { waitUntil: 'networkidle' });
     await page.waitForTimeout(1200);
