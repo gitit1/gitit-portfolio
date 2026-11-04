@@ -59,6 +59,7 @@ owner-approved verbatim; she removed every em dash — never write one in her He
 | L1 | merge into the approval list → hub question rows | me | done — waiting on her |
 | B* | build (after her approval only) | — | unblocked 2026-11-04 (all 3 answered) |
 | W1 | template + routing + Wildhearth + עולם החברים pages | opus | **verified 2026-11-04** by architect (lint/tsc/build re-run, screenshots looked at, Hebrew facts checked against game code) — waiting on her hub row `q-site-w1` |
+| W2 | StR, Fanfic OS, recipes, files, premarket pages | opus | **verified 2026-11-04** — waiting on her hub row `q-site-w2` |
 
 **Her answer to `q-site-w1` (2026-11-04, typed):** "אבל התמונה שמוצגת לmfl עדיין לא תקינה.. כאילו
 הראשית וגם של החברים של אסף, תבדוק גם תמונות ראשיות ואז תמשיך לגל 2 אם יהיו לי תיקונים אכתוב לך
@@ -70,6 +71,20 @@ old `mfl/hero.jpg` (2020 shot with other people's fic covers) deleted. Friends W
 circle. Homebase card still an icon until W3. Fix shots were added to the review page (same URL).
 Hub row `u-site-imgfix` (update, "קיבלתי, להמשיך"). **W2 dispatched** (opus): /shipping-the-rainbow,
 /fanfic-os, /recipes, /files, /premarket-lab; no new home cards this wave.
+2026-11-04: she answered `u-site-imgfix` "קיבלתי, להמשיך" (relayed by the hub) → W2 continues as planned.
+
+**W2 returned + verified by architect (2026-11-04).** Commits e39426c (template: optional figures,
+mixed phone/desktop galleries, ltr year chip), 204485b (5 pages + assets + og images), 555ec9c
+(StR home card links in-site; verify-hero checks all 7 routes → 82/82). Re-ran lint/tsc/build
+myself; looked at StR, files, premarket (EN), recipes, fanfic-os shots. Facts double-checked in code:
+recipes scraper DOES pull an image (`app-recipes/src/scraper/parse.ts` pickImage/og:image), premarket
+HAS an import screen (`client/src/screens/Import.tsx`). Agent rejected every existing app-files shot
+(real share names + real disk size) and re-shot on a neutral fixture `scratchpad/files-fixture`.
+Fanfic OS = one English-only diagram, no gallery. **4 taglines are invented copy** (Fanfic OS, Recipes,
+Files, Premarket) — flagged to her for approval. Review page:
+https://claude.ai/artifact/25uvQcj22rYZXXzb9jvbZ9 (source `scratchpad/review-w2/index.html`,
+generated from the w1 page's style block). Hub row `q-site-w2` waiting. The 4 non-StR W2 pages have
+NO home card yet — W3 must decide the home index for 13 projects under the 0.98 fill gate.
 
 **Backup push 2026-11-04:** `feature/project-pages` pushed to origin (`gitit1/gitit-portfolio`,
 PUBLIC repo) at 807c8ad, per her 2.11 rule (backup pushes need no ask). Safe because the Coolify app
