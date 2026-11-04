@@ -25,6 +25,7 @@ was hard → numbers from git → link to the marketing site if one is reachable
 Row `q-site-plan2` options: א technical pages first, then marketing sites for Wildhearth, Friends
 World and StR only (recommended; the 8 private tools get the technical page only); ב technical only
 now; ג marketing first. **Nothing is built until she answers.**
+**Her answer (16:30Z), verbatim:** "קודם הטכניים ואחר כך פרויקט פרויקט לא רק 3 בלבד נחשוב על כל אחד / אז אולי דווקא טכני , דף פרויקט, המשך לבא בתור" → technical first; EVERY project gets its own marketing-site consideration (not just 3). Order ambiguous → row `q-site-order` (project-by-project recommended vs all-technical-first). Started the step common to both: **/wildhearth technical rewrite** dispatched (opus). Hub is now 54224014 / homebase-70.
 
 ## 2026-11-04 — NEW GOAL: a small marketing page per project (session 5be0c190)
 
