@@ -68,7 +68,7 @@ export const en: Dict = {
       'in-development': 'In development',
       local: 'Local',
     },
-    ctaCase: 'View the case',
+    ctaCase: 'See the project',
     ctaLive: 'Visit the live site',
     docsOnly: 'Case in documentation',
   },
@@ -81,6 +81,21 @@ export const en: Dict = {
     graphHint: 'Hover a project or a capability to trace the connections.',
     zoomLabel: 'Enlarge image',
     graphExpand: 'Enlarge the graph',
+  },
+
+  projectPage: {
+    back: 'All projects',
+    eyebrow: 'Project',
+    figuresLabel: 'At a glance',
+    worksToday: 'What works today',
+    next: "What's next",
+    gallery: 'Screenshots',
+    tech: 'Built with',
+    openShot: 'Open screenshot',
+    prevShot: 'Previous screenshot',
+    nextShot: 'Next screenshot',
+    shotPosition: 'Screenshot {n} of {total}',
+    newTab: '(opens in a new tab)',
   },
 
   socials: {

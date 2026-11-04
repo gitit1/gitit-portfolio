@@ -137,6 +137,25 @@ export interface Dict {
     copied: string;
   };
 
+  // Project pages (wave 1, 2026-11-04) — the chrome of the shared template
+  // (components/pages/ProjectPage.tsx). Per-project copy is data:
+  // data/project-pages-content.ts (EN) + i18n/project-pages-he.ts (HE).
+  projectPage: {
+    back: string; // link back to the home page's Projects section
+    eyebrow: string; // small label above the project name
+    figuresLabel: string; // accessible name of the "at a glance" numbers row
+    worksToday: string;
+    next: string;
+    gallery: string;
+    tech: string;
+    openShot: string; // aria-label prefix for a gallery tile, "Open screenshot: <caption>"
+    prevShot: string;
+    nextShot: string;
+    // Lightbox counter, e.g. "Screenshot {n} of {total}" — {n}/{total} replaced at render.
+    shotPosition: string;
+    newTab: string; // screen-reader suffix for links that open in a new tab
+  };
+
   // Generic modal dialog (G6-L) — see components/common/Lightbox.tsx.
   lightbox: {
     close: string; // aria-label for the close button

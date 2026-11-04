@@ -67,7 +67,7 @@ export const he: Dict = {
       'in-development': 'בפיתוח',
       local: 'מקומי',
     },
-    ctaCase: 'צפייה בקייס',
+    ctaCase: 'לדף הפרויקט', // DRAFT 2026-11-04, was 'צפייה בקייס'
     ctaLive: 'ביקור באתר החי',
     docsOnly: 'הקייס נמצא בתיעוד',
   },
@@ -80,6 +80,24 @@ export const he: Dict = {
     graphHint: 'מעבר עם העכבר על פרויקט או יכולת מסמן את הקשרים.',
     zoomLabel: 'הגדלת תמונה',
     graphExpand: 'הגדלת הגרף',
+  },
+
+  // DRAFT 2026-11-04 (project pages, wave 1): every string in this block is
+  // new Hebrew, not yet approved by the owner. She approves Hebrew verbatim
+  // before deploy. No em dashes or en dashes.
+  projectPage: {
+    back: 'כל הפרויקטים',
+    eyebrow: 'פרויקט',
+    figuresLabel: 'במבט אחד',
+    worksToday: 'מה כבר עובד',
+    next: 'מה עוד בדרך',
+    gallery: 'צילומי מסך',
+    tech: 'נבנה עם',
+    openShot: 'פתיחת צילום המסך',
+    prevShot: 'צילום המסך הקודם',
+    nextShot: 'צילום המסך הבא',
+    shotPosition: 'צילום {n} מתוך {total}',
+    newTab: '(נפתח בכרטיסייה חדשה)',
   },
 
   socials: {

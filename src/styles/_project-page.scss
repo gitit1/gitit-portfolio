@@ -1,0 +1,523 @@
+/* =========================================================================
+   Project page — the shared template (components/pages/ProjectPage.tsx),
+   wave 1, 2026-11-04. An EXTENSION of the site's existing language, not a
+   new one: the slab is the same plane every home section sits on
+   (--surface + border + shadow-1), cards sit one step above it
+   (--surface-2 + border + shadow-1, the Projects-card rule), chips, eyebrow,
+   buttons and fonts are the shared ones from global.scss.
+
+   Owner standing rules applied here:
+   - dark mode: every card is a real elevation step PLUS a border, never a
+     near-black box on near-black (tokens already measured in _tokens.scss).
+   - RTL: logical properties only (inline/block, start/end). Directional
+     glyphs are swapped in the component, never rotated here.
+   ========================================================================= */
+
+.project-page {
+  padding-block: calc(var(--header-h) + var(--section-pad)) var(--section-pad);
+}
+
+.project-page__slab {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-1);
+  padding-block: clamp(1.5rem, 4vw, 3rem);
+}
+
+.pp {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(1.75rem, 3.5vw, 2.75rem);
+  min-width: 0;
+}
+
+.pp__back {
+  align-self: flex-start;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  padding-block: 0.25rem;
+  transition: color 0.18s var(--ease);
+}
+.pp__back:hover {
+  color: var(--accent-strong);
+}
+.pp__back svg {
+  flex: none;
+}
+
+/* ---- Hero: intro text + the hero image ---- */
+.pp__hero {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: clamp(1.5rem, 3vw, 2.5rem);
+  align-items: center;
+}
+@media (min-width: 960px) {
+  .pp__hero {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr);
+  }
+}
+
+.pp__intro {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  min-width: 0;
+}
+.pp__intro .section__eyebrow {
+  margin-bottom: 0.6rem;
+}
+
+.pp__name {
+  font-size: clamp(2.3rem, 5.2vw, 3.6rem);
+}
+
+.pp__tagline {
+  margin: 0.7rem 0 0;
+  font-family: var(--font-display);
+  font-size: clamp(1.1rem, 2vw, 1.35rem);
+  font-weight: 500;
+  line-height: 1.35;
+  color: var(--accent-strong);
+  max-width: 40ch;
+}
+// English inside the Hebrew page: keep the Latin display face for it.
+.pp__tagline bdi {
+  font-family: 'Space Grotesk', system-ui, sans-serif;
+}
+
+.pp__status {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem;
+  margin-top: 1.1rem;
+}
+.pp__year {
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  color: var(--text-faint);
+}
+
+.pp__summary {
+  margin: 1.1rem 0 0;
+  color: var(--text);
+  font-size: 1.05rem;
+  max-width: 56ch;
+}
+
+.pp__cta {
+  margin-top: 1.4rem;
+}
+.pp__ext-icon {
+  flex: none;
+}
+.pp__nolink {
+  margin: 0;
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  padding: 0.6rem 0.9rem;
+  border: 1px dashed var(--border);
+  border-radius: var(--radius-sm);
+}
+
+/* ---- Images: tiles and the hero art (all open the lightbox) ---- */
+.pp__hero-art,
+.pp__tile {
+  margin: 0;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+.pp__shot-btn {
+  display: block;
+  width: 100%;
+  padding: 0;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--bg-2);
+  overflow: hidden;
+  cursor: zoom-in;
+  box-shadow: var(--shadow-1);
+  transition: border-color 0.2s var(--ease), transform 0.2s var(--ease);
+}
+.pp__shot-btn:hover {
+  border-color: var(--accent);
+  transform: translateY(-2px);
+}
+.pp__shot-btn img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.pp__hero-art .pp__shot-btn {
+  aspect-ratio: 16 / 10;
+  border-radius: var(--radius);
+}
+.pp__img--pixel {
+  image-rendering: pixelated;
+}
+.pp__caption {
+  font-size: max(12px, 0.8rem);
+  line-height: 1.4;
+  color: var(--text-muted);
+}
+
+/* ---- At a glance: the numbers row ---- */
+.pp__figures {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.75rem;
+}
+// Whole rows only: three figures sit side by side even on a phone.
+.pp__figures--3 {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+@media (min-width: 700px) {
+  .pp__figures--4 {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+.pp__figure {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  padding: 0.9rem 1.1rem;
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  box-shadow: var(--shadow-1);
+}
+.pp__figure-value {
+  font-family: var(--font-mono);
+  font-size: clamp(1.6rem, 3vw, 2.1rem);
+  font-weight: 500;
+  line-height: 1.1;
+  color: var(--accent-strong);
+}
+.pp__figure-label {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+}
+
+/* ---- The project's own pitch, quoted ---- */
+.pp__pitch {
+  margin: 0;
+  padding: clamp(1.1rem, 2.5vw, 1.6rem) clamp(1.2rem, 3vw, 2rem);
+  background: var(--surface-feature);
+  border: 1px solid var(--border-feature);
+  border-inline-start: 3px solid var(--accent);
+  border-radius: var(--radius-sm);
+  box-shadow: var(--shadow-1);
+}
+.pp__pitch blockquote {
+  margin: 0;
+}
+.pp__pitch blockquote p {
+  margin: 0;
+  font-family: 'Space Grotesk', system-ui, sans-serif;
+  font-size: clamp(1.05rem, 1.9vw, 1.3rem);
+  line-height: 1.45;
+  color: var(--text);
+  max-width: 70ch;
+}
+.pp__pitch figcaption {
+  margin-top: 0.7rem;
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}
+
+/* ---- Section blocks ---- */
+.pp__block {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  min-width: 0;
+}
+.pp__h2 {
+  font-size: clamp(1.25rem, 2.2vw, 1.55rem);
+}
+
+.pp__card {
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-1);
+}
+
+.pp__pillars {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 0.75rem;
+}
+// Whole rows only: 6 pillars read 3 + 3, 4 pillars read 4 (or 2 + 2), so a
+// row never ends with an orphan card and a hole beside it.
+@media (min-width: 600px) {
+  .pp__pillars {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+@media (min-width: 960px) {
+  .pp__pillars--3 {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+  .pp__pillars--4 {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+.pp__pillar {
+  padding: 1rem 1.15rem;
+}
+.pp__pillar-title {
+  font-size: 1.02rem;
+  color: var(--accent-strong);
+}
+.pp__pillar-text {
+  margin: 0.4rem 0 0;
+  font-size: 0.95rem;
+  color: var(--text-muted);
+}
+
+.pp__facets {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+.pp__facet {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding-block: 0.4rem;
+  padding-inline: 0.9rem 0.45rem;
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+}
+.pp__facet-label {
+  font-size: 0.95rem;
+}
+.pp__facet-count {
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  min-width: 2em;
+  text-align: center;
+  padding: 0.1rem 0.45rem;
+  border-radius: 999px;
+  background: var(--accent-wash);
+  border: 1px solid var(--border-feature);
+  color: var(--accent-strong);
+}
+
+/* ---- Works today / next (+ the "in development" side piece) ---- */
+.pp__cols {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 0.9rem;
+}
+@media (min-width: 860px) {
+  .pp__cols {
+    grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr);
+    align-items: start;
+  }
+}
+.pp__col {
+  padding: clamp(1.1rem, 2.5vw, 1.5rem);
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+  min-width: 0;
+}
+.pp__list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+}
+.pp__list li {
+  position: relative;
+  padding-inline-start: 1.25rem;
+  font-size: 0.98rem;
+  line-height: 1.45;
+}
+.pp__list li::before {
+  content: '';
+  position: absolute;
+  inset-inline-start: 0.1rem;
+  inset-block-start: 0.55em;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--accent);
+  box-shadow: 0 0 8px var(--accent-glow);
+}
+// "Next" items are not built yet: a hollow marker, muted text.
+.pp__list--next li {
+  color: var(--text-muted);
+}
+.pp__list--next li::before {
+  background: transparent;
+  border: 1.5px solid var(--accent);
+  box-shadow: none;
+}
+
+.pp__side-head {
+  display: flex;
+}
+.pp__side-text {
+  margin: 0;
+  font-size: 0.95rem;
+  color: var(--text-muted);
+}
+.pp__side-shots {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.6rem;
+}
+.pp__side-shots .pp__shot-btn {
+  aspect-ratio: 16 / 10;
+}
+
+/* ---- Gallery ---- */
+.pp__gallery {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 1rem;
+}
+// Wide game screenshots are dense UI: two big columns read better than
+// three small ones (and 10 shots fill whole rows).
+@media (min-width: 700px) {
+  .pp__gallery {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+.pp__gallery .pp__tile--wide .pp__shot-btn {
+  aspect-ratio: 16 / 9;
+}
+// Phone shots: narrower portrait tiles, several per row even on a phone.
+.pp__gallery--phones {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+@media (min-width: 600px) {
+  .pp__gallery--phones {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+@media (min-width: 960px) {
+  .pp__gallery--phones {
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+  }
+}
+.pp__gallery--phones .pp__tile--phone .pp__shot-btn {
+  aspect-ratio: 9 / 16;
+}
+.pp__gallery--phones .pp__tile--phone .pp__shot-btn img {
+  object-position: top;
+}
+// A wide shot inside a phone gallery spans two tracks so it is not squashed.
+.pp__gallery--phones .pp__gallery-item--wide {
+  grid-column: span 2;
+}
+.pp__gallery--phones .pp__gallery-item--wide .pp__shot-btn {
+  aspect-ratio: auto;
+  height: auto;
+}
+.pp__gallery--phones .pp__gallery-item--wide .pp__shot-btn img {
+  height: auto;
+}
+
+/* ---- Tech ---- */
+.pp__tags {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+}
+.pp__tag {
+  font-family: var(--font-mono);
+  font-size: max(11px, 0.8rem);
+  padding: 0.3rem 0.7rem;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: var(--surface-2);
+  color: var(--text-muted);
+}
+
+/* ---- Footer of the page ---- */
+.pp__foot {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid var(--border);
+}
+.pp__closing {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 1.05rem;
+  color: var(--text-muted);
+}
+
+/* ---- Lightbox content: image + caption + prev/next ---- */
+.pp-lightbox {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+.pp-lightbox__figure img {
+  max-block-size: 68vh;
+}
+.pp-lightbox__nav {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+}
+.pp-lightbox__count {
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  min-width: 9em;
+  text-align: center;
+}
+
+// Hebrew sentences read badly in the mono face's Hebrew fallback (wide,
+// typewriter-spaced): full sentences switch to the body face in RTL. Short
+// chrome labels (eyebrow, chips, nav) keep the site-wide mono treatment.
+:root[dir='rtl'] .pp__nolink,
+:root[dir='rtl'] .pp__pitch figcaption,
+:root[dir='rtl'] .pp__back,
+:root[dir='rtl'] .pp-lightbox__count,
+:root[dir='rtl'] .pp .btn,
+:root[dir='rtl'] .pp-lightbox figcaption {
+  font-family: var(--font-body);
+  font-size: 0.92rem;
+}
