@@ -467,9 +467,14 @@ export const projectPagesContent: ProjectPageContent[] = [
           { id: 'co-authored', value: '947', label: 'commits co-authored with Claude', measures: 'Commits whose message carries a Co-Authored-By: Claude trailer' },
         ],
       },
-      // https://wildhearth.gititregev.com/ answers 401 (Basic Auth) as of
-      // 2026-11-04: NO link. Set `url` + `label` once the landing is public.
-      productSite: { note: 'Has its own product site (private preview).' },
+      // The landing at https://wildhearth.gititregev.com/ goes public in the
+      // same deploy as this page (owner, 2026-11-05: both approved); the game
+      // behind it stays password-locked, and the landing says so itself.
+      productSite: {
+        note: 'Has its own product site.',
+        url: 'https://wildhearth.gititregev.com',
+        label: "See the game's own site",
+      },
     },
     meta: {
       title: 'Wildhearth — how a browser life-sim is built · Gitit Regev',
@@ -794,8 +799,21 @@ export const projectPagesContent: ProjectPageContent[] = [
   },
 ];
 
-/** The page for a pathname, or undefined (App then renders the home page). */
+/**
+ * The pages that are actually published (2026-11-05). A page goes in here
+ * only once the owner approved it in its TECHNICAL form (her 2026-11-04
+ * ruling); the wave 1+2 marketing-style drafts stay in the code but are not
+ * routed, not linked from the home cards and get no static head, so a deploy
+ * never publishes an unapproved page. Add an id here when she approves it.
+ */
+export const PUBLISHED_PAGE_IDS: ReadonlySet<ProjectPageId> = new Set<ProjectPageId>(['wildhearth']);
+
+export const publishedProjectPages: ProjectPageContent[] = projectPagesContent.filter((page) =>
+  PUBLISHED_PAGE_IDS.has(page.id)
+);
+
+/** The published page for a pathname, or undefined (App then renders the home page). */
 export function findProjectPage(pathname: string): ProjectPageContent | undefined {
   const p = pathname.replace(/\/+$/, '') || '/';
-  return projectPagesContent.find((page) => page.path === p);
+  return publishedProjectPages.find((page) => page.path === p);
 }

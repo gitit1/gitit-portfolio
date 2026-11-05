@@ -209,7 +209,7 @@ const pagesHe: Record<ProjectPageId, ProjectPageHe> = {
           'co-authored': { label: 'קומיטים שנכתבו יחד עם Claude', measures: 'קומיטים שבהודעה שלהם יש שורת \u2066Co-Authored-By: Claude\u2069' },
         },
       },
-      productSite: { note: 'יש לו אתר מוצר משלו (תצוגה מוקדמת פרטית).' },
+      productSite: { note: 'יש לו אתר מוצר משלו.', label: 'לאתר של המשחק' },
     },
     heroCaption: 'מסך הפתיחה של Wildhearth: בית חווה מצויר בפיקסלים על גבעה בשקיעה.',
     galleryCaptions: [

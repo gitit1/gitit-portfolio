@@ -36,6 +36,7 @@ import mflArt from '../styles/assets/portfolio/mfl/str-hero.jpg';
 import assafFriendsGamesArt from '../styles/assets/portfolio/friends-world/d-home.jpg';
 import homebaseArt from '../styles/assets/portfolio/homebase/icon.png';
 import { portfolioContent, type ProjectState, type PortfolioProjectContent } from './portfolio-content';
+import { findProjectPage } from './project-pages-content';
 
 export type { ProjectState };
 
@@ -96,8 +97,10 @@ export type SpotlightTarget =
 // else its real external link, else no link at all (e.g. Homebase) — never an
 // invented destination. A project with BOTH (assaf) links to its own page;
 // that page carries the link out to the live site.
+// Since 2026-11-05 a `caseRoute` counts only when its page is published
+// (PUBLISHED_PAGE_IDS): a card never links to an unapproved draft page.
 export function resolveTarget(project: PortfolioProjectContent): SpotlightTarget {
-  if (project.caseRoute) return { kind: 'case', href: project.caseRoute };
+  if (project.caseRoute && findProjectPage(project.caseRoute)) return { kind: 'case', href: project.caseRoute };
   if (project.externalLink) return { kind: 'external', href: project.externalLink };
   return { kind: 'none' };
 }

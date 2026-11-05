@@ -14,7 +14,8 @@
 import { readFile, writeFile, mkdir } from 'node:fs/promises';
 import { fileURLToPath } from 'node:url';
 import { dirname, join } from 'node:path';
-import { projectPagesContent } from '../src/data/project-pages-content.ts';
+// Published pages only (2026-11-05): an unapproved draft gets no static head.
+import { publishedProjectPages } from '../src/data/project-pages-content.ts';
 
 const SITE = 'https://gititregev.com';
 const here = dirname(fileURLToPath(import.meta.url));
@@ -35,7 +36,7 @@ function replaceOnce(html: string, pattern: RegExp, replacement: string, what: s
 async function main() {
   const shell = await readFile(join(buildDir, 'index.html'), 'utf8');
 
-  for (const page of projectPagesContent) {
+  for (const page of publishedProjectPages) {
     const url = `${SITE}${page.path}`;
     const title = escapeAttr(page.meta.title);
     const desc = escapeAttr(page.meta.description);
