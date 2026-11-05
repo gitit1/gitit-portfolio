@@ -26,7 +26,7 @@ Newest state at top.
   - `save-coolify-token.ps1` stays in hub/local in case Hetzner is ever needed again.
 - Worktree `<scratchpad>/wh-landing` is still there. Remove it with `git worktree remove` (never
   --force) once it is no longer needed.
-- Hub is now a7bf136d (window homebase-c6).
+- Hub is now e42054fb (window homebase-35, hub row s27) since 2026-11-05, replacing a7bf136d. Report there when waking.
 
 ## 2026-11-05 (later) — BOTH approved; deploy + token rows posted
 - `q-site-wh-tech-2` answered 07:03Z: "לאשר את הדף הטכני (מומלץ)".
