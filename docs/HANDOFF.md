@@ -8,6 +8,18 @@
 Purpose: let a NEW session pick up the site redesign with zero other context.
 Newest state at top.
 
+## 2026-11-05 — Wildhearth landing APPROVED by her; technical page still open
+- The hub moved to a899cd33 (window homebase-a5). Report there.
+- `q-site-wh-landing`: she answered "לאשר את דף הנחיתה (מומלץ)" at 05:35Z. No changes needed.
+  The branch is still `site/landing-public` f747292de in Wildhearth. Not merged, not deployed.
+- `q-site-wh-tech-2` (technical page, https://claude.ai/artifact/1KHEGjUF9Ud1T9kD8KKgdF) is still unanswered.
+- Next, only after tech-2 is approved:
+  1. Post ONE deploy row covering both sites. It also ships Wildhearth's 26.10 fixes.
+  2. Post a separate row for the new Coolify API token.
+  3. Get the merge done by her or the Wildhearth session.
+  4. Deploy with force=true.
+  5. Run the prune, re-pull coolify-helper, and tell the hub (plan item 4.4).
+
 ## 2026-11-04 (night) — Wildhearth landing update IN PROGRESS (her pick: update + open landing only)
 
 - `q-site-wh-marketing` answered 18:39Z: "לעדכן ולפתוח רק את דף הנחיתה (מומלץ)".
