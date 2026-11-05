@@ -8,6 +8,42 @@
 Purpose: let a NEW session pick up the site redesign with zero other context.
 Newest state at top.
 
+## 2026-11-05 (later) — BOTH approved; deploy + token rows posted
+- `q-site-wh-tech-2` answered 07:03Z: "לאשר את הדף הטכני (מומלץ)".
+- Found: `feature/project-pages` also carries 6 wave 1+2 DRAFT pages. They are superseded by her
+  technical-pages ruling and NOT approved, and a deploy would have published them. Fixed in `de1af69`:
+  - `PUBLISHED_PAGE_IDS` (in `project-pages-content.ts`) holds only `wildhearth`. It gates
+    `findProjectPage`, home-card links (`resolveTarget`) and the static heads (generate-project-meta).
+  - Draft paths render home. Add an id there when she approves a page.
+  - Caveat: draft text and gallery images are still in the JS bundle and `build/og/`, unlinked and
+    unrouted. All of it was privacy-checked when written.
+  - The /wildhearth CTA now links to https://wildhearth.gititregev.com ("לאתר של המשחק").
+  - verify-hero 78/78 on the built server (`PORT=4012 node dist-server/index.mjs`). I looked at the
+    EN/HE desktop and phone shots myself (`scratchpad/rel/`).
+- Rows posted:
+  - `q-site-token`: new Hetzner Coolify token via
+    `Homebase/docs/git-nas/hub/local/save-coolify-token.ps1`.
+    - The script refuses anything that isn't `<digits>|<40-64 alnum>`. A new token's id will NOT be
+      `3|`, so the old "check 3| + 50" note was wrong.
+    - It saves, verifies, then tests `/api/v1/version`.
+    - Self-tested: 4 bad inputs all refused, the saved token untouched.
+  - `q-site-deploy-1`: options both (recommended) / only gititregev.com / wait.
+- Measured 5.11:
+  - Server: root 26G free, containerd 8.9G free.
+  - Live Wildhearth image = `0541bbce` (10.10); master `690b0ca11` (26.10) is 208 commits ahead.
+  - `site/landing-public` is a fast-forward of master.
+  - gititregev.com: `feature/project-pages` is a fast-forward of `origin/main`.
+- Deploy runbook once both rows are green:
+  1. Prune and check `df` (there are TWO builds, ~7G each, on 8.9G).
+  2. FF-merge and push Wildhearth master. Deploy `udwnxk9qxdpurbrtghzxkxya` with force=true.
+  3. Verify `/` 200, `/landing/*` 200, `/play` 401.
+  4. Prune, then re-pull coolify-helper.
+  5. FF-merge and push gititregev.com main. Deploy `pqai1bbo27tzlawh7lnqa8lb` with force=true.
+  6. Verify /wildhearth and the drafts → home.
+  7. Prune and report free space. Tell the hub (4.4).
+- If she picks "only my site": remove the productSite url first, so the button doesn't hit a
+  password prompt.
+
 ## 2026-11-05 — Wildhearth landing APPROVED by her; technical page still open
 - The hub moved to a899cd33 (window homebase-a5). Report there.
 - `q-site-wh-landing`: she answered "לאשר את דף הנחיתה (מומלץ)" at 05:35Z. No changes needed.
