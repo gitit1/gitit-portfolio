@@ -8,6 +8,22 @@
 Purpose: let a NEW session pick up the site redesign with zero other context.
 Newest state at top.
 
+## 2026-11-05 10:08Z — HANDOVER: next project's technical page goes to a NEW session
+- She answered `q-site-status-1` with "להתחיל את הדף הטכני של הפרויקט הבא". Session 5be0c190 hands
+  over and closes. The new session owns this project from here.
+- Next project, in the approved list order (line ~280): **עולם החברים / Friends World**, i.e.
+  `Games/assaf-friends-games`, with the 3D sort game folded in as a paragraph.
+- Task: rewrite `/friends-world` into the `caseStudy` model that `/wildhearth` uses (see the
+  2026-11-04 "technical page verified" note below).
+  - Facts and numbers come from that repo's code and git only. Never mention the child's age, and
+    include no private info.
+  - Take screenshots and look at them yourself.
+  - Post a hub row for approval. Add `friends-world` to `PUBLISHED_PAGE_IDS` only after she approves.
+- After that: a hub row on Friends World's own marketing-site decision (assaf.gititregev.com is
+  live and has no landing page of its own).
+- Nothing deploys: everything waits for the home server (see the next section).
+- New-session rows must use `from`/`routedTo` = the NEW session's 8-char id.
+
 ## 2026-11-05 (resting) — NO Hetzner deploy: she chose "לחכות לשרת הביתי"
 - `q-site-deploy-1` answered "להעלות את שניהם". Then on `q-site-token` she asked why it still goes
   to Hetzner, and `q-site-where-2` came back "לחכות לשרת הביתי". This supersedes the brief's
