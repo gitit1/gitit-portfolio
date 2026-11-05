@@ -8,6 +8,26 @@
 Purpose: let a NEW session pick up the site redesign with zero other context.
 Newest state at top.
 
+## 2026-11-05 (resting) — NO Hetzner deploy: she chose "לחכות לשרת הביתי"
+- `q-site-deploy-1` answered "להעלות את שניהם". Then on `q-site-token` she asked why it still goes
+  to Hetzner, and `q-site-where-2` came back "לחכות לשרת הביתי". This supersedes the brief's
+  "stays on Hetzner".
+- The hub closed `q-site-token`. Publishing from home waits on lane 4's later Tunnel stage (no
+  date); the hub will announce it.
+- Releases are frozen as fast-forwards, backed up, NOT merged:
+  - Wildhearth `site/landing-public` f747292de, on master 690b0ca11.
+  - gititregev.com `feature/project-pages`, on origin/main. The release content is de1af69; later
+    commits are docs only.
+- The only server action taken was the pre-build prune on Hetzner, which ran before the hold
+  arrived (0B reclaimed, coolify-helper re-pulled). No site was touched.
+- When home publishing is ready, redo the runbook below against the HOME target:
+  - Re-check that both branches still fast-forward (Wildhearth's cloud session may have moved master).
+  - Re-check that the landing counts still match the code.
+  - `save-coolify-token.ps1` stays in hub/local in case Hetzner is ever needed again.
+- Worktree `<scratchpad>/wh-landing` is still there. Remove it with `git worktree remove` (never
+  --force) once it is no longer needed.
+- Hub is now a7bf136d (window homebase-c6).
+
 ## 2026-11-05 (later) — BOTH approved; deploy + token rows posted
 - `q-site-wh-tech-2` answered 07:03Z: "לאשר את הדף הטכני (מומלץ)".
 - Found: `feature/project-pages` also carries 6 wave 1+2 DRAFT pages. They are superseded by her
