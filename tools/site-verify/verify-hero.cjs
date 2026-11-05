@@ -175,16 +175,16 @@ function contrastRatio(a, b) { const L1 = relLum(a) + 0.05, L2 = relLum(b) + 0.0
     proj.cardCount === 4 && JSON.stringify(proj.names) === JSON.stringify(['Wildhearth', 'Shipping the Rainbow', "Assaf's Friends World", 'Homebase']),
     `names=[${proj.names.join(' | ')}]`);
   // honest affordances (updated 2026-11-05, published pages only): wildhearth
-  // links to its OWN page inside the site (/wildhearth, the only published
-  // page); mfl none (sign-in-only site, its page is an unpublished draft);
-  // assaf falls back to its live site; homebase none. Every card element
-  // itself is a plain <article>, and no interactive element nests inside
-  // another (G6-L).
-  ok('only real destinations get link overlays (order: /wildhearth,none,assaf live site,none; no nesting)',
+  // and assaf link to their OWN pages inside the site (/wildhearth and
+  // /friends-world; the assaf page carries the link out to the live games);
+  // mfl none (sign-in-only site, its page is an unpublished draft); homebase
+  // none. Every card element itself is a plain <article>, and no interactive
+  // element nests inside another (G6-L).
+  ok('only real destinations get link overlays (order: /wildhearth,none,/friends-world,none; no nesting)',
     proj.cardTags.every(t2 => t2 === 'article') &&
     proj.overlayHrefs.length === 4 &&
     proj.overlayHrefs[0] === '/wildhearth' && proj.overlayHrefs[1] === null &&
-    /^https:\/\/assaf\.gititregev\.com/.test(proj.overlayHrefs[2] || '') && proj.overlayHrefs[3] === null &&
+    proj.overlayHrefs[2] === '/friends-world' && proj.overlayHrefs[3] === null &&
     proj.overlayNested === 0,
     `tags=[${proj.cardTags.join(',')}] overlays=[${proj.overlayHrefs.join(' | ')}] nested=${proj.overlayNested}`);
   ok('no dead #/case/ links anywhere (that hash-route plan never shipped)', proj.deadCase === 0, `deadCaseAnchors=${proj.deadCase}`);
@@ -654,8 +654,11 @@ function contrastRatio(a, b) { const L1 = relLum(a) + 0.05, L2 = relLum(b) + 0.0
   // Only PUBLISHED_PAGE_IDS are routed; the drafts must fall back to home.
   const PAGES = [
     ['wildhearth', 'Wildhearth', 'Wildhearth'],
+    ['friends-world', "Assaf's Friends World", null],
   ];
-  const DRAFTS = ['friends-world', 'shipping-the-rainbow', 'fanfic-os', 'recipes', 'files', 'premarket-lab'];
+  // Case-study pages: expected diagram boxes and decisions.
+  const CASES = { 'wildhearth': [13, 4], 'friends-world': [14, 4] };
+  const DRAFTS = ['shipping-the-rainbow', 'fanfic-os', 'recipes', 'files', 'premarket-lab'];
   {
     const dctx = await browser.newContext({ viewport: { width: 1440, height: 900 } });
     const dp = await dctx.newPage();
@@ -679,7 +682,7 @@ function contrastRatio(a, b) { const L1 = relLum(a) + 0.05, L2 = relLum(b) + 0.0
         back: document.querySelector('.pp__back')?.getAttribute('href'),
         sw: document.documentElement.scrollWidth, cw: document.documentElement.clientWidth,
         title: document.title,
-        // Technical case study (2026-11-04): /wildhearth only, for now.
+        // Technical case study (2026-11-04): the pages listed in CASES.
         arch: document.querySelectorAll('.pp-arch__node').length,
         decisions: document.querySelectorAll('.pp-case__decision').length,
         marketing: document.querySelectorAll('.pp__pillars, .pp__pitch, .pp__figures').length,
@@ -689,11 +692,12 @@ function contrastRatio(a, b) { const L1 = relLum(a) + 0.05, L2 = relLum(b) + 0.0
       ok(`/${route} renders its project page (${lang})`,
         resp.status() === 200 && h1Ok && st.dir === (lang === 'he' ? 'rtl' : 'ltr') && st.back === '/#projects' && st.sw <= st.cw + 1,
         `status=${resp.status()} h1="${st.h1}" dir=${st.dir} back=${st.back} scrollW=${st.sw}/${st.cw} title="${st.title}"`);
-      if (route === 'wildhearth') {
-        // 13 diagram boxes, 4 decisions, no marketing blocks, and one link
-        // out to the game's own landing (public since 2026-11-05).
-        ok(`/wildhearth is a technical case study (${lang})`,
-          st.arch === 13 && st.decisions === 4 && st.marketing === 0 && st.productLink,
+      if (CASES[route]) {
+        // Diagram boxes, 4 decisions, no marketing blocks, and one link out
+        // to the product (Wildhearth's landing / the live games).
+        const [nodes, decs] = CASES[route];
+        ok(`/${route} is a technical case study (${lang})`,
+          st.arch === nodes && st.decisions === decs && st.marketing === 0 && st.productLink,
           `diagramNodes=${st.arch} decisions=${st.decisions} marketingBlocks=${st.marketing} ctaLink=${st.productLink}`);
       } else {
         ok(`/${route} keeps its page layout, no case study yet (${lang})`, st.arch === 0 && st.decisions === 0,
