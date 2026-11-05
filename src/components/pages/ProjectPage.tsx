@@ -60,7 +60,9 @@ export function ProjectPage({ id }: ProjectPageProps) {
       <h2 className="pp__h2">{t('projectPage.tech')}</h2>
       <ul className="pp__tags">
         {page.tech.map((tech) => (
-          <li key={tech} className="pp__tag">
+          // dir=ltr: chips are English names; in Hebrew a leading "@" or a
+          // trailing ")" would otherwise jump to the other end.
+          <li key={tech} className="pp__tag" dir="ltr">
             {tech}
           </li>
         ))}
