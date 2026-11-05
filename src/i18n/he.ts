@@ -108,7 +108,7 @@ export const he: Dict = {
     caseCost: 'מה זה עלה',
     caseSource: 'מקור',
     caseAiWork: 'לבנות את זה עם AI',
-    caseAiDecides: 'גיטית מחליטה',
+    caseAiDecides: 'גיתית מחליטה',
     caseAiDelegates: 'סוכני AI עושים',
     caseAiVerifies: 'איך העבודה נבדקת',
     caseCourse: 'מה היה קשה ומה שינה כיוון',
