@@ -8,6 +8,30 @@
 Purpose: let a NEW session pick up the site redesign with zero other context.
 Newest state at top.
 
+## 2026-11-05 10:35Z — /friends-world technical page BUILT + verified; two hub rows waiting (session 74cf3031)
+- Commits on `feature/project-pages` (pushed, backup only; Coolify builds `main` only):
+  - `58eb47e` her name: `caseAiDecides` heading "גיטית מחליטה" → "גיתית" (site header says גיתית רגב).
+  - `ee0c343` `/friends-world` rewritten into the `caseStudy` model (EN data + HE overlay, all Hebrew
+    DRAFT). Also: tech chips `dir="ltr"` in ProjectPage.tsx (a leading "@" jumped in Hebrew), and the
+    two Wildhearth Hebrew lines with גיטית → גיתית (already-approved copy, hence row 2 below).
+- Facts measured 2026-11-05 on assaf-friends-games `main` cecc1e8 (main is the newest branch): 695
+  commits (05-30 → 09-26), 608 co-authored with Claude, 62 games / 9 categories, 139 .ts/.tsx = 33,234
+  lines (without `src/_backup`), 806 tracked mp3, 333 art images from 49 gen scripts, 14 champion
+  entries, 841/841 i18n keys. 3D repo: Unity 6000.5.7f1, 20 .cs = 6,490 lines, 20 commits 08-08 →
+  09-26, APK never ran. Stale doc numbers NOT used: README 812 clips, HANDOFF 63 games, README's
+  "i18n key-parity build check" (does not exist in code).
+- Privacy: no age, no health/sensory-research wording, nothing from the Growing Up games, no hosting
+  details, commit messages not quoted. The site repo is PUBLIC, so code comments follow the same rule.
+- Verified: lint, tsc, build clean; verify-hero 78/78 with the page still a draft. Looked myself at
+  1440 HE light, 390 HE dark, 1440 EN light (`<scratchpad 74cf3031>/shots/`, script `shoot.cjs`); to
+  shoot a draft, add it to `PUBLISHED_PAGE_IDS` temporarily and revert before committing.
+- Review page: https://claude.ai/artifact/4vHRgVdqYkx1iu7V4Kg8AK (source `<scratchpad 74cf3031>/review-fw/`).
+- Hub rows (from/routedTo 74cf3031): `q-site-fw-tech` (approve the page) and `q-site-name-spelling`
+  (keep גיתית [recommended] / revert to גיטית).
+- Next, on approval: add `'friends-world'` to `PUBLISHED_PAGE_IDS`; verify-hero's DRAFTS list
+  (tools/site-verify/verify-hero.cjs ~658) must drop it and gain a case-study check like /wildhearth.
+  Then a hub row on Friends World's own marketing-site decision. Nothing deploys before the home server.
+
 ## 2026-11-05 10:08Z — HANDOVER: next project's technical page goes to a NEW session
 - She answered `q-site-status-1` with "להתחיל את הדף הטכני של הפרויקט הבא". Session 5be0c190 hands
   over and closes. The new session owns this project from here.
