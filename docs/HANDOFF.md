@@ -8,6 +8,27 @@
 Purpose: let a NEW session pick up the site redesign with zero other context.
 Newest state at top.
 
+## 2026-11-06 10:45Z — RESUME POINT: Shipping the Rainbow technical page, in a NEW session
+- She answered `q-site-str-tech` on the hub: "להתחיל בסשן חדש (מומלץ)". Session 74cf3031 hands over
+  and closes. The new session owns this project from here and reports to the hub (in ListAgents, the
+  session whose name contains ״חמ״ל הקמת השרת הביתי״; it was 32d04f6c on 6.11). Questions to her go
+  ONLY as hub rows (`from`/`routedTo` = the NEW session's 8-char id).
+- Task: rewrite `/shipping-the-rainbow` (`src/data/project-pages-content.ts`, wave 2 entry, about
+  line 799; Hebrew overlay in `src/i18n/project-pages-he.ts`) into the `caseStudy` model, exactly as
+  `/friends-world` was done on 5.11 (see the 5.11 sections below: method, verify-hero, review page,
+  hub row). Its draft today is the old marketing style (figures, pillars, pitch), not routed.
+- Source repo: `C:\Users\gitit\Git\Workplace\my_fanfic_lybrary_site` (StR, live at
+  https://str.gititregev.com, sign-in only, no demo account). ⚠ Its checkout is on branch
+  `work/lane3-container-uid1000` (another lane's work, last commit d1eccd4 2026-11-03): read only,
+  measure from `master` (the default branch) with `git log master` / `git show master:<path>`.
+  There are uncommitted files in that checkout too. Never switch, commit or stash there.
+- Hard privacy rules (wave 2 comment at the top of that entry): never fic titles, authors, uploaders,
+  list names, TV stills or story counts. Facts and numbers only from code + git, verified by me.
+- No public "try it" link (sign-in only), so `productSite` is a note without a URL, unless she says
+  otherwise. After approval: add the id to `PUBLISHED_PAGE_IDS`, move it from verify-hero's DRAFTS to
+  PAGES + `CASES`, and check the StR home card now links in-site.
+- Nothing deploys: everything waits for the home server.
+
 ## 2026-11-06 09:40Z — she chose to BUILD a landing page for Assaf's games (session 74cf3031)
 - ⚠ Hub note (93350d7b, 6.11): the games landing (games session 195d01d2, branch
   `site/landing-page`, not deployed) will live at https://assaf.gititregev.com/about/ (keep the
