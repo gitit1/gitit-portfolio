@@ -43,9 +43,6 @@ import fw3dNumbers from '../styles/assets/portfolio/friends-world/3d-sort-number
 import fw3dSmiley from '../styles/assets/portfolio/friends-world/3d-sort-smiley.jpg';
 
 import strHero from '../styles/assets/portfolio/mfl/str-hero.jpg';
-import strGateFanfic from '../styles/assets/portfolio/mfl/gate-fanfic.jpg';
-import strGateOtp from '../styles/assets/portfolio/mfl/gate-otp.jpg';
-import strGateVertical from '../styles/assets/portfolio/mfl/gate-vertical.jpg';
 
 import fosDiagram from '../styles/assets/portfolio/fanfic-os/diagram.jpg';
 
@@ -143,11 +140,9 @@ const art: Record<ProjectPageId, ProjectPageArt> = {
       caption: 'The portal: a rainbow arc, "Be Gay. Ship Girls." and the three gates.',
       shape: 'wide',
     },
-    gallery: [
-      { src: strGateFanfic, caption: 'Fanfic Rainbow, the fanfic library gate.', shape: 'wide' },
-      { src: strGateOtp, caption: 'OTP Rainbow, a home for every ship.', shape: 'wide' },
-      { src: strGateVertical, caption: 'Vertical Rainbow, the short vertical dramas gate.', shape: 'wide' },
-    ],
+    // Technical page (2026-11-06): the three gate cards only repeated the
+    // hero, so they are off the page; the files stay in the repo.
+    gallery: [],
   },
   'fanfic-os': {
     hero: {

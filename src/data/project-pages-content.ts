@@ -799,55 +799,296 @@ export const projectPagesContent: ProjectPageContent[] = [
     id: 'shipping-the-rainbow',
     path: '/shipping-the-rainbow',
     portfolioSlug: 'mfl',
+    // TECHNICAL case study (2026-11-06, same model as /wildhearth and
+    // /friends-world). The gate pillars, the "works today" list and the
+    // README pitch were removed on purpose; the product is described in one
+    // line. Every fact below was read from my_fanfic_lybrary_site, branch
+    // origin/master (HEAD d1782d0, 2026-09-27), on 2026-11-06, read only;
+    // the source doc is cited next to each entry. Privacy (wave 2 rule
+    // above): no fic titles, authors, uploaders, list names, ship or show
+    // names, TV stills, story/ship/drama counts, site domains or hosting
+    // details; commit messages are not quoted. Code counts only.
+    // Stale doc numbers NOT used: README's "3 DBs" (the code has 4 handles),
+    // docs/QA-checklist.md's three connections and Bearer auth, REBUILD.md's
+    // MUI 6 / Router 6 targets (the code is on MUI 9 / Router 7), and the
+    // gate lists naming 8 gates (19 on disk).
     name: 'Shipping the Rainbow',
-    // The portal's own line (client/src/components/brand, gates.ts).
-    tagline: 'Be Gay. Ship Girls.',
+    tagline: 'A 2019 site, rebuilt in place, one checked step at a time.',
     status: { tone: 'live', label: 'Live · sign-in only' },
     year: '2019–2026',
+    // README.md; client/src/lib/gates.ts (one GATES list); docs/REBUILD.md.
     summary:
-      'A home for the WLW fandom: one portal that opens onto three gates, a fanfic library, a page for every ship, and short vertical dramas. Hand-built in 2019, rebuilt with AI agents in 2026.',
-    pitch: {
-      text: "One place to browse, track, and back up everything I read — instead of relying on different sites' bookmarking systems, one of which likes to disappear fics without warning.",
-      source: "From the project's README",
+      'A personal WLW fandom hub behind a sign-in: one portal with three sections, a fanfic library that backs up what she reads from archive sites, a page for every ship, and a library of short vertical dramas. Hand-built in 2019, it had stopped working; it was rebuilt in 2026 with AI agents.',
+    // client/package.json, server/package.json, mcp/package.json, Dockerfile.
+    tech: [
+      'React 19',
+      'TypeScript',
+      'Vite',
+      'MUI',
+      'TanStack Query',
+      'Zustand',
+      'Node 22 + Express',
+      'MongoDB · Mongoose 8',
+      'Socket.IO',
+      'Puppeteer',
+      'p-queue · node-cron',
+      'Zod',
+      'MCP TypeScript SDK',
+    ],
+    caseStudy: {
+      // docs/REBUILD.md §1 (audit of the 2019 code) and §2 (strategy:
+      // "in-place gradual migration"); mcp/src/index.ts header (write limits).
+      problem:
+        'The 2019 site had stopped working. Its audit found React 16 on an unmaintained build tool, a pre-release UI library, about 70 endpoints in one file, no input validation, errors swallowed by a console log, a hard-coded login secret with a one-year token kept in the browser, no tests, live-progress code that was never mounted, and a scraper broken by new bot protection and stale page selectors. The engineering problem was to bring it to a current stack and grow it from one library into three sections without a big-bang rewrite, keep the data it already held working throughout, and let AI agents enrich the library without ever overwriting what she curated by hand.',
+      architecture: {
+        // server/server.js; server/config/passport.js (cookie only);
+        // server/middleware/requireAdmin.ts; server/config/mongoose.js (one
+        // connection, four useDb handles); server/cronJobs/cron.js (6 jobs).
+        intro:
+          'A React client and an Express server over one MongoDB connection that serves four logical databases. Signing in sets an httpOnly cookie that every page needs, and admin actions need the admin level on top. Long jobs (scrapes, discovery scans, video downloads) run in queues inside the server and report progress live over Socket.IO, and six scheduled jobs do the nightly and weekly work. AI agents never touch the database directly: they reach the library only through its own MCP server.',
+        diagram: {
+          boundary: 'Browser and server · sign-in on every page',
+          layers: [
+            {
+              nodes: [
+                // client/src/lib/gates.ts: one GATES array drives the portal
+                // cards and each section's own address (commit 4743df9).
+                { id: 'portal', code: 'GatesPortal.tsx · gates.ts', label: 'Portal', note: 'One list of three sections drives the cards and each section\'s address' },
+                // client/src/api/client.ts + api/queries; store/authStore.ts
+                { id: 'client', code: 'client/src/api', label: 'Client data', note: 'TanStack Query over a typed axios client' },
+              ],
+            },
+            {
+              link: 'HTTPS · cookie',
+              nodes: [
+                // server/server.js (helmet, pino-http, CORS allow-list, rate
+                // limit, error middleware); server/routes: index + 14 routers
+                { id: 'api', code: 'server.js · routes/', label: 'API', note: 'Security headers, rate limit, CORS allow-list, real error codes; 15 route files' },
+                { id: 'auth', code: 'passport.js · requireAdmin.ts', label: 'Sign-in', note: 'The token is read only from an httpOnly cookie; admin level for admin actions' },
+                // server/controllers/connection/socket/socket.js
+                { id: 'socket', code: 'socket.js', label: 'Live progress', note: 'Start, cancel and backup events; run status pushed to the page' },
+              ],
+            },
+            {
+              link: 'queues jobs',
+              nodes: [
+                // server/scrapers/queue.js + enqueueScrape.js; selectors/store.js
+                { id: 'scrape', code: 'scrapers/queue.js', label: 'Scrape queue', note: 'A throttled browser fetcher; page selectors can be patched from an admin page' },
+                // server/scrapers/dramas/ (scanDramaChannels, scoreDiscovery,
+                // duplicateSuspects, partGroups)
+                { id: 'discovery', code: 'scrapers/dramas/', label: 'Drama discovery', note: 'Scans channels, scores candidates, flags likely duplicates' },
+                // server/scrapers/dramas/downloadQueue.ts; wlw-verdict-gate.js
+                { id: 'download', code: 'downloadQueue.ts', label: 'Download worker', note: 'One job at a time, and only after an approval' },
+                { id: 'cron', code: 'cron.js', label: 'Schedules', note: 'Six timed jobs, nightly and weekly' },
+              ],
+            },
+            {
+              link: 'reads · writes',
+              nodes: [
+                { id: 'db', code: 'config/mongoose.js', label: 'One connection', note: 'Four logical databases through useDb: fandoms, fanfics, users, media' },
+                // server/models: 18 files, 17 active .model() registrations
+                { id: 'models', code: 'server/models', label: 'Models', note: '17 Mongoose models' },
+              ],
+            },
+          ],
+          // mcp/src/index.ts (10 tools; MFL_MCP_READONLY); mcp/src/tools/
+          // proposeShipInfo.ts; .claude/skills/{enrich-fics,research-ship,research-drama}
+          lane: {
+            title: 'AI agents',
+            badge: 'only through MCP',
+            link: 'reads; narrow or pending writes',
+            nodes: [
+              { id: 'mcp', code: 'mcp/src/index.ts', label: 'Library MCP server', note: '10 tools: 7 only read; one switch turns every write off' },
+              { id: 'proposals', code: 'proposeShipInfo.ts', label: 'Ship proposals', note: 'A pending proposal with a source link per field, applied field by field after review' },
+              { id: 'skills', code: '.claude/skills', label: 'Agent skills', note: 'Three written recipes for enrichment and research' },
+            ],
+          },
+          // README.md (archive sites); server/scrapers/dramas (video channels).
+          external: {
+            link: 'scraped on a schedule',
+            node: {
+              id: 'sources',
+              code: 'archives · channels',
+              label: 'Outside sources',
+              note: 'Fanfic archive sites and public video channels',
+            },
+          },
+        },
+      },
+      decisions: [
+        // docs/REBUILD.md §2 + §5 ("in-place gradual migration"; p-queue,
+        // "promote to bullmq + Redis only if scale demands it");
+        // docs/RENOVATION-2026-07.md; commits 88fab27 (new client beside the
+        // old, 2026-05-28) and fcf535b (old client removed, tag
+        // pre-rebuild-archive, 2026-07-17); Dockerfile comment (ts-node at runtime).
+        {
+          id: 'in-place',
+          title: 'Migrate in place, not rewrite',
+          chose:
+            'New code lived next to the old until it matched, then the old was deleted. A fresh Vite, React 19 and TypeScript client was built beside the 2019 one, and the old client was removed at cutover, kept only as an archive tag. The server stayed on Express and moves to TypeScript file by file, with routes split per feature.',
+          instead: [
+            'A big-bang rewrite of the whole site',
+            'A Redis-backed job queue from day one (kept for "only if scale demands it")',
+          ],
+          cost: 'A long mixed period: the server still holds 161 JavaScript files next to 95 TypeScript ones, and it needs the TypeScript loader at runtime.',
+          source: 'docs/REBUILD.md · docs/RENOVATION-2026-07.md · tag pre-rebuild-archive',
+        },
+        // server/scripts/gates/README.md ("Why these exist": callback-level
+        // tests "would be worthless"; captured green on mongoose 5 on
+        // 2026-08-19, 67/67 and 18/18; exit code 2 on any remote URI);
+        // docs/UPGRADE-majors-2026-08.md §2 ("Do NOT stop at 6") and header
+        // (npm audit 16 findings / 2 critical → 0).
+        {
+          id: 'contracts',
+          title: 'Behaviour contracts before the risky upgrade',
+          chose:
+            'Before the database library jumped from Mongoose 5 to 8, behaviour contracts were written and captured green on the old code. They seed a throwaway local database, call the app\'s own functions, and check the documents and values that come back. The proof of a safe upgrade is that the same files, unchanged, are still green after it. They refuse to start against any remote or credentialed database.',
+          instead: [
+            'Unit tests on the callback code, which is exactly what the upgrade removes',
+            'Stopping at Mongoose 6, the one version whose query default would have returned silently empty results',
+          ],
+          cost: 'A throwaway database for every run, and contracts written before the work they guard. There are 19 now; 14 can be forced red on purpose to prove they still fail. The upgrade took the server\'s security audit from 16 findings, 2 critical, to zero.',
+          source: 'server/scripts/gates/README.md · docs/UPGRADE-majors-2026-08.md',
+        },
+        // mcp/src/index.ts header; mcp/src/tools/proposeShipInfo.ts;
+        // server/models/ShipProposal.js (commit 0b64835, 2026-07-25: only
+        // reviewShipProposal.ts writes accepted fields, field by field);
+        // server/scripts/gates/wlw-verdict-gate.js ("APPROVAL IS THE ONLY
+        // PATH TO A DOWNLOAD", behavioural + allow-list check).
+        {
+          id: 'proposals',
+          title: 'Agents propose, she approves',
+          chose:
+            'AI agents reach the library only through its MCP server, and 7 of its 10 tools only read. One writes exactly three AI fields on a story. One files a pending proposal for a ship page, with a source link for every field, which is applied field by field only after an admin review. For the dramas, the scorer only recommends: an approval is the only path to a download, and a contract fails if any new code path starts a download on its own.',
+          instead: [
+            'Letting agents write ship pages directly',
+            'Downloading automatically whatever the scorer is confident about',
+          ],
+          cost: 'A review step for every ship change. Drama details are the deliberate exception: an agent writes them directly, with no proposal queue, and one environment switch turns every agent write off.',
+          source: 'mcp/src/index.ts · server/models/ShipProposal.js · server/scripts/gates/wlw-verdict-gate.js',
+        },
+        // docs/REBUILD.md §1 (stale CSS selectors as a cause of the broken
+        // scraper); server/scrapers/selectors/registry.js + store.js +
+        // server/routes/selectors.ts (commit c47b310, 2026-05-30).
+        {
+          id: 'selectors',
+          title: 'Page selectors you can patch without a deploy',
+          chose:
+            'Every source site\'s page selectors live in one module of plain strings. Overrides are stored in the database, applied on boot, and edited from an admin page; they patch the live objects in place, so the next scrape uses them at once, and a pristine copy makes "reset to default" possible.',
+          instead: [
+            'Selectors scattered through parser helpers, the way they were when the scraper broke',
+            'A code change and a redeploy for every markup change on a source site',
+          ],
+          cost: 'Two sources of truth, defaults in code and overrides in the database, and the parsers must never replace a selector group, only mutate it, or the patch silently stops reaching them.',
+          source: 'server/scrapers/selectors/registry.js · store.js · docs/REBUILD.md',
+        },
+      ],
+      aiWork: {
+        decides: [
+          // docs/UPGRADE-majors-2026-08.md §0 (branch stays off master until
+          // green and the owner approves); docs/HANDOFF.md dispatch ledgers.
+          'Gitit approves before anything reaches the main branch. Upgrade work stays on its own branch until every contract is green and she has said yes.',
+          // ShipProposal.js + the admin review page (/ships/proposals)
+          'She reviews every ship-page change an agent proposes, field by field, with the source link beside each field.',
+          // wlw-verdict-gate.js; dramas approve controller
+          'She decides what gets downloaded: the drama scorer explains its verdict, and only her approval queues a file.',
+          // docs/UPGRADE-majors-2026-08.md table row 5 ("Owner chose REMOVE")
+          'When an upgrade meets something unused, she chooses: an unused mail library was removed rather than upgraded.',
+        ],
+        delegates: [
+          // git log trailers: 395 commits, all in 2026 (435 commits that year)
+          'Agents write the code: 395 of the 435 commits made in 2026 carry a Claude co-author line, and none before 2026 do.',
+          // docs/HANDOFF.md "Dispatch ledger" sections (branch + worktree per feature)
+          'Each feature gets its own branch and working copy, with a dispatch ledger in the handoff file that tracks every piece.',
+          // .claude/skills/{enrich-fics,research-ship,research-drama}
+          'Agents research ship and drama details on the web through three written skills, and submit through the MCP tools.',
+          // docs/UPGRADE-majors-2026-08.md §0 ("One package group per commit")
+          'The upgrade was split into one package group per commit, so a break in production can be reverted one thing at a time.',
+        ],
+        verifies: [
+          // docs/HANDOFF.md "The gates — run these before any deploy"
+          'The behaviour contracts run before any deploy.',
+          // docs/HANDOFF.md "Method notes that were paid for in mistakes"
+          '"Every probe needs a negative control": a green result counts only if something could have made it red.',
+          // same section (320/360/390/430, scrollWidth === clientWidth)
+          'Whole-page screenshots at 320, 360, 390 and 430 pixels, with a measurement that nothing scrolls sideways; looking at the render caught defects that type-checked clean.',
+          // .github/workflows/ci.yml; server/.../shipMediaArt.test.ts
+          'CI runs the server and client type checks and the client build. There is one unit-test file, on Node\'s own test runner, and no browser-test framework.',
+        ],
+      },
+      courseChanges: [
+        // commits 68261c2 + 88fab27 (2026-05-28); git log by year (9 commits
+        // in 2023, 3 in 2025)
+        {
+          id: 'restart',
+          date: '2026-05-28',
+          title: 'Security first, then the rebuild',
+          text: 'After three quiet years, the first step was security, before any feature: secrets moved out of the code and the login secret was replaced. The new client was started the same day, next to the old one.',
+          source: 'docs/REBUILD.md · commit 68261c2',
+        },
+        // commits 18f0dac + fcf535b (2026-07-17); e082618 (2026-07-18)
+        {
+          id: 'cutover',
+          date: '2026-07-17',
+          title: 'Cutover, with a backup first',
+          text: 'Full backups of the files and the databases came first. Then the old client was removed and archived at a tag, a six-wave renovation plan began, and the next day the first MCP server opened the library to agents, read only.',
+          source: 'docs/RENOVATION-2026-07.md · commit fcf535b',
+        },
+        // commits aa19dae + a572333 (2026-08-18); 4743df9 (2026-08-21);
+        // config/mongoose.js (the fourth, media database)
+        {
+          id: 'three-gates',
+          date: '2026-08-18',
+          title: 'From one library to three sections',
+          text: 'One front door now leads to three sections. The third, short vertical dramas, began the same day with its own database, derived from the existing names so it needed no new setting.',
+          source: 'client/src/lib/gates.ts · server/config/mongoose.js',
+        },
+        // docs/UPGRADE-majors-2026-08.md (COMPLETE 2026-08-21); commits
+        // 635519e, dc07649, 8547258, add94df (Mongoose 8, four commits)
+        {
+          id: 'majors',
+          date: '2026-08-21',
+          title: 'Every major upgrade, behind the contracts',
+          text: 'The dependency majors were upgraded one group per commit, Mongoose went from 5 to 8 in four commits, and the security audit reached zero.',
+          source: 'docs/UPGRADE-majors-2026-08.md',
+        },
+      ],
+      // Measured 2026-11-06 in C:/Users/gitit/Git/Workplace/my_fanfic_lybrary_site,
+      // ref origin/master (HEAD d1782d0), git-tracked files only, read with
+      // git show (the checkout itself is on another branch):
+      //   git rev-list --count origin/master → 1185 (merges included);
+      //     first/last commit 2019-05-31 / 2026-09-27
+      //   git log --format=%ad --date=format:%Y | uniq -c → 2019 405, 2020 238,
+      //     2021 59, 2022 36, 2023 9, 2025 3, 2026 435
+      //   Co-Authored-By trailers matching claude → 395 (first 68261c2, 2026-05-28)
+      //   client/src *.ts(x) → 150 files, 37,028 lines
+      //   server *.ts → 95 files, 13,686 lines; *.js → 161 files, 27,729 lines
+      //     (no node_modules, no server/public)
+      //   server/scripts/gates/*-gate.js → 19 (14 with --self-test)
+      //   git grep 'registerTool(' mcp/src → 10
+      metrics: {
+        asOf: 'Measured on 6 November 2026 from git and the source tree (main branch, last commit 27 September 2026, tracked files only).',
+        items: [
+          { id: 'commits', value: '1,185', label: 'commits', measures: 'From 31 May 2019 to 27 September 2026: 747 from 2019 to 2023, 435 in 2026', how: 'git rev-list --count HEAD' },
+          { id: 'co-authored', value: '395', label: 'commits co-authored with Claude', measures: 'All of them in 2026, the first on 28 May', how: 'Co-Authored-By trailers' },
+          { id: 'client', value: '37,028', label: 'lines of TypeScript in the client', measures: '150 files in client/src, comments and blank lines included', how: 'wc -l' },
+          { id: 'server', value: '41,415', label: 'lines in the server', measures: '95 TypeScript files (13,686 lines) and 161 older JavaScript files', how: 'wc -l' },
+          { id: 'contracts', value: '19', label: 'behaviour contracts', measures: 'Scripts in server/scripts/gates; 14 can be forced red with a self-test' },
+          { id: 'mcp', value: '10', label: 'MCP tools', measures: '7 only read; 3 write, within narrow limits' },
+        ],
+      },
+      // The site opens on a sign-in screen and has no demo account
+      // (measured 2026-11-04), so there is no link out.
+      productSite: {
+        note: 'No public link: the site opens on a sign-in screen and has no demo account.',
+      },
     },
-    figures: [
-      { value: '3', label: 'gates' },
-      { value: '2019', label: 'first version' },
-      { value: '2026', label: 'rebuilt with agents' },
-    ],
-    pillarsTitle: 'The three gates',
-    // Taglines verbatim from client/src/lib/gates.ts.
-    pillars: [
-      {
-        title: 'Fanfic Rainbow',
-        text: 'Browse, track, and back up your fanfic collection.',
-      },
-      {
-        title: 'OTP Rainbow',
-        text: 'The home of the gay ships.',
-      },
-      {
-        title: 'Vertical Rainbow',
-        text: 'Short vertical WLW dramas — discover, download, watch.',
-      },
-    ],
-    worksToday: [
-      'One portal, "Be Gay. Ship Girls.", that opens onto the three gates',
-      'A fanfic library to browse, track and back up what I read, with reading lists and stats',
-      'A page for every ship, with its own video library',
-      'Ship pages are proposed first and go live only once approved',
-      'A library of short vertical series, with a page per series, discovery and downloads',
-      'An MCP server that lets Claude browse the library and enrich it',
-      'Sign-in on every page',
-    ],
-    tech: ['TypeScript', 'React', 'MUI', 'Node backend', 'MongoDB', 'Socket.IO', 'MCP server'],
-    noLinkNote: 'No public link. The site opens on a sign-in screen and has no demo account.',
     meta: {
-      title: 'Shipping the Rainbow — a WLW fandom hub · Gitit Regev',
+      title: 'Shipping the Rainbow — how a 2019 site was rebuilt · Gitit Regev',
       description:
-        'A home for the WLW fandom: one portal, three gates. A fanfic library, a page for every ship, and short vertical dramas. Hand-built in 2019, rebuilt with AI agents in 2026.',
+        'A technical case study of a personal fandom hub: an in-place migration of a 2019 site, behaviour contracts before a database upgrade, AI agents that propose while she approves, and how it is built and verified with AI agents.',
       ogImage: '/og/shipping-the-rainbow.jpg',
-      ogAlt: 'The Shipping the Rainbow brand card: a rainbow arc and the three gates.',
+      ogAlt: 'The Shipping the Rainbow brand card: a rainbow arc and the three sections.',
     },
   },
   {

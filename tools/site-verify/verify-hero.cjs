@@ -656,8 +656,9 @@ function contrastRatio(a, b) { const L1 = relLum(a) + 0.05, L2 = relLum(b) + 0.0
     ['wildhearth', 'Wildhearth', 'Wildhearth'],
     ['friends-world', "Assaf's Friends World", null],
   ];
-  // Case-study pages: expected diagram boxes and decisions.
-  const CASES = { 'wildhearth': [13, 4], 'friends-world': [14, 4] };
+  // Case-study pages: expected diagram boxes, decisions, and whether the
+  // page links out (Shipping the Rainbow is sign-in only: a note, no link).
+  const CASES = { 'wildhearth': [13, 4, true], 'friends-world': [14, 4, true], 'shipping-the-rainbow': [15, 4, false] };
   const DRAFTS = ['shipping-the-rainbow', 'fanfic-os', 'recipes', 'files', 'premarket-lab'];
   {
     const dctx = await browser.newContext({ viewport: { width: 1440, height: 900 } });
@@ -694,10 +695,10 @@ function contrastRatio(a, b) { const L1 = relLum(a) + 0.05, L2 = relLum(b) + 0.0
         `status=${resp.status()} h1="${st.h1}" dir=${st.dir} back=${st.back} scrollW=${st.sw}/${st.cw} title="${st.title}"`);
       if (CASES[route]) {
         // Diagram boxes, 4 decisions, no marketing blocks, and one link out
-        // to the product (Wildhearth's landing / the live games).
-        const [nodes, decs] = CASES[route];
+        // to the product (Wildhearth's landing / the live games) or none.
+        const [nodes, decs, linkOut] = CASES[route];
         ok(`/${route} is a technical case study (${lang})`,
-          st.arch === nodes && st.decisions === decs && st.marketing === 0 && st.productLink,
+          st.arch === nodes && st.decisions === decs && st.marketing === 0 && st.productLink === linkOut,
           `diagramNodes=${st.arch} decisions=${st.decisions} marketingBlocks=${st.marketing} ctaLink=${st.productLink}`);
       } else {
         ok(`/${route} keeps its page layout, no case study yet (${lang})`, st.arch === 0 && st.decisions === 0,
