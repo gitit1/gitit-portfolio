@@ -21,8 +21,8 @@ Newest state at top.
   precedent (`site/landing-public`), link to gititregev.com/friends-world, the privacy rules, a hub
   question on WHERE the landing sits BEFORE building (the child must not get an extra tap), separate
   branch, screenshots, approval row, nothing live.
-- This session stays open and waiting. The hub moved to session 93350d7b at 2026-11-06 09:38Z
-  (before that, e42054fb); report there. She answered "פתחתי" on `q-games-landing-session` at
+- This session stays open and waiting. The hub is now session 32d04f6c (row s36), after 93350d7b
+  (from 2026-11-06 09:38Z) and e42054fb; report there. She answered "פתחתי" on `q-games-landing-session` at
   09:19Z, so the games-repo session is open. This session's name on the hub (row s28):
   `[ממתין לסקירה] - gititregev.com - gititregev.com - 74cf3031 - האתר האישי: דפי הפרויקטים`. The next project's technical page (Shipping the
   Rainbow) was NOT started: the "no landing" option was the one that moved on. Ask her before
