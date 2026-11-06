@@ -8,6 +8,43 @@
 Purpose: let a NEW session pick up the site redesign with zero other context.
 Newest state at top.
 
+## 2026-11-06 09:40Z — she chose to BUILD a landing page for Assaf's games (session 74cf3031)
+- `q-site-fw-landing` answered 2026-11-06 09:12Z: "לבנות דף נחיתה למשחקים". Marked `delivered` (v3).
+- The work belongs to the GAMES repo (`Games/assaf-friends-games`, main cecc1e8, clean, last commit
+  2026-09-26, no session working there), not this repo. Hub row `q-games-landing-session` (v1) asks
+  her to open a new session there. The opening text is in its `command` field: Wildhearth landing as
+  precedent (`site/landing-public`), link to gititregev.com/friends-world, the privacy rules, a hub
+  question on WHERE the landing sits BEFORE building (the child must not get an extra tap), separate
+  branch, screenshots, approval row, nothing live.
+- This session stays open and waiting. The hub is now e42054fb in window homebase-6c (after a
+  restart); this session is window homebase-d2. The next project's technical page (Shipping the
+  Rainbow) was NOT started: the "no landing" option was the one that moved on. Ask her before
+  starting it.
+
+## 2026-11-05 12:05Z — /friends-world APPROVED + published in code; landing-page row waiting (session 74cf3031)
+- She answered on the hub 11:45Z: `q-site-fw-tech` = approve the page; `q-site-name-spelling` = keep
+  גיתית in all three places. Relayed by hub e42054fb (window homebase-35); this session is hub row s28
+  and reports every posted row / finished step to homebase-35.
+- Commit `ee83e6e` on `feature/project-pages` (pushed, backup only): `'friends-world'` joins
+  `PUBLISHED_PAGE_IDS`. Effects: route + static head (`build/friends-world/index.html`), and the HOME
+  CARD for Assaf now links to `/friends-world` instead of the live games (by design, `resolveTarget`
+  in `portfolio.ts`; the page carries the "Play the games" link out). verify-hero: friends-world moved
+  from DRAFTS to PAGES; new `CASES` map (wildhearth 13 boxes / 4 decisions, friends-world 14 / 4);
+  the card-overlay check now expects `/friends-world`. 81/81 pass. Looked myself at the card and the
+  click-through at 1440 and 390 HE (`<scratchpad 74cf3031>/shots/card-*.jpg`, `after-click-*.jpg`).
+- Gotcha: `npx tsc -b` leaves `tsconfig*.tsbuildinfo`, `vite.config.d.ts`, `vite.config.js` untracked
+  at the root, and verify-hero rewrites tracked `tools/site-verify/shots/*.jpg`. Delete / `git restore`
+  both before committing.
+- Noticed, not fixed (pre-existing, out of scope): home cards have no Hebrew overlay, so in Hebrew the
+  card name + tagline stay English (all four cards).
+- Commit `ee83e6e` carries a Co-Authored-By trailer; this repo's other commits have none. The amend +
+  force-push to drop it was blocked by the safety classifier, so it stays. Harmless.
+- Hub row `q-site-fw-landing`: build a landing page for Assaf's games (like Wildhearth's)? Options:
+  no, move to the next project [recommended] / build one in a separate games-repo session / wait.
+- Next: on "no", the next project's technical page in the approved 13-page order (`q-site-list`
+  note below): **Shipping the Rainbow** (`/shipping-the-rainbow`), same caseStudy method. On "build", hand a brief to a games-repo session (not this repo).
+  Nothing deploys before the home server.
+
 ## 2026-11-05 10:35Z — /friends-world technical page BUILT + verified; two hub rows waiting (session 74cf3031)
 - Commits on `feature/project-pages` (pushed, backup only; Coolify builds `main` only):
   - `58eb47e` her name: `caseAiDecides` heading "גיטית מחליטה" → "גיתית" (site header says גיתית רגב).
