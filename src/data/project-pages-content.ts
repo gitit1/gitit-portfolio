@@ -813,12 +813,14 @@ export const projectPagesContent: ProjectPageContent[] = [
     // MUI 6 / Router 6 targets (the code is on MUI 9 / Router 7), and the
     // gate lists naming 8 gates (19 on disk).
     name: 'Shipping the Rainbow',
-    tagline: 'A 2019 site, rebuilt in place, one checked step at a time.',
+    tagline: 'From a 2019 backup to the fandom hub she wanted, one checked step at a time.',
     status: { tone: 'live', label: 'Live · sign-in only' },
     year: '2019–2026',
-    // README.md; client/src/lib/gates.ts (one GATES list); docs/REBUILD.md.
+    // README.md; client/src/lib/gates.ts (one GATES list). The story (never
+    // stopped working; served mostly as a backup of older material; grew in
+    // the AI era) is the owner's own correction on the hub, 2026-11-06.
     summary:
-      'A personal WLW fandom hub behind a sign-in: one portal with three sections, a fanfic library that backs up what she reads from archive sites, a page for every ship, and a library of short vertical dramas. Hand-built in 2019, it had stopped working; it was rebuilt in 2026 with AI agents.',
+      'A personal WLW fandom hub behind a sign-in. Hand-built in 2019, it kept running, mostly as a backup of older material. In 2026, with AI agents, it got a new look and grew into what she wanted it to be: a fanfic library, a page for every ship, and a library of short vertical series, with room for whatever comes next.',
     // client/package.json, server/package.json, mcp/package.json, Dockerfile.
     tech: [
       'React 19',
@@ -839,7 +841,7 @@ export const projectPagesContent: ProjectPageContent[] = [
       // docs/REBUILD.md §1 (audit of the 2019 code) and §2 (strategy:
       // "in-place gradual migration"); mcp/src/index.ts header (write limits).
       problem:
-        'The 2019 site had stopped working. Its audit found React 16 on an unmaintained build tool, a pre-release UI library, about 70 endpoints in one file, no input validation, errors swallowed by a console log, a hard-coded login secret with a one-year token kept in the browser, no tests, live-progress code that was never mounted, and a scraper broken by new bot protection and stale page selectors. The engineering problem was to bring it to a current stack and grow it from one library into three sections without a big-bang rewrite, keep the data it already held working throughout, and let AI agents enrich the library without ever overwriting what she curated by hand.',
+        'The 2019 site still ran, mostly as a backup of older material, on 2019 code. Its audit found React 16 on an unmaintained build tool, a pre-release UI library, about 70 endpoints in one file, no input validation, errors swallowed by a console log, a hard-coded login secret with a one-year token kept in the browser, no tests, live-progress code that was never mounted, and a scraper that no longer kept up with the archive sites. The goal was bigger than a new look: to grow it into the hub she actually wanted, with fanfics, fandoms and now short vertical series, and room for more. The engineering problem was to get there without a big-bang rewrite, keep the data it already held working throughout, and let AI agents enrich the library without ever overwriting what she curated by hand.',
       architecture: {
         // server/server.js; server/config/passport.js (cookie only);
         // server/middleware/requireAdmin.ts; server/config/mongoose.js (one
@@ -976,7 +978,7 @@ export const projectPagesContent: ProjectPageContent[] = [
           chose:
             'Every source site\'s page selectors live in one module of plain strings. Overrides are stored in the database, applied on boot, and edited from an admin page; they patch the live objects in place, so the next scrape uses them at once, and a pristine copy makes "reset to default" possible.',
           instead: [
-            'Selectors scattered through parser helpers, the way they were when the scraper broke',
+            'Selectors scattered through parser helpers, the way they were in the 2019 code',
             'A code change and a redeploy for every markup change on a source site',
           ],
           cost: 'Two sources of truth, defaults in code and overrides in the database, and the parsers must never replace a selector group, only mutate it, or the patch silently stops reaching them.',
@@ -1084,9 +1086,9 @@ export const projectPagesContent: ProjectPageContent[] = [
       },
     },
     meta: {
-      title: 'Shipping the Rainbow — how a 2019 site was rebuilt · Gitit Regev',
+      title: 'Shipping the Rainbow — how a 2019 fandom hub grew · Gitit Regev',
       description:
-        'A technical case study of a personal fandom hub: an in-place migration of a 2019 site, behaviour contracts before a database upgrade, AI agents that propose while she approves, and how it is built and verified with AI agents.',
+        'A technical case study of a personal fandom hub that grew from a 2019 backup: an in-place migration, behaviour contracts before a database upgrade, AI agents that propose while she approves, and how it is built and verified with AI agents.',
       ogImage: '/og/shipping-the-rainbow.jpg',
       ogAlt: 'The Shipping the Rainbow brand card: a rainbow arc and the three sections.',
     },
