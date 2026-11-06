@@ -8,6 +8,43 @@
 Purpose: let a NEW session pick up the site redesign with zero other context.
 Newest state at top.
 
+## 2026-11-06 18:10Z — /shipping-the-rainbow technical page BUILT + verified; approval row waiting (session 246602fe)
+- Session 246602fe, hub card `sessions/s39`. Hub is d7e04fb3 (in ListAgents it showed as `homebase-cb`,
+  with no "חמ״ל" name). Name: `[ממתין לסקירה] - gititregev.com - gititregev.com - 246602fe - הדף הטכני של Shipping the Rainbow`.
+- Commit `833fecc` on `feature/project-pages` (pushed, backup only). `/shipping-the-rainbow` now uses
+  the `caseStudy` model: 15 diagram boxes (4 layers 2/3/4/2, a 3-box AI lane, 1 external), 4 decisions
+  (in-place migration, behaviour contracts before Mongoose 5→8, agents propose / owner approves,
+  DB-stored selector overrides), aiWork, 4 course changes, and 6 metrics. The Hebrew overlay is a DRAFT.
+  - Gallery is now `[]`: the three gate cards repeated the hero. The files stay in the repo.
+  - `productSite` is a note with no URL, because the site is sign-in only.
+  - verify-hero `CASES` gained a third flag (link out yes/no); StR is `[15, 4, false]`.
+  - Still a DRAFT: not in `PUBLISHED_PAGE_IDS`. verify-hero 81/81 with it closed.
+- Facts were measured by me on my_fanfic_lybrary_site `origin/master` d1782d0 (2026-09-27), read only via
+  `git show`/`git ls-tree` (`MSYS_NO_PATHCONV=1` in Git Bash). Local `master` 79c5622 is one merge behind.
+  The checkout is on `work/lane3-container-uid1000`; don't touch it.
+  - 1,185 commits: 2019 405, 2020 238, 2021 59, 2022 36, 2023 9, 2025 3, 2026 435.
+  - 395 Claude co-authored, all in 2026.
+  - client/src 150 .ts(x) = 37,028 lines. server 95 .ts = 13,686 + 161 .js = 27,729 lines.
+  - 19 gates (14 with --self-test), 10 MCP tools, 17 models, 6 cron jobs, 15 route files.
+- Privacy: no archive site names, no domains or hosting, no content counts, no ship or show names. The
+  home-PC file relay (fetch-missing-files.js) is deliberately left out as a hosting detail. Engineering
+  "gates" are called "behaviour contracts" / "חוזי התנהגות" on the page, to avoid confusion with the 3 product gates.
+- Gotcha: the site's "light" theme is a medium grey (`body` rgb(38,43,52)). That is correct and not a
+  failed theme switch. Shots and script are in `<scratchpad 246602fe>/shots`, `shoot.cjs`.
+- Review page: https://claude.ai/artifact/MSKGs5Bwv1DqmS6a3wxhjo (source `<scratchpad 246602fe>/review-str/`).
+  It flags for her: the new tagline, the "חוזי התנהגות" naming, and the 2019 hard-coded login secret
+  mentioned in the problem text.
+- Hub row `messages/q-site-str-approve`: approve (recommended) / corrections. Create rows with
+  `replyState: "none"`; "pending" means answered. The hub fixed v1 → v2.
+- On approval:
+  1. Add `'shipping-the-rainbow'` to `PUBLISHED_PAGE_IDS`.
+  2. In verify-hero, move it from DRAFTS to PAGES (h1 'Shipping the Rainbow' in both languages).
+  3. Fix the card-overlay check: overlays become `/wildhearth, /shipping-the-rainbow, /friends-world, none`,
+     because the home card links in-site.
+  4. Build, run verify-hero, commit, push to backup. Nothing deploys before the home server.
+- After it comes the next project in the approved list (`docs/projects-list-2026-11-04.html`), same method.
+  I did not check which one that is. Read the list, then ask her before starting.
+
 ## 2026-11-06 10:45Z — RESUME POINT: Shipping the Rainbow technical page, in a NEW session
 - She answered `q-site-str-tech` on the hub: "להתחיל בסשן חדש (מומלץ)". Session 74cf3031 hands over
   and closes. The new session owns this project from here and reports to the hub (in ListAgents, the
