@@ -174,16 +174,16 @@ function contrastRatio(a, b) { const L1 = relLum(a) + 0.05, L2 = relLum(b) + 0.0
   ok('index = exactly the 4 registry projects, registry order',
     proj.cardCount === 4 && JSON.stringify(proj.names) === JSON.stringify(['Wildhearth', 'Shipping the Rainbow', "Assaf's Friends World", 'Homebase']),
     `names=[${proj.names.join(' | ')}]`);
-  // honest affordances (updated 2026-11-05, published pages only): wildhearth
-  // and assaf link to their OWN pages inside the site (/wildhearth and
-  // /friends-world; the assaf page carries the link out to the live games);
-  // mfl none (sign-in-only site, its page is an unpublished draft); homebase
+  // honest affordances (updated 2026-11-06, published pages only): wildhearth,
+  // mfl and assaf link to their OWN pages inside the site (/wildhearth,
+  // /shipping-the-rainbow, /friends-world; the assaf page carries the link out
+  // to the live games, the mfl page has no link out: sign-in only); homebase
   // none. Every card element itself is a plain <article>, and no interactive
   // element nests inside another (G6-L).
-  ok('only real destinations get link overlays (order: /wildhearth,none,/friends-world,none; no nesting)',
+  ok('only real destinations get link overlays (order: /wildhearth,/shipping-the-rainbow,/friends-world,none; no nesting)',
     proj.cardTags.every(t2 => t2 === 'article') &&
     proj.overlayHrefs.length === 4 &&
-    proj.overlayHrefs[0] === '/wildhearth' && proj.overlayHrefs[1] === null &&
+    proj.overlayHrefs[0] === '/wildhearth' && proj.overlayHrefs[1] === '/shipping-the-rainbow' &&
     proj.overlayHrefs[2] === '/friends-world' && proj.overlayHrefs[3] === null &&
     proj.overlayNested === 0,
     `tags=[${proj.cardTags.join(',')}] overlays=[${proj.overlayHrefs.join(' | ')}] nested=${proj.overlayNested}`);
@@ -655,11 +655,12 @@ function contrastRatio(a, b) { const L1 = relLum(a) + 0.05, L2 = relLum(b) + 0.0
   const PAGES = [
     ['wildhearth', 'Wildhearth', 'Wildhearth'],
     ['friends-world', "Assaf's Friends World", null],
+    ['shipping-the-rainbow', 'Shipping the Rainbow', 'Shipping the Rainbow'],
   ];
   // Case-study pages: expected diagram boxes, decisions, and whether the
   // page links out (Shipping the Rainbow is sign-in only: a note, no link).
   const CASES = { 'wildhearth': [13, 4, true], 'friends-world': [14, 4, true], 'shipping-the-rainbow': [15, 4, false] };
-  const DRAFTS = ['shipping-the-rainbow', 'fanfic-os', 'recipes', 'files', 'premarket-lab'];
+  const DRAFTS = ['fanfic-os', 'recipes', 'files', 'premarket-lab'];
   {
     const dctx = await browser.newContext({ viewport: { width: 1440, height: 900 } });
     const dp = await dctx.newPage();

@@ -1281,7 +1281,7 @@ export const projectPagesContent: ProjectPageContent[] = [
  * never publishes an unapproved page. Add an id here when she approves it.
  * friends-world: technical page approved 2026-11-05.
  */
-export const PUBLISHED_PAGE_IDS: ReadonlySet<ProjectPageId> = new Set<ProjectPageId>(['wildhearth', 'friends-world']);
+export const PUBLISHED_PAGE_IDS: ReadonlySet<ProjectPageId> = new Set<ProjectPageId>(['wildhearth', 'friends-world', 'shipping-the-rainbow']);
 
 export const publishedProjectPages: ProjectPageContent[] = projectPagesContent.filter((page) =>
   PUBLISHED_PAGE_IDS.has(page.id)
