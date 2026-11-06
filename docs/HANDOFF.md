@@ -8,6 +8,28 @@
 Purpose: let a NEW session pick up the site redesign with zero other context.
 Newest state at top.
 
+## 2026-11-06 18:40Z — /shipping-the-rainbow APPROVED + published in code; landing-page row waiting (session 246602fe)
+- She answered `q-site-str-approve-2` at 18:19Z: "לאשר את הדף הטכני (מומלץ)".
+- Commit `6f91116` (pushed, backup only):
+  - `'shipping-the-rainbow'` joins `PUBLISHED_PAGE_IDS`. That brings the route, the static head
+    `build/shipping-the-rainbow/index.html`, and the StR home card now links in-site.
+  - verify-hero: StR moved from DRAFTS to PAGES, and the card-overlay check now expects
+    `/wildhearth, /shipping-the-rainbow, /friends-world, none`. 84/84.
+  - Looked myself at the home card and at the click-through at 1440 and 390 HE
+    (`<scratchpad 246602fe>/shots/card-*.jpg`, `after-click-*.jpg`).
+- Noticed, not fixed (pre-existing, out of scope): the home card's tagline stays English in Hebrew,
+  same as the other cards.
+- Hub row `q-site-str-landing`, per her 4.11 rule "every project gets its own marketing-site
+  consideration". Options:
+  - move on to the next project, Fanfic OS (recommended; the list order after StR is Fanfic OS);
+  - build a public StR landing page in a separate session in the StR repo, nameless screens,
+    and ask WHERE it sits first;
+  - wait.
+- On "move on": this session is long. Post a new-session row with opening text: Fanfic OS technical
+  page, same method, never the saga name or its text. The old-session VS Code link and the closing
+  name go in it too, per the hub rule.
+- Nothing deploys before the home server.
+
 ## 2026-11-06 18:25Z — her CORRECTION applied; new approval row `q-site-str-approve-2` (session 246602fe)
 - On `q-site-str-approve` (17:59Z) she wrote, verbatim: "הוא לא הפסיק לעבוד, פשוט הוא יותר עבד כגיבוי על
   דברים ישנים ואז עם עידן הai לא רק שהיה קל יותר לתת לו לוק חדש אלא ממש הרחבנו את עול םstr למה שבאמת רציתי ,
