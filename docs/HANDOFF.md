@@ -8,6 +8,19 @@
 Purpose: let a NEW session pick up the site redesign with zero other context.
 Newest state at top.
 
+## 2026-11-06 18:25Z — her CORRECTION applied; new approval row `q-site-str-approve-2` (session 246602fe)
+- On `q-site-str-approve` (17:59Z) she wrote, verbatim: "הוא לא הפסיק לעבוד, פשוט הוא יותר עבד כגיבוי על
+  דברים ישנים ואז עם עידן הai לא רק שהיה קל יותר לתת לו לוק חדש אלא ממש הרחבנו את עול םstr למה שבאמת רציתי ,
+  גם פאנפיקים , גם פאנדומים ועכשיו עם הai נוצרו גם vertical series ומי יודע מה עוד יבוא".
+- **Never write that StR "stopped working" or "broke".** Her story: it kept running, mostly as a backup
+  of older material, and in the AI era it got a new look and grew into the hub she wanted: fanfics,
+  fandoms, now vertical series, more to come. REBUILD.md's "why it stopped working" is about the
+  scraper; the page now says the scraper "no longer kept up with the archive sites".
+- Commit `47c0c0d`, in EN + HE: tagline ("From a 2019 backup to the fandom hub she wanted…" / "מגיבוי
+  מ-2019 לבית הפנדום שהיא רצתה…"), summary, problem, the first rejected option of the selectors
+  decision, and meta. verify-hero 81/81. Re-shot and looked at all three variants. Review page v2 is
+  at the same URL. New row `q-site-str-approve-2` (replyState none). The "on approval" steps below still apply.
+
 ## 2026-11-06 18:10Z — /shipping-the-rainbow technical page BUILT + verified; approval row waiting (session 246602fe)
 - Session 246602fe, hub card `sessions/s39`. Hub is d7e04fb3 (in ListAgents it showed as `homebase-cb`,
   with no "חמ״ל" name). Name: `[ממתין לסקירה] - gititregev.com - gititregev.com - 246602fe - הדף הטכני של Shipping the Rainbow`.
