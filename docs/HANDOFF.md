@@ -9,6 +9,11 @@ Purpose: let a NEW session pick up the site redesign with zero other context.
 Newest state at top.
 
 ## 2026-11-06 09:40Z — she chose to BUILD a landing page for Assaf's games (session 74cf3031)
+- ⚠ Hub note (93350d7b, 6.11): the games landing (games session 195d01d2, branch
+  `site/landing-page`, not deployed) will live at https://assaf.gititregev.com/about/ (keep the
+  trailing slash). Any link from `/friends-world` to it must go live TOGETHER with the games
+  redeploy from the home server, never before. Today `productSite.url` in
+  `project-pages-content.ts` is still https://assaf.gititregev.com ("Play the games"), unchanged.
 - `q-site-fw-landing` answered 2026-11-06 09:12Z: "לבנות דף נחיתה למשחקים". Marked `delivered` (v3).
 - The work belongs to the GAMES repo (`Games/assaf-friends-games`, main cecc1e8, clean, last commit
   2026-09-26, no session working there), not this repo. Hub row `q-games-landing-session` (v1) asks
