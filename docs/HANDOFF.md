@@ -8,6 +8,24 @@
 Purpose: let a NEW session pick up the site redesign with zero other context.
 Newest state at top.
 
+## 2026-11-07 00:10Z — StR LANDING page goes to a NEW session in the StR repo (session 246602fe closes)
+- `q-site-str-landing` was answered 2026-11-06 18:24Z: "לבנות דף נחיתה לספרייה". So the next job is
+  a public landing page for StR, not Fanfic OS.
+- The work belongs to `my_fanfic_lybrary_site`, not this repo, and this session is very long. So I
+  posted hub row `q-site-str-landing-session`. The opening text is in `command`; `oldSession` is this
+  session, and the closing name is set.
+- What the opening text covers:
+  - her story correction;
+  - the privacy rules (brand art or nameless screens only);
+  - fixed light/dark and language toggles in the top bar;
+  - a hub question on WHERE the page sits, before building;
+  - a separate worktree off `origin/master`, never touching the lane-3 checkout;
+  - a link to gititregev.com/shipping-the-rainbow;
+  - screenshots, an approval row, nothing live.
+- This repo is done for StR. The /shipping-the-rainbow page has no link to a landing yet. Add one
+  only when the landing is approved AND both go live together from the home server.
+- After the landing, the next technical page in the list is Fanfic OS. Ask her first.
+
 ## 2026-11-06 18:40Z — /shipping-the-rainbow APPROVED + published in code; landing-page row waiting (session 246602fe)
 - She answered `q-site-str-approve-2` at 18:19Z: "לאשר את הדף הטכני (מומלץ)".
 - Commit `6f91116` (pushed, backup only):
