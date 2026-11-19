@@ -1,0 +1,178 @@
+{
+ "wildhearth-1440-en-dark": {
+  "sw": 1440,
+  "cw": 1440,
+  "h": 5395,
+  "dir": "ltr",
+  "theme": "dark",
+  "text": 11401,
+  "blocks": [
+   "pp__back:25",
+   "pp__hero:350",
+   "pp__block:201",
+   "pp__block:907",
+   "pp__block:1003",
+   "pp__block:422",
+   "pp__block:668",
+   "pp__block:346",
+   "pp__block:100",
+   "pp__block:690",
+   "pp__foot:60"
+  ],
+  "wide": 0
+ },
+ "wildhearth-1440-en-light": {
+  "sw": 1440,
+  "cw": 1440,
+  "h": 5395,
+  "dir": "ltr",
+  "theme": "light",
+  "text": 11401,
+  "blocks": [
+   "pp__back:25",
+   "pp__hero:350",
+   "pp__block:201",
+   "pp__block:907",
+   "pp__block:1003",
+   "pp__block:422",
+   "pp__block:668",
+   "pp__block:346",
+   "pp__block:100",
+   "pp__block:690",
+   "pp__foot:60"
+  ],
+  "wide": 0
+ },
+ "wildhearth-1440-he-dark": {
+  "sw": 1440,
+  "cw": 1440,
+  "h": 5279,
+  "dir": "rtl",
+  "theme": "dark",
+  "text": 9783,
+  "blocks": [
+   "pp__back:27",
+   "pp__hero:350",
+   "pp__block:174",
+   "pp__block:907",
+   "pp__block:953",
+   "pp__block:381",
+   "pp__block:668",
+   "pp__block:346",
+   "pp__block:100",
+   "pp__block:690",
+   "pp__foot:61"
+  ],
+  "wide": 0
+ },
+ "wildhearth-1440-he-light": {
+  "sw": 1440,
+  "cw": 1440,
+  "h": 5279,
+  "dir": "rtl",
+  "theme": "light",
+  "text": 9783,
+  "blocks": [
+   "pp__back:27",
+   "pp__hero:350",
+   "pp__block:174",
+   "pp__block:907",
+   "pp__block:953",
+   "pp__block:381",
+   "pp__block:668",
+   "pp__block:346",
+   "pp__block:100",
+   "pp__block:690",
+   "pp__foot:61"
+  ],
+  "wide": 0
+ },
+ "wildhearth-390-en-dark": {
+  "sw": 390,
+  "cw": 390,
+  "h": 11550,
+  "dir": "ltr",
+  "theme": "dark",
+  "text": 11401,
+  "blocks": [
+   "pp__back:30",
+   "pp__hero:648",
+   "pp__block:414",
+   "pp__block:2053",
+   "pp__block:2874",
+   "pp__block:1312",
+   "pp__block:1444",
+   "pp__block:985",
+   "pp__block:266",
+   "pp__block:990",
+   "pp__foot:68"
+  ],
+  "wide": 0
+ },
+ "wildhearth-390-en-light": {
+  "sw": 390,
+  "cw": 390,
+  "h": 11550,
+  "dir": "ltr",
+  "theme": "light",
+  "text": 11401,
+  "blocks": [
+   "pp__back:30",
+   "pp__hero:648",
+   "pp__block:414",
+   "pp__block:2053",
+   "pp__block:2874",
+   "pp__block:1312",
+   "pp__block:1444",
+   "pp__block:985",
+   "pp__block:266",
+   "pp__block:990",
+   "pp__foot:68"
+  ],
+  "wide": 0
+ },
+ "wildhearth-390-he-dark": {
+  "sw": 390,
+  "cw": 390,
+  "h": 10721,
+  "dir": "rtl",
+  "theme": "dark",
+  "text": 9783,
+  "blocks": [
+   "pp__back:32",
+   "pp__hero:604",
+   "pp__block:333",
+   "pp__block:1946",
+   "pp__block:2607",
+   "pp__block:1198",
+   "pp__block:1246",
+   "pp__block:965",
+   "pp__block:266",
+   "pp__block:990",
+   "pp__foot:69"
+  ],
+  "wide": 0
+ },
+ "wildhearth-390-he-light": {
+  "sw": 390,
+  "cw": 390,
+  "h": 10721,
+  "dir": "rtl",
+  "theme": "light",
+  "text": 9783,
+  "blocks": [
+   "pp__back:32",
+   "pp__hero:604",
+   "pp__block:333",
+   "pp__block:1946",
+   "pp__block:2607",
+   "pp__block:1198",
+   "pp__block:1246",
+   "pp__block:965",
+   "pp__block:266",
+   "pp__block:990",
+   "pp__foot:69"
+  ],
+  "wide": 0
+ }
+}
