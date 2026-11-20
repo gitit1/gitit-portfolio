@@ -1,0 +1,226 @@
+{
+ "friends-world-1440-en-dark": {
+  "sw": 1440,
+  "cw": 1440,
+  "h": 2102,
+  "dir": "ltr",
+  "theme": "dark",
+  "text": 1625,
+  "blocks": [
+   "pp__back:25",
+   "pp__hero:387",
+   "pp__figures:82",
+   "pp__block:131",
+   "pp__block:74",
+   "pp__cols:368",
+   "pp__block:364",
+   "pp__block:66",
+   "pp__foot:60"
+  ],
+  "wide": 0
+ },
+ "friends-world-1440-he-dark": {
+  "sw": 1440,
+  "cw": 1440,
+  "h": 2046,
+  "dir": "rtl",
+  "theme": "dark",
+  "text": 1367,
+  "blocks": [
+   "pp__back:27",
+   "pp__hero:350",
+   "pp__figures:82",
+   "pp__block:131",
+   "pp__block:74",
+   "pp__cols:348",
+   "pp__block:364",
+   "pp__block:66",
+   "pp__foot:61"
+  ],
+  "wide": 0
+ },
+ "shipping-the-rainbow-1440-en-dark": {
+  "sw": 1440,
+  "cw": 1440,
+  "h": 1871,
+  "dir": "ltr",
+  "theme": "dark",
+  "text": 1548,
+  "blocks": [
+   "pp__back:25",
+   "pp__hero:376",
+   "pp__figures:82",
+   "pp__pitch:129",
+   "pp__block:131",
+   "pp__cols:207",
+   "pp__block:250",
+   "pp__block:66",
+   "pp__foot:60"
+  ],
+  "wide": 0
+ },
+ "shipping-the-rainbow-1440-he-dark": {
+  "sw": 1440,
+  "cw": 1440,
+  "h": 1859,
+  "dir": "rtl",
+  "theme": "dark",
+  "text": 1337,
+  "blocks": [
+   "pp__back:27",
+   "pp__hero:359",
+   "pp__figures:82",
+   "pp__pitch:132",
+   "pp__block:131",
+   "pp__cols:207",
+   "pp__block:250",
+   "pp__block:66",
+   "pp__foot:61"
+  ],
+  "wide": 0
+ },
+ "fanfic-os-1440-en-dark": {
+  "sw": 1440,
+  "cw": 1440,
+  "h": 1741,
+  "dir": "ltr",
+  "theme": "dark",
+  "text": 1390,
+  "blocks": [
+   "pp__back:25",
+   "pp__hero:367",
+   "pp__pitch:102",
+   "pp__block:152",
+   "pp__cols:504",
+   "pp__block:66",
+   "pp__foot:60"
+  ],
+  "wide": 0
+ },
+ "fanfic-os-1440-he-dark": {
+  "sw": 1440,
+  "cw": 1440,
+  "h": 1708,
+  "dir": "rtl",
+  "theme": "dark",
+  "text": 1146,
+  "blocks": [
+   "pp__back:27",
+   "pp__hero:350",
+   "pp__pitch:105",
+   "pp__block:152",
+   "pp__cols:484",
+   "pp__block:66",
+   "pp__foot:61"
+  ],
+  "wide": 0
+ },
+ "recipes-1440-en-dark": {
+  "sw": 1440,
+  "cw": 1440,
+  "h": 1983,
+  "dir": "ltr",
+  "theme": "dark",
+  "text": 1394,
+  "blocks": [
+   "pp__back:25",
+   "pp__hero:350",
+   "pp__block:131",
+   "pp__cols:191",
+   "pp__block:695",
+   "pp__block:66",
+   "pp__foot:60"
+  ],
+  "wide": 0
+ },
+ "recipes-1440-he-dark": {
+  "sw": 1440,
+  "cw": 1440,
+  "h": 1968,
+  "dir": "rtl",
+  "theme": "dark",
+  "text": 1113,
+  "blocks": [
+   "pp__back:27",
+   "pp__hero:350",
+   "pp__block:131",
+   "pp__cols:191",
+   "pp__block:678",
+   "pp__block:66",
+   "pp__foot:61"
+  ],
+  "wide": 0
+ },
+ "files-1440-en-dark": {
+  "sw": 1440,
+  "cw": 1440,
+  "h": 1865,
+  "dir": "ltr",
+  "theme": "dark",
+  "text": 824,
+  "blocks": [
+   "pp__back:25",
+   "pp__hero:350",
+   "pp__cols:243",
+   "pp__block:695",
+   "pp__block:66",
+   "pp__foot:60"
+  ],
+  "wide": 0
+ },
+ "files-1440-he-dark": {
+  "sw": 1440,
+  "cw": 1440,
+  "h": 1850,
+  "dir": "rtl",
+  "theme": "dark",
+  "text": 736,
+  "blocks": [
+   "pp__back:27",
+   "pp__hero:350",
+   "pp__cols:243",
+   "pp__block:678",
+   "pp__block:66",
+   "pp__foot:61"
+  ],
+  "wide": 0
+ },
+ "premarket-lab-1440-en-dark": {
+  "sw": 1440,
+  "cw": 1440,
+  "h": 2169,
+  "dir": "ltr",
+  "theme": "dark",
+  "text": 1670,
+  "blocks": [
+   "pp__back:25",
+   "pp__hero:367",
+   "pp__pitch:129",
+   "pp__block:152",
+   "pp__cols:171",
+   "pp__block:695",
+   "pp__block:66",
+   "pp__foot:60"
+  ],
+  "wide": 0
+ },
+ "premarket-lab-1440-he-dark": {
+  "sw": 1440,
+  "cw": 1440,
+  "h": 2100,
+  "dir": "rtl",
+  "theme": "dark",
+  "text": 1392,
+  "blocks": [
+   "pp__back:27",
+   "pp__hero:350",
+   "pp__pitch:132",
+   "pp__block:131",
+   "pp__cols:151",
+   "pp__block:678",
+   "pp__block:66",
+   "pp__foot:61"
+  ],
+  "wide": 0
+ }
+}
